@@ -33,6 +33,12 @@ CREATE TABLE `usuario` (
   FOREIGN KEY (`cod_rol`) REFERENCES `rol`(`cod_rol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Datos para simular el login
+insert into rol(cod_rol, nombre, permisos)
+values (1, 'admin', '{"todo":true}');
+
+insert into usuario(cod_usuario, cod_rol,nombre, apellidos, dni, password)
+values (1, 1,'Oscar', 'Choque', '12345678', '$2a$10$.ogamKfOuOjJjQmkb79Heenc8hjxZPkVexobqh8rcev3NXF/p64UC');
 
 CREATE TABLE `codigo_pago` (
   `cod_pago` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
