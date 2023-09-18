@@ -1,16 +1,14 @@
-import dotenv from 'dotenv'
 import { Sequelize } from 'sequelize'
-
-dotenv.config()
+import { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_DIALECT } from './config.js'
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  DB_NAME,
+  DB_USER,
+  DB_PASSWORD,
   {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: process.env.DB_DIALECT
+    host: DB_HOST,
+    port: DB_PORT,
+    dialect: DB_DIALECT
   }
 )
 
@@ -22,4 +20,4 @@ sequelize.authenticate()
     console.log('Failed to connect: ', error)
   })
 
-  export default sequelize
+export default sequelize
