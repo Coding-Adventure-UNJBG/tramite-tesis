@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 
+import authRoutes from './auth.routes.js'
+
 const app = express();
 
 app.use(cors())
@@ -16,6 +18,8 @@ app.get('/', (req, res)=> {
 
 //import routes from project
 // app.use("api/v1/users", users )
+
+app.use("/api/v1", authRoutes)
 
 app.use("*", (req, res) => {
   res.status(404).send("Not Found")
