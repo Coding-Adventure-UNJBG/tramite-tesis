@@ -13,7 +13,7 @@ app.use(morgan("dev"))
 app.use(express.json())
 app.use(cookieParser())
 
-app.use( myroutes)
+app.use(myroutes)
 
 app.set('port', PORT)
 

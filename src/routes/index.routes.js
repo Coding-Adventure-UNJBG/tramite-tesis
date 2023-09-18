@@ -5,7 +5,10 @@ import authRoutes from './auth.routes.js'
 
 const app = express();
 
-app.use(cors())
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}))
 
 app.use("/", (req, res, next)=> {
   console.log(`Test middleware: method=${req.method} - url=${req.originalUrl}`);
@@ -17,8 +20,6 @@ app.get('/', (req, res)=> {
 })
 
 //import routes from project
-// app.use("api/v1/users", users )
-
 app.use("/api/v1", authRoutes)
 
 app.use("*", (req, res) => {
