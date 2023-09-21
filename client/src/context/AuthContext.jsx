@@ -15,6 +15,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [isAuthentificated, setIsAuthenticated] = useState(false)
   const [errors, setErrors] = useState([])
 
@@ -54,6 +55,7 @@ export const AuthProvider = ({ children }) => {
       const cookies = Cookies.get()
       if (!cookies.token) {
         setIsAuthenticated(false)
+        setLoading(false)
         return
       }
 
@@ -62,9 +64,10 @@ export const AuthProvider = ({ children }) => {
         if (!res.data) return setIsAuthenticated(false)
         setIsAuthenticated(true)
         setUser(res.data)
-
+        setLoading(false)
       } catch (error) {
         setIsAuthenticated(false)
+        setLoading(false)
       }
     }
     checkLogin()
@@ -78,6 +81,7 @@ export const AuthProvider = ({ children }) => {
         user,
         isAuthentificated,
         errors,
+        loading,
       }}
     >
       {children}

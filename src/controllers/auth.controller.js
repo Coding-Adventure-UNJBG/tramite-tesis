@@ -28,6 +28,7 @@ controllers.login = async (req, res) => {
     res.json({
       id: userFound[0].cod_usuario,
       nombre: userFound[0].nombre,
+      apellidos: userFound[0].apellidos,
       dni: userFound[0].dni
     })
 
@@ -54,6 +55,7 @@ controllers.verifyToken = async (req, res) => {
     return res.json({
       id: userFound[0].cod_usuario,
       nombre: userFound[0].nombre,
+      apellidos: userFound[0].apellidos,
       dni: userFound[0].dni
     })
   })

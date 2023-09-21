@@ -3,12 +3,14 @@ import { HiMenuAlt3 } from 'react-icons/hi'
 import { FaUserCircle } from 'react-icons/fa'
 import { RxFileText, RxHome, RxReader, RxExit } from 'react-icons/rx'
 import { BsFillCaretDownFill } from 'react-icons/bs'
-import { Link } from 'react-router-dom'
-import HomePage from '../pages/HomePage'
+import { Link, Outlet } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 function Navigation() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [mostrarOpciones, setMostrarOpciones] = useState(false);
+
+  const { user, logout } = useAuth()
 
   const showOptions = () => {
     setMostrarOpciones(!mostrarOpciones);
@@ -16,15 +18,15 @@ function Navigation() {
 
   const menus = [
     { name: 'Home', link: '/', icon: RxHome },
-    { name: 'Tramite', link: '/', icon: RxReader },
-    { name: 'Tesis', link: '/', icon: RxReader },
-    { name: 'Portafolio', link: '/', icon: RxFileText },
+    { name: 'Tramite', link: '/tramite', icon: RxReader },
+    { name: 'Tesis', link: '/tesis', icon: RxReader },
+    { name: 'Portafolio', link: '/portafolio', icon: RxFileText },
   ]
 
 
   return (
     <>
-      <section className='flex gap-6'>
+      <section className='flex gap-6 z-50'>
         <header>
           {/* Cabecera */}
           <div className='fixed h-16 flex w-full'>
@@ -43,10 +45,12 @@ function Navigation() {
                 <div
                   className='absolute top-16 right-2 mr-2 mt-2 w-fit bg-white border border-gray-300 rounded-lg shadow-lg duration-500 translate-x-3 select-none'>
                   <ul>
-                    <li className='px-4 py-2 hover:bg-[#F8BB1F] cursor-pointer border-b-2 border-zinc-100'>JUANITO MARCO MAMANI MAMANI</li>
+                    <li className='px-4 py-2 hover:bg-[#F8BB1F] cursor-pointer border-b-2 border-zinc-100 uppercase'>{user?.nombre} {user?.apellidos}</li>
 
-                    <li className='px-4 py-2 hover:bg-[#F8BB1F] cursor-pointer flex gap-x-3 items-center' oncl>
-                      <RxExit size={20} className='cursor-pointer text-[#AC1734]' onClick={showOptions} />
+                    <li
+                      onClick={logout}
+                      className='px-4 py-2 hover:bg-[#F8BB1F] cursor-pointer flex gap-x-3 items-center'>
+                      <RxExit size={20} className='cursor-pointer text-[#AC1734]' />
                       Cerrar Sesión
                     </li>
                   </ul>
@@ -70,7 +74,7 @@ function Navigation() {
           </div>
         </header>
         <main className={`${open ? `md:ml-72` : `md:ml-16`} ${open ? `ml-16` : `ml-0`} mt-20 duration-500 mr-3`}>
-          <HomePage />
+          <Outlet />
         </main>
       </section>
     </>
