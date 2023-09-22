@@ -1,28 +1,18 @@
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
+import Card from "../components/Card"
 
 function HomePage() {
-
-  const { user, logout, isAuthentificated } = useAuth()
-  const navigate = useNavigate()
-
-
   return (
-    <div>
-      <h1 className='font-bold text-3xl'>HomePage</h1>
-      {/* {isAuthentificated ? (<>
-        <h2 className="font-semibold text-2xl">Bienvenido, {user ? user.nombre : ''} </h2>
-        <button
-          className="bg-red-500 text-xl px-2 py-2 rounded-sm my-5 mx-10 hover:bg-red-400 font-bold text-white"
-          onClick={logout}
-        >Cerrar sesión</button>
-      </>) : (
-        <button
-          className="bg-red-500 text-xl px-2 py-2 rounded-sm my-5 mx-10 hover:bg-red-400 font-bold text-white"
-          onClick={() => navigate("/login")}
-        >Iniciar sesión</button>
-      )} */}
-    </div>
+    <>
+      <Card>
+        <h2 className="mx-5 my-3 font-bold text-2xl">HomePage</h2>
+      </Card>
+      <Card>
+        <h2 className="font-mono">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia saepe molestiae odit, deleniti fugit, facere earum ut impedit incidunt voluptatibus ipsum quis ex unde veritatis aut vel itaque consequatur soluta.</h2>
+      </Card>
+
+    </>
   )
 }
 

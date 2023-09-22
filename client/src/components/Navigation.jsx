@@ -27,14 +27,14 @@ function Navigation() {
   return (
     <>
       <section className='flex gap-6 z-50'>
-        <header>
+        <header className='select-none'>
           {/* Cabecera */}
           <div className='fixed h-16 flex w-full'>
             <div className='flex justify-center items-center w-16 bg-[#AC1734]'>
               <HiMenuAlt3 size={36} className='cursor-pointer text-white' onClick={() => setOpen(!open)} />
             </div>
             <div className='bg-white shadow-lg flex-grow flex items-center p-2 justify-between pr-10 relative'>
-              <span className='font-semibold text-xl text-zinc-800 hidden md:block'>TRAMITE DE TESIS</span>
+              <span className='font-semibold text-2xl ml-5 text-zinc-800 hidden md:block font-serif'>TRAMITE TESIS</span>
               <span></span>
               <div className='flex items-center gap-x-1'>
                 <FaUserCircle size={36} className='cursor-pointer text-zinc-500' onClick={showOptions} />
@@ -73,7 +73,7 @@ function Navigation() {
             </div>
           </div>
         </header>
-        <main className={`${open ? `md:ml-72` : `md:ml-16`} ${open ? `ml-16` : `ml-0`} mt-20 duration-500 mr-3`}>
+        <main className={`${open ? `md:ml-72` : `md:ml-16`} ${open ? `ml-16` : `ml-0`} mt-20 pt-2 duration-500 mr-6 w-full mb-3 `}>
           <Outlet />
         </main>
       </section>
