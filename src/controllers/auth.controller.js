@@ -6,9 +6,26 @@ import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken";
 
 controllers.register = async (req, res) => {
-  const { password } = req.body
-  const newPassword = await bcrypt.hash(password, 10)
-  res.status(200).send({ password: newPassword })
+
+  try {
+    const { dni, correo, password } = req.body
+    let userFound
+    //Verificamos si ya existe alguien con el mismo dni o correo
+    userFound = await model.findUser(dni)
+    if (userFound) return res.status(400).json({ message: ["El DNI ya se encuentra en uso"] })
+
+    userFound = await model.findEmail(correo)
+    if (userFound) return res.status(400).json({ message: ["El correo ya se encuentra en uso"] })
+
+    const newPassword = await bcrypt.hash(password, 10)
+    const userSaved = await model.saveUser({ ...req.body, password: newPassword })
+
+    if (userSaved) res.status(200).send({ message: ["User saved"] })
+    else res.status(500).send({ error: ["User no saved"] })
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
 }
 
 controllers.login = async (req, res) => {

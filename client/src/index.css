@@ -5,3 +5,14 @@
 body {
   background-color: #eef5f9
 }
+@layer base {
+  .title {
+    @apply mx-5 my-3 font-bold text-2xl
+  }
+  .label-style {
+    @apply block text-sm font-medium leading-6 text-gray-900
+  }
+  .input-style {
+    @apply block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 px-2 sm:text-sm sm:leading-6 bg-slate-50
+  }
+}

@@ -21,6 +21,7 @@ function Navigation() {
     { name: 'Tramite', link: '/tramite', icon: RxReader },
     { name: 'Tesis', link: '/tesis', icon: RxReader },
     { name: 'Portafolio', link: '/portafolio', icon: RxFileText },
+    { name: 'Registro', link: '/register', icon: RxFileText },
   ]
 
 

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from 'js-cookie'
-import { loginRequest, logoutRequest, verifyTokenRequest } from "../api/auth";
+import { loginRequest, logoutRequest, registerRequest, verifyTokenRequest } from "../api/auth";
 
 const AuthContext = createContext()
 
@@ -18,6 +18,19 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [isAuthentificated, setIsAuthenticated] = useState(false)
   const [errors, setErrors] = useState([])
+
+const signup = async (user) => {
+  try {
+    const res = await registerRequest(user)
+    console.log("res;:", res)
+    return res
+  } catch (error) {
+    if (Array.isArray(error.response.data)){
+      return setErrors(error.response.data)
+    }
+    setErrors([error.response.data.message])
+  }
+}
 
   const signin = async (user) => {
     try {
@@ -76,6 +89,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        signup,
         signin,
         logout,
         user,
