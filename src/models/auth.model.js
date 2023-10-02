@@ -1,19 +1,19 @@
 import sequelize from "../config/db.js";
 const model = {}
 
-model.findUser = async (arg) => {
-  return sequelize.query(`SELECT * FROM usuario WHERE dni = '${arg}'`, { raw: true })
+model.validarUser = async (arg) => {
+  const { dni, correo } = arg
+  return sequelize.query(`SELECT validarUser('${dni}', '${correo}') AS estado`, { raw: true })
     .then(([result, metadata]) => {
-      const data = result.length === 0 ? null : result
-      return data
+      return result[0].estado
     })
     .catch((error) => {
       throw error
     })
 }
 
-model.findEmail = async (arg) => {
-  return sequelize.query(`SELECT * FROM usuario WHERE correo = '${arg}'`, { raw: true })
+model.findUser = async (arg) => {
+  return sequelize.query(`SELECT * FROM usuario WHERE dni = '${arg}'`, { raw: true })
     .then(([result, metadata]) => {
       const data = result.length === 0 ? null : result
       return data

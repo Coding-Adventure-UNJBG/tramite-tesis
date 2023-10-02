@@ -9,13 +9,11 @@ controllers.register = async (req, res) => {
 
   try {
     const { dni, correo, password } = req.body
-    let userFound
-    //Verificamos si ya existe alguien con el mismo dni o correo
-    userFound = await model.findUser(dni)
-    if (userFound) return res.status(400).json({ message: ["El DNI ya se encuentra en uso"] })
 
-    userFound = await model.findEmail(correo)
-    if (userFound) return res.status(400).json({ message: ["El correo ya se encuentra en uso"] })
+    //Verificamos si ya existe alguien con el mismo dni o correo
+    const userFound = await model.validarUser({ dni, correo })
+    if (userFound === 1) return res.status(400).json({ message: ["El DNI ya se encuentra en uso"] })
+    if (userFound === 2) return res.status(400).json({ message: ["El correo ya se encuentra en uso"] })
 
     const newPassword = await bcrypt.hash(password, 10)
     const userSaved = await model.saveUser({ ...req.body, password: newPassword })
