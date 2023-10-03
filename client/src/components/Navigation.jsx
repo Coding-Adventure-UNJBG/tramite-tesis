@@ -74,7 +74,7 @@ function Navigation() {
             </div>
           </div>
         </header>
-        <main className={`${open ? `md:ml-72` : `md:ml-16`} ${open ? `ml-16` : `ml-0`} mt-20 pt-2 duration-500 mr-6 w-full mb-3 `}>
+        <main className={`${open ? `md:ml-72` : `md:ml-16`} ${open ? `ml-14 sm:ml-16` : `-ml-2 sm:ml-0`} mt-20 pt-2 duration-500 mr-4 sm:mr-6 w-full mb-3 overflow-auto`}>
           <Outlet />
         </main>
       </section>
