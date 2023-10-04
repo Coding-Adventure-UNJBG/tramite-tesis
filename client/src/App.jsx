@@ -10,6 +10,7 @@ import TramitePage from './pages/Tramite/TramitePage'
 import NotFoundPage from './pages/NotFoundPage'
 import RegisterPage from './pages/RegisterPage'
 import NewTramitePage from './pages/Tramite/NewTramitePage'
+import UploadFile from './pages/UploadFile'
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
             <Route path='/tramite/new' element={<NewTramitePage />} />
             <Route path='/tesis' element={<TesisPage />} />
             <Route path='/register' element={<RegisterPage />} />
+            
+            {/* de momento por aqui para probar */}
+            <Route path='/upload' element={<UploadFile />} />
           </Route>
           <Route path='*' element={<NotFoundPage />}></Route>
         </Routes>
