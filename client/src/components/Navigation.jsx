@@ -22,6 +22,7 @@ function Navigation() {
     { name: 'Tesis', link: '/tesis', icon: RxReader },
     { name: 'Portafolio', link: '/portafolio', icon: RxFileText },
     { name: 'Registro', link: '/register', icon: RxFileText },
+    { name: 'Upload', link: '/upload', icon: RxFileText },
   ]
 
 

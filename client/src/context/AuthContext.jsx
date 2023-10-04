@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from 'js-cookie'
-import { loginRequest, logoutRequest, registerRequest, verifyTokenRequest } from "../api/auth";
+import { loginRequest, logoutRequest, registerRequest, uploadRequest, verifyTokenRequest } from "../api/auth";
 
 const AuthContext = createContext()
 
@@ -19,18 +19,18 @@ export const AuthProvider = ({ children }) => {
   const [isAuthentificated, setIsAuthenticated] = useState(false)
   const [errors, setErrors] = useState([])
 
-const signup = async (user) => {
-  try {
-    const res = await registerRequest(user)
-    console.log("res;:", res)
-    return res
-  } catch (error) {
-    if (Array.isArray(error.response.data)){
-      return setErrors(error.response.data)
+  const signup = async (user) => {
+    try {
+      const res = await registerRequest(user)
+      console.log("res;:", res)
+      return res
+    } catch (error) {
+      if (Array.isArray(error.response.data)) {
+        return setErrors(error.response.data)
+      }
+      setErrors([error.response.data.message])
     }
-    setErrors([error.response.data.message])
   }
-}
 
   const signin = async (user) => {
     try {
@@ -50,6 +50,17 @@ const signup = async (user) => {
     const res = await logoutRequest()
     setIsAuthenticated(false)
     setUser(null)
+  }
+
+  //de momento por aqui para probar
+  const upload = async (values) => {
+    try {
+      const res = await uploadRequest(values)
+      console.log("res ==> ", res)
+      return res
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   //Mostrar solo 5 segundos los errores
@@ -96,6 +107,7 @@ const signup = async (user) => {
         isAuthentificated,
         errors,
         loading,
+        upload,
       }}
     >
       {children}
