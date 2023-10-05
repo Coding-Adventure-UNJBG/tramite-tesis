@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { HiMenuAlt3 } from 'react-icons/hi'
 import { FaUserCircle } from 'react-icons/fa'
-import { RxFileText, RxHome, RxReader, RxExit } from 'react-icons/rx'
+import { RxFileText, RxHome, RxReader, RxExit, RxPerson } from 'react-icons/rx'
 import { BsFillCaretDownFill } from 'react-icons/bs'
 import { Link, Outlet } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -23,6 +23,7 @@ function Navigation() {
     { name: 'Portafolio', link: '/portafolio', icon: RxFileText },
     { name: 'Registro', link: '/register', icon: RxFileText },
     { name: 'Upload', link: '/upload', icon: RxFileText },
+    { name: 'Usuario', link: '/usuario', icon: RxPerson },
   ]
 
 

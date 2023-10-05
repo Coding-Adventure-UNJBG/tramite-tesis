@@ -1,7 +1,7 @@
 import React from 'react'
-import Card from '../components/Card'
+import Card from '../../components/Card'
 import { useForm } from 'react-hook-form'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 function RegisterPage() {
@@ -12,9 +12,8 @@ function RegisterPage() {
   const navigate = useNavigate()
 
   const onSubmit = handleSubmit(async (values) => {
-    console.log(values)
     const res = await signup(values)
-    if (res?.data.message) navigate('/')
+    if (res?.data.message) navigate('/usuario')
   })
 
   return (
@@ -108,7 +107,7 @@ function RegisterPage() {
             </div>
           </div>
           <div className="mt-6 flex items-center justify-end gap-x-6">
-            <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+            <button type="button" className="text-sm font-semibold leading-6 text-gray-900" onClick={() => navigate('/usuario')}>
               Cancelar
             </button>
             <button

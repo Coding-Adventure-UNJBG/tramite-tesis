@@ -8,9 +8,12 @@ import PortafolioPage from './pages/PortafolioPage'
 import TesisPage from './pages/TesisPage'
 import TramitePage from './pages/Tramite/TramitePage'
 import NotFoundPage from './pages/NotFoundPage'
-import RegisterPage from './pages/RegisterPage'
 import NewTramitePage from './pages/Tramite/NewTramitePage'
 import UploadFile from './pages/UploadFile'
+import UsersPage from './pages/Usuario/UsersPage'
+import ViewUserPage from './pages/Usuario/ViewUserPage'
+import EditUserPage from './pages/Usuario/EditUserPage'
+import RegisterPage from './pages/Usuario/RegisterPage'
 
 function App() {
   return (
@@ -25,7 +28,10 @@ function App() {
             <Route path='/tramite/new' element={<NewTramitePage />} />
             <Route path='/tesis' element={<TesisPage />} />
             <Route path='/register' element={<RegisterPage />} />
-            
+            <Route path='/usuario' element={<UsersPage />} />
+            <Route path='/usuario/new' element={<RegisterPage />} />
+            <Route path='/usuario/view/:id' element={<ViewUserPage />} />
+            <Route path='/usuario/edit/:id' element={<EditUserPage />} />
             {/* de momento por aqui para probar */}
             <Route path='/upload' element={<UploadFile />} />
           </Route>

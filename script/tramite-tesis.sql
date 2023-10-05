@@ -196,3 +196,35 @@ BEGIN
     RETURN 0;
 END //
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `saveUser`;
+DELIMITER //
+CREATE PROCEDURE `saveUser`(IN `cod_rol` INT, IN `nombre` VARCHAR(255), IN `apellidos` VARCHAR(255), IN `dni` VARCHAR(10), IN `password` VARCHAR(255), IN `fecha_nacimiento` DATE, IN `telefono` VARCHAR(15), IN `correo` VARCHAR(255), IN `direccion` VARCHAR(255))
+BEGIN
+    INSERT INTO `usuario` (`cod_rol`, `nombre`, `apellidos`, `dni`, `password`, `fecha_nacimiento`, `telefono`, `correo`, `direccion`)
+    VALUES (`cod_rol`, `nombre`, `apellidos`, `dni`, `password`, `fecha_nacimiento`, `telefono`, `correo`, `direccion`);
+    SELECT * FROM `usuario` ORDER BY `cod_usuario` DESC LIMIT 1;
+END //
+DELIMITER ;
+-- CALL saveUser(1, 'PROCEDURE', 'TEST', '98765432', '123', '2023-02-02', '987654321', 'C@CORRE.COM', 'AV MIRAZFLORES') ;
+
+DROP PROCEDURE IF EXISTS `deleteUser`;
+DELIMITER //
+CREATE PROCEDURE `deleteUser`(IN `id_user` INT)
+BEGIN
+    DELETE FROM `usuario` WHERE `cod_usuario` = `id_user`;
+    SELECT * FROM `usuario`;
+END //
+DELIMITER ;
+-- CALL deleteUser(6);
+
+DROP PROCEDURE IF EXISTS `updateUser`;
+DELIMITER //
+CREATE PROCEDURE `updateUser`(IN `id_user` INT, IN `cod_rol` INT, IN `nombre` VARCHAR(255), IN `apellidos` VARCHAR(255), IN `dni` VARCHAR(10), IN `password` VARCHAR(255), IN `fecha_nacimiento` DATE, IN `telefono` VARCHAR(15), IN `correo` VARCHAR(255), IN `direccion` VARCHAR(255))
+BEGIN
+    UPDATE `usuario` SET `cod_rol` = `cod_rol`, `nombre` = `nombre`, `apellidos` = `apellidos`, `dni` = `dni`, `password` = `password`, `fecha_nacimiento` = `fecha_nacimiento`, `telefono` = `telefono`, `correo` = `correo`, `direccion` = `direccion`
+    WHERE `cod_usuario` = `id_user`;
+    SELECT * FROM `usuario` WHERE `cod_usuario` = `id_user`;
+END //
+DELIMITER ;
+-- CALL updateUser(9,1, 'PROCEDURE updarwUser', 'TEST UPDATE', '77553322', '123', '2023-02-02', '987654321', 'MICORREO@DOMINIO.COM', 'AV MIRAZFLORES') ;

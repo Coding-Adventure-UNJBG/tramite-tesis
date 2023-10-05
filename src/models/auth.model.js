@@ -36,11 +36,45 @@ model.findUserById = async (arg) => {
 
 model.saveUser = async (arg) => {
   const { nombre, apellidos, dni, password, fecha_nacimiento, celular, correo, direccion } = arg
-  const query = `INSERT INTO usuario (cod_rol, nombre, apellidos, dni, password, fecha_nacimiento, telefono, correo, direccion)
-                VALUES (1, '${nombre}', '${apellidos}', '${dni}', '${password}', '${fecha_nacimiento}', '${celular}', '${correo}', '${direccion}');`
-  return sequelize.query(query, { raw: true })
+  // const query = `INSERT INTO usuario (cod_rol, nombre, apellidos, dni, password, fecha_nacimiento, telefono, correo, direccion)
+  // VALUES (1, '${nombre}', '${apellidos}', '${dni}', '${password}', '${fecha_nacimiento}', '${celular}', '${correo}', '${direccion}');`
+  return sequelize.query(`CALL saveUser('1', '${nombre}', '${apellidos}', '${dni}', '${password}', '${fecha_nacimiento}', '${celular}', '${correo}', '${direccion}')`, { raw: true })
     .then(([result, metadata]) => {
-      return metadata >= 1 ? true : false
+      // return metadata >= 1 ? true : false
+      return result.length === 0 ? null : result
+    })
+    .catch((error) => {
+      throw error
+    })
+}
+
+model.updateUser = async (arg) => {
+  const { cod_usuario, cod_rol, nombre, apellidos, dni, password, fecha_nacimiento, celular, correo, direccion } = arg
+  return sequelize.query(`CALL updateUser('${cod_usuario}', '${cod_rol}', '${nombre}', '${apellidos}', '${dni}', '${password}', '${fecha_nacimiento}', '${celular}', '${correo}', '${direccion}')`, { raw: true })
+    .then(([result, metadata]) => {
+      // return metadata >= 1 ? true : false
+      return result.length === 0 ? null : result
+    })
+    .catch((error) => {
+      throw error
+    })
+}
+
+model.deleteUser = async (arg) => {
+  const { cod_usuario } = arg
+  return sequelize.query(`CALL deleteUser('${cod_usuario}')`, { raw: true })
+    .then(([result, metadata]) => {
+      return result.length === 0 ? null : result
+    })
+    .catch((error) => {
+      throw error
+    })
+}
+
+model.getUsers = async () => {
+  return sequelize.query('SELECT * FROM usuario ORDER BY cod_usuario DESC', { raw: true })
+    .then(([result, metadata]) => {
+      return result.length === 0 ? null : result
     })
     .catch((error) => {
       throw error

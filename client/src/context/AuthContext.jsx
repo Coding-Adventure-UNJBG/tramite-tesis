@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from 'js-cookie'
-import { loginRequest, logoutRequest, registerRequest, uploadRequest, verifyTokenRequest } from "../api/auth";
+import { getUserRequest, getUsersRequest, loginRequest, logoutRequest, registerRequest, uploadRequest, verifyTokenRequest } from "../api/auth";
 
 const AuthContext = createContext()
 
@@ -22,7 +22,6 @@ export const AuthProvider = ({ children }) => {
   const signup = async (user) => {
     try {
       const res = await registerRequest(user)
-      console.log("res;:", res)
       return res
     } catch (error) {
       if (Array.isArray(error.response.data)) {
@@ -58,6 +57,24 @@ export const AuthProvider = ({ children }) => {
       const res = await uploadRequest(values)
       console.log("res ==> ", res)
       return res
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getUsers = async () => {
+    try {
+      const res = await getUsersRequest()
+      return res.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const getUser = async (id) => {
+    try {
+      const res = await getUserRequest(id)
+      return res.data
     } catch (error) {
       console.log(error)
     }
@@ -108,6 +125,8 @@ export const AuthProvider = ({ children }) => {
         errors,
         loading,
         upload,
+        getUsers,
+        getUser
       }}
     >
       {children}

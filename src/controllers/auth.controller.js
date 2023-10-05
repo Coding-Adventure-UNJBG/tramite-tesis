@@ -76,4 +76,28 @@ controllers.verifyToken = async (req, res) => {
   })
 }
 
+controllers.getUsers = async (req, res) => {
+  try {
+
+    const result = await model.getUsers()
+    if (result) res.status(200).json(result)
+    else res.status(500).send({ error: "Error al obtener usuarios" })
+
+  } catch (error) {
+    res.status(500).send({ message: error.message })
+  }
+}
+
+controllers.getUser = async (req, res) => {
+  try {
+    const { id } = req.params
+    const userFound = await model.findUserById(id)
+
+    if (userFound) res.status(200).json(userFound[0])
+    else res.status(500).send({ error: "Error al obtener el usuario" })
+    
+  } catch (error) {
+    res.status(500).send({ error: "Error al obtener el usuario" })
+  }
+}
 export default controllers
