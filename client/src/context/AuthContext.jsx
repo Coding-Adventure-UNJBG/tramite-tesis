@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from 'js-cookie'
-import { getUserRequest, getUsersRequest, loginRequest, logoutRequest, registerRequest, uploadRequest, verifyTokenRequest } from "../api/auth";
+import { deleteUserRequest, getUserRequest, getUsersRequest, loginRequest, logoutRequest, registerRequest, updateUserRequest, uploadRequest, verifyTokenRequest } from "../api/auth";
 
 const AuthContext = createContext()
 
@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [isAuthentificated, setIsAuthenticated] = useState(false)
   const [errors, setErrors] = useState([])
+  const [users, setUsers] = useState([])
 
   const signup = async (user) => {
     try {
@@ -65,7 +66,7 @@ export const AuthProvider = ({ children }) => {
   const getUsers = async () => {
     try {
       const res = await getUsersRequest()
-      return res.data
+      setUsers(res.data)
     } catch (error) {
       console.log(error)
     }
@@ -75,6 +76,28 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await getUserRequest(id)
       return res.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const updateUser = async (id, user) => {
+    try {
+      const res = await updateUserRequest(id, user)
+      // console.log("res ==> ", res)
+      return res
+    } catch (error) {
+      if (Array.isArray(error.response.data)) {
+        return setErrors(error.response.data)
+      }
+      setErrors([error.response.data.message])
+    }
+  }
+
+  const deleteUser = async (id) => {
+    try {
+      const res = await deleteUserRequest(id)
+      if (res.status === 204) setUsers(users.filter((user) => user.cod_usuario !== id))
     } catch (error) {
       console.log(error)
     }
@@ -125,8 +148,11 @@ export const AuthProvider = ({ children }) => {
         errors,
         loading,
         upload,
+        users,
         getUsers,
-        getUser
+        getUser,
+        updateUser,
+        deleteUser
       }}
     >
       {children}

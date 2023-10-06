@@ -9,9 +9,9 @@ controllers.register = async (req, res) => {
 
   try {
     const { dni, correo, password } = req.body
-
+    const id = 0
     //Verificamos si ya existe alguien con el mismo dni o correo
-    const userFound = await model.validarUser({ dni, correo })
+    const userFound = await model.validarUser({ id, dni, correo })
     if (userFound === 1) return res.status(400).json({ message: ["El DNI ya se encuentra en uso"] })
     if (userFound === 2) return res.status(400).json({ message: ["El correo ya se encuentra en uso"] })
 
@@ -94,10 +94,44 @@ controllers.getUser = async (req, res) => {
     const userFound = await model.findUserById(id)
 
     if (userFound) res.status(200).json(userFound[0])
-    else res.status(500).send({ error: "Error al obtener el usuario" })
-    
+    else res.status(404).send({ error: "User not found" })
+
   } catch (error) {
     res.status(500).send({ error: "Error al obtener el usuario" })
   }
 }
+
+controllers.updateUser = async (req, res) => {
+  try {
+    const { id } = req.params
+    const { dni, correo } = req.body
+
+    //Verificamos si ya existe alguien con el mismo dni o correo
+    const userFound = await model.validarUser({ id, dni, correo })
+    if (userFound === 1) return res.status(400).json({ message: ["El DNI ya se encuentra en uso"] })
+    if (userFound === 2) return res.status(400).json({ message: ["El correo ya se encuentra en uso"] })
+
+    //cod_rol solo esta ahi pq aun no le meto los roles, pero se debe quitar
+    const userUpdate = await model.updateUser({ ...req.body, cod_usuario: id, cod_rol: 1 })
+    if (userUpdate) return res.status(200).json(userUpdate)
+    else return res.status(404).send({ error: 'User not found' })
+
+  } catch (error) {
+    return res.status(500).send({ error: 'Error updating user' })
+  }
+}
+
+controllers.deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const userDelete = await model.deleteUser(id)
+    if (!userDelete) return res.status(404).send({ error: 'User not found' })
+    return res.sendStatus(204)
+
+  } catch (error) {
+    return res.status(500).send({ error: 'Error deleting user' })
+  }
+}
+
 export default controllers

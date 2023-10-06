@@ -12,8 +12,8 @@ import NewTramitePage from './pages/Tramite/NewTramitePage'
 import UploadFile from './pages/UploadFile'
 import UsersPage from './pages/Usuario/UsersPage'
 import ViewUserPage from './pages/Usuario/ViewUserPage'
-import EditUserPage from './pages/Usuario/EditUserPage'
 import RegisterPage from './pages/Usuario/RegisterPage'
+import UserFormPage from './pages/Usuario/UserFormPage'
 
 function App() {
   return (
@@ -29,9 +29,10 @@ function App() {
             <Route path='/tesis' element={<TesisPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/usuario' element={<UsersPage />} />
-            <Route path='/usuario/new' element={<RegisterPage />} />
+            <Route path='/usuario/new' element={<UserFormPage />} />
             <Route path='/usuario/view/:id' element={<ViewUserPage />} />
-            <Route path='/usuario/edit/:id' element={<EditUserPage />} />
+            <Route path='/usuario/edit/:id' element={<UserFormPage />} />
+            
             {/* de momento por aqui para probar */}
             <Route path='/upload' element={<UploadFile />} />
           </Route>

@@ -14,6 +14,8 @@ router.route('/usuario')
 
 router.route('/usuario/:id')
   .get(controllers.getUser)
+  .put(controllers.updateUser)
+  .delete(controllers.deleteUser)
 
 //ejemplo de protejer una ruta
 // router.get('/miruta', authRequired, controllers.login)

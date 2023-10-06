@@ -8,15 +8,11 @@ import { useNavigate } from "react-router-dom"
 
 
 function UsersPage() {
-  const [users, setUsers] = useState(null)
   const navigate = useNavigate()
-  const { getUsers } = useAuth()
+  const { getUsers, users, deleteUser } = useAuth()
 
   useEffect(() => {
-    async function main() {
-      setUsers(await getUsers());
-    }
-    main()
+    getUsers()
   }, [])
 
   return (
@@ -62,7 +58,8 @@ function UsersPage() {
                         onClick={() => navigate(`edit/${user.cod_usuario}`)}>
                         <BiSolidPencil size={15} className='text-white' />
                       </button>
-                      <button className='p-1.5 text-xs font-medium uppercase tracking-wider bg-red-500 rounded-lg bg-opacity-500'>
+                      <button className='p-1.5 text-xs font-medium uppercase tracking-wider bg-red-500 rounded-lg bg-opacity-500'
+                        onClick={() => deleteUser(user.cod_usuario)}>
                         <BiTrash size={15} className='text-white' />
                       </button>
                     </td>

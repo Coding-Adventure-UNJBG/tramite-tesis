@@ -177,18 +177,18 @@ CREATE TABLE `detalle_revision_jurado` (
 
 DROP FUNCTION IF EXISTS `validarUser`;
 DELIMITER //
-CREATE FUNCTION `validarUser` (`d_dni` INT, `d_correo` VARCHAR(255)) RETURNS INT DETERMINISTIC
+CREATE FUNCTION `validarUser` (`id_user` INT,`d_dni` INT, `d_correo` VARCHAR(255)) RETURNS INT DETERMINISTIC
 BEGIN
 	-- 0 NO HAY NADA
 	-- 1 YA EXISTE DNI
 	-- 2 YA EXISTE CORREO
 	DECLARE `estado` INT;
-    SET `estado` = ( SELECT COUNT(*) FROM `usuario` WHERE `dni` = `d_dni` );
+    SET `estado` = ( SELECT COUNT(*) FROM `usuario` WHERE `dni` = `d_dni` AND `cod_usuario` != `id_user`);
     IF `estado` > 0 THEN 
 		RETURN 1;
 	END IF;
     
-    SET `estado` = ( SELECT COUNT(*) FROM `usuario` WHERE `correo` = `d_correo` );
+    SET `estado` = ( SELECT COUNT(*) FROM `usuario` WHERE `correo` = `d_correo` AND `cod_usuario` != `id_user` );
     IF `estado` > 0 THEN
 		RETURN 2;
 	END IF;
@@ -196,6 +196,7 @@ BEGIN
     RETURN 0;
 END //
 DELIMITER ;
+-- SELECT validarUser('0', '12345678', 'asc@.com') AS estado;
 
 DROP PROCEDURE IF EXISTS `saveUser`;
 DELIMITER //
@@ -212,8 +213,10 @@ DROP PROCEDURE IF EXISTS `deleteUser`;
 DELIMITER //
 CREATE PROCEDURE `deleteUser`(IN `id_user` INT)
 BEGIN
-    DELETE FROM `usuario` WHERE `cod_usuario` = `id_user`;
-    SELECT * FROM `usuario`;
+	DECLARE `affectedRows` INT;
+	DELETE FROM `usuario` WHERE `cod_usuario` = `id_user`;
+	SET `affectedRows` = ROW_COUNT();
+  SELECT `affectedRows`;
 END //
 DELIMITER ;
 -- CALL deleteUser(6);

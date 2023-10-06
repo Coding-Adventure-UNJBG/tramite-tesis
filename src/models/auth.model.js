@@ -2,8 +2,8 @@ import sequelize from "../config/db.js";
 const model = {}
 
 model.validarUser = async (arg) => {
-  const { dni, correo } = arg
-  return sequelize.query(`SELECT validarUser('${dni}', '${correo}') AS estado`, { raw: true })
+  const { id, dni, correo } = arg
+  return sequelize.query(`SELECT validarUser('${id}','${dni}', '${correo}') AS estado`, { raw: true })
     .then(([result, metadata]) => {
       return result[0].estado
     })
@@ -61,10 +61,9 @@ model.updateUser = async (arg) => {
 }
 
 model.deleteUser = async (arg) => {
-  const { cod_usuario } = arg
-  return sequelize.query(`CALL deleteUser('${cod_usuario}')`, { raw: true })
+  return sequelize.query(`CALL deleteUser('${arg}')`, { raw: true })
     .then(([result, metadata]) => {
-      return result.length === 0 ? null : result
+      return result.affectedRows === 1 ? result : null
     })
     .catch((error) => {
       throw error
