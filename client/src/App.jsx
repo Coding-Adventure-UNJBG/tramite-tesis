@@ -14,6 +14,8 @@ import UsersPage from './pages/Usuario/UsersPage'
 import ViewUserPage from './pages/Usuario/ViewUserPage'
 import RegisterPage from './pages/Usuario/RegisterPage'
 import UserFormPage from './pages/Usuario/UserFormPage'
+import NewSolicitudPage from './pages/Solicitud/NewSolicitudPage'
+import SolicitudPage from './pages/Solicitud/SolicitudPage'
 
 function App() {
   return (
@@ -34,8 +36,10 @@ function App() {
             <Route path='/usuario/new' element={<UserFormPage />} />
             <Route path='/usuario/view/:id' element={<ViewUserPage />} />
             <Route path='/usuario/edit/:id' element={<UserFormPage />} />
-            
-            <Route path='/solicitud' element={<h1>Aqui la solicitud</h1>} />
+
+            <Route path='/solicitud' element={<SolicitudPage />} />
+            <Route path='/solicitud/new' element={<NewSolicitudPage />} />
+
             <Route path='/reporte' element={<h1>Aqui los reportes</h1>} />
             {/* de momento por aqui para probar */}
             <Route path='/upload' element={<UploadFile />} />
