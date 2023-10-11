@@ -44,7 +44,9 @@ controllers.login = async (req, res) => {
       id: userFound[0].cod_usuario,
       nombre: userFound[0].nombre,
       apellidos: userFound[0].apellidos,
-      dni: userFound[0].dni
+      dni: userFound[0].dni,
+      rol: userFound[0].rol,
+      permisos: userFound[0].permisos
     })
 
   } catch (error) {
@@ -71,7 +73,9 @@ controllers.verifyToken = async (req, res) => {
       id: userFound[0].cod_usuario,
       nombre: userFound[0].nombre,
       apellidos: userFound[0].apellidos,
-      dni: userFound[0].dni
+      dni: userFound[0].dni,
+      rol: userFound[0].rol,
+      permisos: userFound[0].permisos
     })
   })
 }

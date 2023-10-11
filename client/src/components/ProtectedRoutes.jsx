@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import Navigation from './Navigation'
+import Navigation from './Dashboard/Navigation'
 
 function ProtectedRoutes() {
   const { isAuthentificated, loading } = useAuth()

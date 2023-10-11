@@ -24,7 +24,7 @@ function UploadFile() {
           onSubmit={onSubmit}
           className='flex flex-col max-w-sm space-y-3 '>
           <input type="file" className='input-style' {...register("file", { required: true })} />
-          <p class="mt-1 text-sm text-gray-500 " id="file_input_help">PNG, JPG or PDF (MAX. 10MB).</p>
+          <p className="mt-1 text-sm text-gray-500 " id="file_input_help">PNG, JPG or PDF (MAX. 10MB).</p>
           {errors.file && (
             <p className="bg-red-500 text-white font-bold text-center p-1.5">Sube una imagen ps</p>
           )}

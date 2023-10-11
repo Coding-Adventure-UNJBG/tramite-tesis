@@ -13,7 +13,9 @@ model.validarUser = async (arg) => {
 }
 
 model.findUser = async (arg) => {
-  return sequelize.query(`SELECT * FROM usuario WHERE dni = '${arg}'`, { raw: true })
+  return sequelize.query(`SELECT u.cod_usuario, u.cod_rol, u.nombre, u.apellidos, u.password, u.dni, rol.nombre AS rol, rol.permisos FROM usuario u
+                          INNER JOIN rol ON rol.cod_rol = u.cod_rol
+                          WHERE dni = '${arg}'`, { raw: true })
     .then(([result, metadata]) => {
       const data = result.length === 0 ? null : result
       return data
@@ -24,7 +26,9 @@ model.findUser = async (arg) => {
 }
 
 model.findUserById = async (arg) => {
-  return sequelize.query(`SELECT * FROM usuario WHERE cod_usuario = '${arg}'`, { raw: true })
+  return sequelize.query(`SELECT u.cod_usuario, u.cod_rol, u.nombre, u.apellidos, u.password, u.dni, u.fecha_nacimiento, u.telefono, u.correo, u.direccion, u.grado_academico, rol.nombre AS rol, rol.permisos FROM usuario u
+                          INNER JOIN rol ON rol.cod_rol = u.cod_rol
+                          WHERE cod_usuario = '${arg}'`, { raw: true })
     .then(([result, metadata]) => {
       const data = result.length === 0 ? null : result
       return data
