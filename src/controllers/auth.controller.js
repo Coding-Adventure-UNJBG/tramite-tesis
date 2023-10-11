@@ -111,8 +111,7 @@ controllers.updateUser = async (req, res) => {
     if (userFound === 1) return res.status(400).json({ message: ["El DNI ya se encuentra en uso"] })
     if (userFound === 2) return res.status(400).json({ message: ["El correo ya se encuentra en uso"] })
 
-    //cod_rol solo esta ahi pq aun no le meto los roles, pero se debe quitar
-    const userUpdate = await model.updateUser({ ...req.body, cod_usuario: id, cod_rol: 1 })
+    const userUpdate = await model.updateUser({ ...req.body, cod_usuario: id })
     if (userUpdate) return res.status(200).json(userUpdate)
     else return res.status(404).send({ error: 'User not found' })
 

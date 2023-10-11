@@ -20,6 +20,7 @@ function UserFormPage() {
         const res = await updateUser(params.id, values)
         if (res?.data) navigate('/usuario')
       } else { //create
+        console.log("von rol: ", values)
         const res = await signup(values)
         if (res?.data.message) navigate('/usuario')
       }
@@ -40,6 +41,8 @@ function UserFormPage() {
         setValue('celular', res.telefono)
         setValue('fecha_nacimiento', res.fecha_nacimiento)
         setValue('direccion', res.direccion)
+        setValue('grado_academico', res.grado_academico)
+        setValue('cod_rol', res.cod_rol)
       }
     }
     loadUser()
@@ -110,12 +113,21 @@ function UserFormPage() {
                   )}
                 </div>
                 <div className='md:col-span-2'>
+                  <label htmlFor="grado_academico" className='label-style'>Grado académico</label>
+                  <select className='input-style' {...register("grado_academico")}>
+                    <option value="BACHILLER">BACHILLER</option>
+                    <option value="TÉCNICO">TÉCNICO</option>
+                    <option value="MAESTRIA">MAESTRIA</option>
+                    <option value="DOCTORADO">DOCTORADO</option>
+                  </select>
+                </div>
+                <div className='md:col-span-2'>
                   <label htmlFor="rol" className='label-style'>Tipo usuario</label>
-                  <select className='input-style'>
-                    <option>BACHILLER</option>
-                    <option>PROFESOR</option>
-                    <option>SECRETARIA</option>
-                    <option>DIRECTOR</option>
+                  <select className='input-style' {...register("cod_rol")}>
+                    <option value="1">TESISTA</option>
+                    <option value="2">PROFESOR</option>
+                    <option value="3">SECRETARIA</option>
+                    <option value="4">DIRECTOR ESCUELA</option>
                   </select>
                 </div>
                 <div className='md:col-span-2'>

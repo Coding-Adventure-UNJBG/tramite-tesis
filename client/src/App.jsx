@@ -21,6 +21,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/login' element={<LoginPage />} />
+          <Route path='/test' element={<NewTramitePage />} />
+
           <Route element={<ProtectedRoutes />}>
             <Route path='/' element={<HomePage />} />
             <Route path='/portafolio' element={<PortafolioPage />} />

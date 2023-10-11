@@ -21,6 +21,8 @@ function ViewUserPage() {
       setValue('celular', res.telefono)
       setValue('fecha_nacimiento', res.fecha_nacimiento)
       setValue('direccion', res.direccion)
+      setValue('grado_academico', res.grado_academico)
+      setValue('cod_rol', res.cod_rol)
     }
 
     loadUser()
@@ -69,13 +71,23 @@ function ViewUserPage() {
                   <label htmlFor="direccion" className='label-style'>Dirección</label>
                   <input disabled type="text" className='input-style' {...register("direccion", { required: true })} />
                 </div>
+                <div className="md:col-span-2" />
+                <div className='md:col-span-2'>
+                  <label htmlFor="grado_academico" className='label-style'>Grado académico</label>
+                  <select className='input-style' {...register("grado_academico")} disabled>
+                    <option value="BACHILLER">BACHILLER</option>
+                    <option value="TÉCNICO">TÉCNICO</option>
+                    <option value="MAESTRIA">MAESTRIA</option>
+                    <option value="DOCTORADO">DOCTORADO</option>
+                  </select>
+                </div>
                 <div className='md:col-span-2'>
                   <label htmlFor="rol" className='label-style'>Tipo usuario</label>
-                  <select disabled className='input-style'>
-                    <option>BACHILLER</option>
-                    <option>PROFESOR</option>
-                    <option>SECRETARIA</option>
-                    <option>DIRECTOR</option>
+                  <select className='input-style' {...register("cod_rol")} disabled>
+                    <option value="1">TESISTA</option>
+                    <option value="2">PROFESOR</option>
+                    <option value="3">SECRETARIA</option>
+                    <option value="4">DIRECTOR ESCUELA</option>
                   </select>
                 </div>
                 {/* <div className='md:col-span-2'>

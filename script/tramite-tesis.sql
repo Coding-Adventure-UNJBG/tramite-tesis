@@ -25,22 +25,28 @@ CREATE TABLE `usuario` (
   `cod_rol` SMALLINT UNSIGNED NOT NULL,
   `nombre` VARCHAR(255) NOT NULL,
   `apellidos` VARCHAR(255) NOT NULL,
-  `dni` VARCHAR(255) NOT NULL UNIQUE,
+  `dni` VARCHAR(10) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   `fecha_nacimiento` DATE NOT NULL,
-  `telefono` VARCHAR(255) NOT NULL,
+  `telefono` VARCHAR(12) NOT NULL,
   `correo` VARCHAR(255) NOT NULL UNIQUE,
   `direccion` VARCHAR(255) NOT NULL,
+  `grado_academico` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`cod_usuario`),
   FOREIGN KEY (`cod_rol`) REFERENCES `rol`(`cod_rol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Datos para simular el login
-insert into rol(cod_rol, nombre, permisos)
-values (1, 'admin', '{"todo":true}');
+INSERT INTO `rol` (`cod_rol`, `nombre`, `permisos`) 
+VALUES
+(1,'TESISTA', '{ "solicitud": 1, "tesis": 0, "reporte": 1}'),
+(2,'PROFESOR', '{ "p_comite": 0, "p_asesor": 0, "p_jurado": 0, "reporte": 1}'),
+(3,'SECRETARIA', '{ "solicitud": 1, "reporte": 1 }'),
+(4,'DIRECTOR ESCUELA', '{ "comite": 1, "jurado": 1}'),
+(5, 'ADMINISTRADOR', '{"usuarios": 1, "tramite": 1, "tesis": 1, "comite": 1}');
 
-insert into usuario(cod_usuario, cod_rol, nombre, apellidos, dni, password, fecha_nacimiento, telefono, correo, direccion)
-values (1, 1,'OSCAR', 'CHOQUE', '12345678', '$2a$10$.ogamKfOuOjJjQmkb79Heenc8hjxZPkVexobqh8rcev3NXF/p64UC', '2023-10-02', '987654321', 'oscar@choque.com', 'AV MIRAFLORES');
+insert into usuario(cod_usuario, cod_rol, nombre, apellidos, dni, password, fecha_nacimiento, telefono, correo, direccion, grado_academico)
+values (1, 5,'OSCAR', 'CHOQUE', '12345678', '$2a$10$.ogamKfOuOjJjQmkb79Heenc8hjxZPkVexobqh8rcev3NXF/p64UC', '2023-10-02', '987654321', 'oscar@choque.com', 'AV MIRAFLORES', 'BACHILLER');
 
 DROP TABLE IF EXISTS `codigo_pago`;
 CREATE TABLE `codigo_pago` (
@@ -200,10 +206,10 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS `saveUser`;
 DELIMITER //
-CREATE PROCEDURE `saveUser`(IN `cod_rol` INT, IN `nombre` VARCHAR(255), IN `apellidos` VARCHAR(255), IN `dni` VARCHAR(10), IN `password` VARCHAR(255), IN `fecha_nacimiento` DATE, IN `telefono` VARCHAR(15), IN `correo` VARCHAR(255), IN `direccion` VARCHAR(255))
+CREATE PROCEDURE `saveUser`(IN `cod_rol` INT, IN `nombre` VARCHAR(255), IN `apellidos` VARCHAR(255), IN `dni` VARCHAR(10), IN `password` VARCHAR(255), IN `fecha_nacimiento` DATE, IN `telefono` VARCHAR(12), IN `correo` VARCHAR(255), IN `direccion` VARCHAR(255), IN `grado_academico` VARCHAR(255))
 BEGIN
-    INSERT INTO `usuario` (`cod_rol`, `nombre`, `apellidos`, `dni`, `password`, `fecha_nacimiento`, `telefono`, `correo`, `direccion`)
-    VALUES (`cod_rol`, `nombre`, `apellidos`, `dni`, `password`, `fecha_nacimiento`, `telefono`, `correo`, `direccion`);
+    INSERT INTO `usuario` (`cod_rol`, `nombre`, `apellidos`, `dni`, `password`, `fecha_nacimiento`, `telefono`, `correo`, `direccion`, `grado_academico`)
+    VALUES (`cod_rol`, `nombre`, `apellidos`, `dni`, `password`, `fecha_nacimiento`, `telefono`, `correo`, `direccion`, `grado_academico`);
     SELECT * FROM `usuario` ORDER BY `cod_usuario` DESC LIMIT 1;
 END //
 DELIMITER ;
@@ -216,16 +222,16 @@ BEGIN
 	DECLARE `affectedRows` INT;
 	DELETE FROM `usuario` WHERE `cod_usuario` = `id_user`;
 	SET `affectedRows` = ROW_COUNT();
-  SELECT `affectedRows`;
+  SELECT affectedRows;
 END //
 DELIMITER ;
 -- CALL deleteUser(6);
 
 DROP PROCEDURE IF EXISTS `updateUser`;
 DELIMITER //
-CREATE PROCEDURE `updateUser`(IN `id_user` INT, IN `cod_rol` INT, IN `nombre` VARCHAR(255), IN `apellidos` VARCHAR(255), IN `dni` VARCHAR(10), IN `password` VARCHAR(255), IN `fecha_nacimiento` DATE, IN `telefono` VARCHAR(15), IN `correo` VARCHAR(255), IN `direccion` VARCHAR(255))
+CREATE PROCEDURE `updateUser`(IN `id_user` INT, IN `cod_rol` INT, IN `nombre` VARCHAR(255), IN `apellidos` VARCHAR(255), IN `dni` VARCHAR(10), IN `password` VARCHAR(255), IN `fecha_nacimiento` DATE, IN `telefono` VARCHAR(12), IN `correo` VARCHAR(255), IN `direccion` VARCHAR(255), IN `grado_academico` VARCHAR(255))
 BEGIN
-    UPDATE `usuario` SET `cod_rol` = `cod_rol`, `nombre` = `nombre`, `apellidos` = `apellidos`, `dni` = `dni`, `password` = `password`, `fecha_nacimiento` = `fecha_nacimiento`, `telefono` = `telefono`, `correo` = `correo`, `direccion` = `direccion`
+    UPDATE `usuario` SET `cod_rol` = `cod_rol`, `nombre` = `nombre`, `apellidos` = `apellidos`, `dni` = `dni`, `password` = `password`, `fecha_nacimiento` = `fecha_nacimiento`, `telefono` = `telefono`, `correo` = `correo`, `direccion` = `direccion`, `grado_academico` = `grado_academico`
     WHERE `cod_usuario` = `id_user`;
     SELECT * FROM `usuario` WHERE `cod_usuario` = `id_user`;
 END //
