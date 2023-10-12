@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { saveSolicitudRequest } from "../api/tramite";
+import { getTramitesRequest, saveSolicitudRequest } from "../api/tramite";
 
 const TramiteContext = createContext()
 
@@ -25,10 +25,22 @@ export const TramiteProvider = ({ children }) => {
     }
   }
 
+  const getTramites = async () => {
+    try {
+      const res = await getTramitesRequest()
+      setSolicitudes(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <TramiteContext.Provider value={{
-      //Lo que van a compartir
-      saveSolicitdud
+      // Variables
+      solicitudes,
+      // Metodos
+      saveSolicitdud,
+      getTramites
     }}>
       {children}
     </TramiteContext.Provider>

@@ -263,3 +263,21 @@ BEGIN
 END //
 DELIMITER ; 
 -- CALL saveTramite(2, 'mi tesis', 'jaja no hay nada');
+
+DROP PROCEDURE IF EXISTS `getTramites`;
+DELIMITER //
+CREATE PROCEDURE `getTramites` (IN id_user INT)
+BEGIN
+-- Si el que solicita es tesista se le devuelve sus propias solicitudes sino todas las que existen
+	IF (SELECT rol.nombre FROM rol INNER JOIN usuario u ON u.cod_rol = rol.cod_rol WHERE u.cod_usuario = id_user ) = 'TESISTA' THEN
+		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(t.fecha_registro) AS fecha, titulo_tesis, descripcion_tesis FROM tramite t
+        INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
+        WHERE t.cod_usuario = id_user ORDER BY t.cod_tramite DESC;
+	ELSE
+		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(fecha_registro) AS fecha, titulo_tesis, descripcion_tesis FROM tramite t
+        INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
+        ORDER BY t.cod_tramite DESC;
+	END IF;
+END //
+DELIMITER ;
+-- CALL getTramites(2);

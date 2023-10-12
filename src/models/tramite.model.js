@@ -12,4 +12,15 @@ model.saveSolicitud = async (data) => {
     })
 }
 
+model.getTramites = async (id) => {
+    return sequelize.query(`CALL getTramites('${id}');`, { raw: true })
+    .then((result) => {
+      console.log(result)
+      return result.length === 0 ? null : result
+    })
+    .catch((error) => {
+      throw error
+    })
+}
+
 export default model
