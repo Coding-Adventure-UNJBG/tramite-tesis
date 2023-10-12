@@ -45,15 +45,21 @@ VALUES
 (4,'DIRECTOR ESCUELA', '{ "comite": 1, "jurado": 1}'),
 (5, 'ADMINISTRADOR', '{"usuarios": 1, "tramite": 1, "tesis": 1, "comite": 1}');
 
-insert into usuario(cod_usuario, cod_rol, nombre, apellidos, dni, password, fecha_nacimiento, telefono, correo, direccion, grado_academico)
-values (1, 5,'OSCAR', 'CHOQUE', '12345678', '$2a$10$.ogamKfOuOjJjQmkb79Heenc8hjxZPkVexobqh8rcev3NXF/p64UC', '2023-10-02', '987654321', 'oscar@choque.com', 'AV MIRAFLORES', 'BACHILLER');
+INSERT INTO `usuario`(`cod_usuario`, `cod_rol`, `nombre`, `apellidos`, `dni`, `password`, `fecha_nacimiento`, `telefono`, `correo`, `direccion`, `grado_academico`)
+VALUES
+('1', '5', 'OSCAR', 'CHOQUE', '12345678', '$2a$10$.ogamKfOuOjJjQmkb79Heenc8hjxZPkVexobqh8rcev3NXF/p64UC', '2023-10-02', '987654321', 'oscar@choque.com', 'AV MIRAFLORES', 'BACHILLER'),
+('2', '1', 'userTesista', 'prueba', '11111111', '$2a$10$sLSbDd/j30W0Xqx8KaJzXeCdHHUNvZokaUv6HjaFuRvPHksP3n47a', '2002-10-11', '987654321', 'tesista@gmail.com', 'AV TESISTA', 'BACHILLER'),
+('3', '2', 'userProfesor', 'prueba', '22222222', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
+('4', '4', 'userDirector', 'prueba', '33333333', '$2a$10$qjiN2lr5hAuMHYu4ul76EOTVsEqan9BRd1VDgFcCM3mwGamwAk8uG', '2023-10-09', '987654321', 'directoresis@gmail.com', 'AV DIRECTOR DE ESCUELA', 'DOCTORADO'),
+('5', '3', 'userSecretaria', 'prueba', '44444444', '$2a$10$2pYAZ6J0Bt1LdRkf0jASq.ro373A0xNi6cr5Mjq4pHGjvYES9/1.2', '2023-02-22', '987654321', 'SECRETARIA@GMAIL.COM', 'AV SECRETARIA', 'BACHILLER')
+;
 
-DROP TABLE IF EXISTS `codigo_pago`;
-CREATE TABLE `codigo_pago` (
-  `cod_pago` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `tipo_documento`;
+CREATE TABLE `tipo_documento` (
+  `cod_doc` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nonbre` VARCHAR(64) NOT NULL,
   `abreviatura` VARCHAR(8) NOT NULL,
-  PRIMARY KEY (`cod_pago`)
+  PRIMARY KEY (`cod_doc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `folio`;
@@ -67,40 +73,49 @@ DROP TABLE IF EXISTS `detalle_folio`;
 CREATE TABLE `detalle_folio` (
   `cod_usuario` SMALLINT UNSIGNED NOT NULL,
   `cod_folio` SMALLINT UNSIGNED NOT NULL,
-  `cod_pago` SMALLINT UNSIGNED NOT NULL,
+  `cod_doc` SMALLINT UNSIGNED NOT NULL,
   `descripcion` TINYTEXT NOT NULL,
   `documento` VARCHAR(100) NOT NULL,
   FOREIGN KEY (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`),
   FOREIGN KEY (`cod_folio`) REFERENCES `folio`(`cod_folio`),
-  FOREIGN KEY (`cod_pago`) REFERENCES `codigo_pago`(`cod_pago`)
+  FOREIGN KEY (`cod_doc`) REFERENCES `tipo_documento`(`cod_doc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `viabilidad`;
-CREATE TABLE `viabilidad` (
-  `cod_viabilidad` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `cod_tesista` SMALLINT UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `tramite`;
+CREATE TABLE `tramite` (
+  `cod_tramite` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cod_usuario` SMALLINT UNSIGNED NOT NULL,
   `estado` enum("APROBADO", "OBSERVADO", "PENDIENTE", "RECHAZADO") NOT NULL DEFAULT "PENDIENTE",
-  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
-  `resolucion` VARCHAR(100),
-  PRIMARY KEY (`cod_viabilidad`),
-  FOREIGN KEY (`cod_tesista`) REFERENCES `usuario`(`cod_usuario`)
+  `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
+  `titulo_tesis` VARCHAR(255) NOT NULL,
+  `descripcion_tesis` TEXT NOT NULL,
+  PRIMARY KEY (`cod_tramite`),
+  FOREIGN KEY (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `comite`;
 CREATE TABLE `comite` (
   `cod_comite` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `grado_academico` VARCHAR(64),
+  `cant_integrantes` INT NOT NULL,
   PRIMARY KEY (`cod_comite`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `detalle_viabilidad`;
-CREATE TABLE `detalle_viabilidad` (
+DROP TABLE IF EXISTS `detalle_comite`;
+CREATE TABLE `detalle_comite` (
+  `cod_comite` SMALLINT UNSIGNED NOT NULL,
+  `cod_usuario_comite` SMALLINT UNSIGNED NOT NULL,
+  FOREIGN KEY (`cod_comite`) REFERENCES `comite`(`cod_comite`),
+  FOREIGN KEY (`cod_usuario_comite`) REFERENCES `usuario`(`cod_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `detalle_tramite`;
+CREATE TABLE `detalle_tramite` (
   `cod_tramite` SMALLINT UNSIGNED NOT NULL,
-  `cod_docente` SMALLINT UNSIGNED NOT NULL,
+  `cod_usuario_comite` SMALLINT UNSIGNED NOT NULL,
   `fecha_mod` DATETIME NOT NULL DEFAULT current_timestamp(),
   `observacion` TEXT NOT NULL,
-  FOREIGN KEY (`cod_tramite`) REFERENCES `viabilidad`(`cod_viabilidad`),
-  FOREIGN KEY (`cod_docente`) REFERENCES `comite`(`cod_comite`)
+  FOREIGN KEY (`cod_tramite`) REFERENCES `tramite`(`cod_tramite`),
+  FOREIGN KEY (`cod_usuario_comite`) REFERENCES `usuario`(`cod_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `tesis`;
@@ -237,3 +252,14 @@ BEGIN
 END //
 DELIMITER ;
 -- CALL updateUser(9,1, 'PROCEDURE updarwUser', 'TEST UPDATE', '77553322', '123', '2023-02-02', '987654321', 'MICORREO@DOMINIO.COM', 'AV MIRAZFLORES') ;
+
+DROP PROCEDURE IF EXISTS `saveTramite`;
+DELIMITER //
+CREATE PROCEDURE `saveTramite` (IN `cod_usuario` INT, IN `titulo_tesis` VARCHAR(255), IN `descripcion_tesis` TEXT)
+BEGIN
+	INSERT INTO `tramite` (`cod_usuario`, `titulo_tesis`, `descripcion_tesis`)
+    VALUES (`cod_usuario`, `titulo_tesis`, `descripcion_tesis`);
+    SELECT * FROM `tramite` ORDER BY `cod_tramite` DESC LIMIT 1;
+END //
+DELIMITER ; 
+-- CALL saveTramite(2, 'mi tesis', 'jaja no hay nada');

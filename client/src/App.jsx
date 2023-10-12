@@ -16,37 +16,40 @@ import RegisterPage from './pages/Usuario/RegisterPage'
 import UserFormPage from './pages/Usuario/UserFormPage'
 import NewSolicitudPage from './pages/Solicitud/NewSolicitudPage'
 import SolicitudPage from './pages/Solicitud/SolicitudPage'
+import { TramiteProvider } from './context/TramiteContext'
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/test' element={<NewTramitePage />} />
+      <TramiteProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/test' element={<NewTramitePage />} />
 
-          <Route element={<ProtectedRoutes />}>
-            <Route path='/' element={<HomePage />} />
-            <Route path='/portafolio' element={<PortafolioPage />} />
-            <Route path='/tramite' element={<TramitePage />} />
-            <Route path='/tramite/new' element={<NewTramitePage />} />
-            <Route path='/tesis' element={<TesisPage />} />
-            <Route path='/register' element={<RegisterPage />} />
-            <Route path='/usuario' element={<UsersPage />} />
-            <Route path='/usuario/new' element={<UserFormPage />} />
-            <Route path='/usuario/view/:id' element={<ViewUserPage />} />
-            <Route path='/usuario/edit/:id' element={<UserFormPage />} />
+            <Route element={<ProtectedRoutes />}>
+              <Route path='/' element={<HomePage />} />
+              <Route path='/portafolio' element={<PortafolioPage />} />
+              <Route path='/tramite' element={<TramitePage />} />
+              <Route path='/tramite/new' element={<NewTramitePage />} />
+              <Route path='/tesis' element={<TesisPage />} />
+              <Route path='/register' element={<RegisterPage />} />
+              <Route path='/usuario' element={<UsersPage />} />
+              <Route path='/usuario/new' element={<UserFormPage />} />
+              <Route path='/usuario/view/:id' element={<ViewUserPage />} />
+              <Route path='/usuario/edit/:id' element={<UserFormPage />} />
 
-            <Route path='/solicitud' element={<SolicitudPage />} />
-            <Route path='/solicitud/new' element={<NewSolicitudPage />} />
+              <Route path='/solicitud' element={<SolicitudPage />} />
+              <Route path='/solicitud/new' element={<NewSolicitudPage />} />
 
-            <Route path='/reporte' element={<h1>Aqui los reportes</h1>} />
-            {/* de momento por aqui para probar */}
-            <Route path='/upload' element={<UploadFile />} />
-          </Route>
-          <Route path='*' element={<NotFoundPage />}></Route>
-        </Routes>
-      </BrowserRouter>
+              <Route path='/reporte' element={<h1>Aqui los reportes</h1>} />
+              {/* de momento por aqui para probar */}
+              <Route path='/upload' element={<UploadFile />} />
+            </Route>
+            <Route path='*' element={<NotFoundPage />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </TramiteProvider>
     </AuthProvider>
   )
 }

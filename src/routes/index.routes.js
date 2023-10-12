@@ -3,6 +3,8 @@ import cors from 'cors';
 
 import authRoutes from './auth.routes.js'
 import fileRoutes from './files.routes.js'
+import tramiteRoutes from './tramite.routes.js'
+
 const app = express();
 
 app.use(cors({
@@ -22,6 +24,7 @@ app.get('/', (req, res) => {
 //import routes from project
 app.use("/api/v1", authRoutes)
 app.use("/api/v1", fileRoutes)
+app.use("/api/v1/tramite", tramiteRoutes)
 
 app.use("*", (req, res) => {
   res.status(404).send("Not Found")
