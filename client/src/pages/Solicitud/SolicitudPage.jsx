@@ -43,7 +43,7 @@ function SolicitudPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {!solicitudes ? //if
+                {solicitudes.length === 0 ? //if
                   <tr>
                     <td colSpan='6' className="text-center py-10 text-slate-500 uppercase">NO HAY REGISTROS DISPONIBLES</td>
                   </tr>
