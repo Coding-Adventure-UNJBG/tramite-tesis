@@ -79,7 +79,7 @@ DROP TABLE IF EXISTS `viabilidad`;
 CREATE TABLE `viabilidad` (
   `cod_viabilidad` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_tesista` SMALLINT UNSIGNED NOT NULL,
-  `estado` enum("APROBADO", "OBSERVADO", "PENDIENTE", "DESAPROBADO") NOT NULL DEFAULT "PENDIENTE",
+  `estado` enum("APROBADO", "OBSERVADO", "PENDIENTE", "RECHAZADO") NOT NULL DEFAULT "PENDIENTE",
   `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
   `resolucion` VARCHAR(100),
   PRIMARY KEY (`cod_viabilidad`),
