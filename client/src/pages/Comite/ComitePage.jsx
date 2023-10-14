@@ -5,10 +5,12 @@ import { useTramite } from "../../context/TramiteContext"
 
 function ComitePage() {
 
-  const { getProfesores, registerComite } = useTramite()
+  const { getProfesores, registerComite, getComites } = useTramite()
   const { register, handleSubmit, formState: { errors }, setValue } = useForm()
 
   const [profesores, setProfesores] = useState([])
+  const [comites, setComites] = useState([])
+  const [listComites, setListComites] = useState([])
   const [selectProfes, setSelectProfes] = useState([])
   const [profeInfo, setProfeInfo] = useState([])
 
@@ -16,9 +18,26 @@ function ComitePage() {
     async function loadProfe() {
       const res = await getProfesores()
       setProfesores(res)
+      const com = await getComites()
+      if (com) setComites(com)
     }
     loadProfe()
   }, [])
+
+  useEffect(() => {
+    const listar = comites.reduce((result, comit) => {
+      const codComite = comit.cod_comite
+
+      if (!result[codComite]) result[codComite] = []
+
+      result[codComite].push(comit.nombre)
+      return result
+    }, {})
+    setListComites(listar)
+  }, [comites])
+
+
+
 
   const onSubmit = handleSubmit(values => {
     if (values.profe != 0) {
@@ -42,16 +61,15 @@ function ComitePage() {
       window.location.reload()
     }
   }
+
+
+
   return (
     <>
       <Card>
-        <h2 className="title">Asignar Comite</h2>
-      </Card>
-
-      <Card>
         <div className="m-5">
-
-          <span>Un mensaje bonito indicando de que trata</span>
+          <h3 className="font-bold mt-4">Asignar comite</h3>
+          <span className="text-sm">Para asignar un nuevo comité, simplemente agrega a los miembros necesarios y guarda los cambios.</span>
           <form >
             <select className="input-style my-2 py-2 uppercase" {...register('profe')}>
               <option value='0'>Seleccione una opción</option>
@@ -62,7 +80,7 @@ function ComitePage() {
             <button type="submit" onClick={onSubmit} className="button-style">Agregar</button>
           </form>
 
-          {/* Muestra la lista solo si se seleeciona por lo menos 1 */}
+          {/* Muestra la lista solo si se selecciona por lo menos 1 */}
           {selectProfes.length !== 0 &&
             <>
               <div className="mb-5">
@@ -79,38 +97,27 @@ function ComitePage() {
         </div>
       </Card >
 
-      {/* Esto esta por verse todavia (si sobra tiempo) */}
       <Card>
         <div className="m-5">
-          <h2>Lista de comite existentes?</h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-            <div className="col-span-1 bg-yellow-300 py-2 px-5 rounded-lg">
-              <h3 className="font-bold">Comite N° 1</h3>
-              <ul className="ml-2 ">
-                <li><strong>-</strong> Nombres Completos</li>
-                <li><strong>-</strong> Nombres Completos</li>
-                <li><strong>-</strong> Nombres Completos</li>
-              </ul>
+          <h3 className="font-bold my-4">Lista de comites</h3>
+          {comites.length === 0 ? (
+            <p className="-mt-2"> - No hay datos de comites disponibles</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+              {
+                Object.keys(listComites).map((value, i) => (
+                  <div key={i} className="col-span-1 bg-yellow-300 py-2 px-5 rounded-lg">
+                    <h3 className="font-bold">Comite N° {i + 1}</h3>
+                    <ul className="ml-2 uppercase text-sm">
+                      {listComites[value].map((integrante, j) => (
+                        <li key={j}><strong>-</strong> {integrante}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))
+              }
             </div>
-            <div className="col-span-1 bg-yellow-300 py-2 px-5 rounded-lg">
-              <h3 className="font-bold">Comite N° 2</h3>
-              <ul className="ml-2 ">
-                <li><strong>-</strong> Nombres Completos</li>
-                <li><strong>-</strong> Nombres Completos</li>
-                <li><strong>-</strong> Nombres Completos</li>
-              </ul>
-            </div>
-            <div className="col-span-1 bg-yellow-300 py-2 px-5 rounded-lg">
-              <h3 className="font-bold">Comite N° n</h3>
-              <ul className="ml-2 ">
-                <li><strong>-</strong> Nombres Completos</li>
-                <li><strong>-</strong> Nombres Completos</li>
-                <li><strong>-</strong> Nombres Completos</li>
-              </ul>
-            </div>
-          </div>
-
+          )}
         </div>
       </Card>
     </>

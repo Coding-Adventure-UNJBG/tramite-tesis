@@ -50,10 +50,26 @@ model.saveComite = async (arg) => {
 
 model.saveIntegrantesComite = async (data) => {
   const { cod_comite, cod_usuario } = data
-  console.log(data)
   return sequelize.query(`INSERT INTO integrantes_comite (cod_comite, cod_usuario_comite) VALUES ('${cod_comite}', '${cod_usuario}')`, { raw: true })
     .then(([result, metadata]) => {
       return metadata
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+}
+
+model.listarComites = () => {
+  const query = `SELECT c.cod_comite, c.num_integrantes, ic.cod_usuario_comite, CONCAT(u.nombre, " ", u.apellidos) AS nombre FROM comite c
+                  INNER JOIN integrantes_comite ic
+                  ON c.cod_comite = ic.cod_comite
+                  INNER JOIN usuario u 
+                  ON u.cod_usuario = ic.cod_usuario_comite`
+  return sequelize.query(query, { raw: true })
+    .then(([result, metadata]) => {
+      console.log(result)
+      console.log(metadata)
+      return result.length === 0 ? null : result
     })
     .catch((error) => {
       console.log(error)

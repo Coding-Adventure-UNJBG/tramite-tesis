@@ -8,6 +8,7 @@ router.post('/', authRequired, controller.saveSolicitud)
 router.get('/', authRequired, controller.getTramites)
 
 router.route('/comite')
+  .get(controller.listarComites)
   .post(controller.saveComite)
 
 router.get('/profesores', controller.getProfesores)

@@ -62,4 +62,16 @@ controller.saveComite = async (req, res) => {
   }
 }
 
+controller.listarComites =  async (req, res) => {
+  try {
+    console.log("sa")
+    const result = await model.listarComites()
+    if (res) return res.status(200).json(result)
+    else return res.status(500).send({ error: "Error al obtener comite" })
+     
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
 export default controller

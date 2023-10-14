@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getProfesoresRequest, getTramitesRequest, saveComitesRequest, saveSolicitudRequest } from "../api/tramite";
+import { getComitesRequest, getProfesoresRequest, getTramitesRequest, saveComitesRequest, saveSolicitudRequest } from "../api/tramite";
 
 const TramiteContext = createContext()
 
@@ -52,6 +52,15 @@ export const TramiteProvider = ({ children }) => {
     }
   }
 
+  const getComites = async () => {
+    try {
+      const res = await getComitesRequest()
+      return res.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <TramiteContext.Provider value={{
       // Variables
@@ -60,7 +69,8 @@ export const TramiteProvider = ({ children }) => {
       saveSolicitdud,
       getTramites,
       getProfesores,
-      registerComite
+      registerComite,
+      getComites
     }}>
       {children}
     </TramiteContext.Provider>
