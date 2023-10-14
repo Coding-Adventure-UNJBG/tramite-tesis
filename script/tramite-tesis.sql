@@ -96,26 +96,34 @@ CREATE TABLE `tramite` (
 DROP TABLE IF EXISTS `comite`;
 CREATE TABLE `comite` (
   `cod_comite` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `cant_integrantes` INT NOT NULL,
+  `num_integrantes` INT NOT NULL,
   PRIMARY KEY (`cod_comite`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `detalle_comite`;
-CREATE TABLE `detalle_comite` (
+DROP TABLE IF EXISTS `integrantes_comite`;
+CREATE TABLE `integrantes_comite` (
   `cod_comite` SMALLINT UNSIGNED NOT NULL,
   `cod_usuario_comite` SMALLINT UNSIGNED NOT NULL,
   FOREIGN KEY (`cod_comite`) REFERENCES `comite`(`cod_comite`),
   FOREIGN KEY (`cod_usuario_comite`) REFERENCES `usuario`(`cod_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `detalle_tramite`;
-CREATE TABLE `detalle_tramite` (
+DROP TABLE IF EXISTS `revision_comite`;
+CREATE TABLE `revision_comite` (
+  `cod_revision_comite` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `comite_cod_comite` SMALLINT UNSIGNED NOT NULL,
+  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
+  PRIMARY key (`cod_revision_comite`),
+  FOREIGN KEY (`comite_cod_comite`) REFERENCES `comite`(`cod_comite`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `detalle_revision_comite`;
+CREATE TABLE `detalle_revision_comite` (
+  `revision_proyecto` SMALLINT UNSIGNED NOT NULL,
   `cod_tramite` SMALLINT UNSIGNED NOT NULL,
-  `cod_usuario_comite` SMALLINT UNSIGNED NOT NULL,
-  `fecha_mod` DATETIME NOT NULL DEFAULT current_timestamp(),
-  `observacion` TEXT NOT NULL,
-  FOREIGN KEY (`cod_tramite`) REFERENCES `tramite`(`cod_tramite`),
-  FOREIGN KEY (`cod_usuario_comite`) REFERENCES `usuario`(`cod_usuario`)
+  `observaciones` VARCHAR(45),
+  FOREIGN KEY (`revision_proyecto`) REFERENCES `revision_comite`(`cod_revision_comite`),
+  FOREIGN KEY (`cod_tramite`) REFERENCES `tramite`(`cod_tramite`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `tesis`;
@@ -280,4 +288,13 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
--- CALL getTramites(2);
+
+DROP PROCEDURE IF EXISTS `saveComite`;
+DELIMITER //
+CREATE PROCEDURE `saveComite` (IN num INT)
+BEGIN
+	INSERT INTO comite (num_integrantes) 
+    VALUES (num);
+    SELECT cod_comite FROM comite ORDER BY cod_comite DESC LIMIT 1;
+END //
+DELIMITER ;

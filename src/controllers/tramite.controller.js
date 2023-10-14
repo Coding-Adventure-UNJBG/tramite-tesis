@@ -21,7 +21,42 @@ controller.getTramites = async (req, res) => {
     const result = await model.getTramites(id)
     if (result) res.status(200).json(result)
     else res.status(500).send({ error: "Error al obtener tramites" })
-    
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
+controller.getProfesores = async (req, res) => {
+  try {
+    const result = await model.getProfesores()
+    if (result) res.status(200).json(result)
+    else res.status(500).send({ error: "Error al obtener profesores" })
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
+controller.saveComite = async (req, res) => {
+  try {
+    const data = req.body
+    const numIntegrantes = data.length
+
+    // Guardamos el comite y extraemos el cod_comite
+    const result = await model.saveComite(numIntegrantes)
+
+    if (result) {
+      //Recorremos el lista de los integrantes para guardarlo
+      data.map(async (value, i) => {
+        await model.saveIntegrantesComite({ cod_comite: result.cod_comite, cod_usuario: parseInt(value, 10) })
+      })
+      return res.status(200).send({ message: "Comite guardado" })
+    }
+    else {
+      return res.status(500).send({ error: "Error al guardar comite" })
+    }
+
   } catch (error) {
     res.status(500).send({ error: error.message })
   }

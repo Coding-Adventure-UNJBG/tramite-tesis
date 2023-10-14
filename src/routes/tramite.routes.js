@@ -7,4 +7,9 @@ const router = new Router()
 router.post('/', authRequired, controller.saveSolicitud)
 router.get('/', authRequired, controller.getTramites)
 
+router.route('/comite')
+  .post(controller.saveComite)
+
+router.get('/profesores', controller.getProfesores)
+
 export default router
