@@ -18,6 +18,7 @@ import NewSolicitudPage from './pages/Solicitud/NewSolicitudPage'
 import SolicitudPage from './pages/Solicitud/SolicitudPage'
 import { TramiteProvider } from './context/TramiteContext'
 import ComitePage from './pages/Comite/ComitePage'
+import ObservacionesPage from './pages/Solicitud/ObservacionesPage'
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
               <Route path='/tramite/new' element={<NewTramitePage />} />
               <Route path='/tesis' element={<TesisPage />} />
               <Route path='/register' element={<RegisterPage />} />
-              
+
               <Route path='/usuario' element={<UsersPage />} />
               <Route path='/usuario/new' element={<UserFormPage />} />
               <Route path='/usuario/view/:id' element={<ViewUserPage />} />
@@ -43,6 +44,7 @@ function App() {
 
               <Route path='/solicitud' element={<SolicitudPage />} />
               <Route path='/solicitud/new' element={<NewSolicitudPage />} />
+              <Route path='/solicitud/view/:id' element={<ObservacionesPage />} />
 
               <Route path='/comite' element={<ComitePage />} />
 

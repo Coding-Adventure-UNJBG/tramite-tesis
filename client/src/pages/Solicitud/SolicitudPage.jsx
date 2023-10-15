@@ -1,13 +1,17 @@
 import Card from "../../components/Card"
 import { FaShare } from 'react-icons/fa6'
 import { useTramite } from "../../context/TramiteContext"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import Modal from "../../components/Modal"
+import NewSolicitudPage from "./NewSolicitudPage"
+import NewObservacionPage from "./NewObservacionPage"
 
 function SolicitudPage() {
 
   const navigate = useNavigate()
   const { getTramites, solicitudes } = useTramite()
+  const [showModal, setShowModal] = useState(false)
 
   const options = [
     { name: 'N°', style: 'w-10' },
@@ -31,7 +35,7 @@ function SolicitudPage() {
          La tabla tendrá una opción para ir hacia una nueva venta en la que se podran ver las observaciones del comite */}
 
         <div className="m-5">
-          <button className="button-style mb-5" onClick={() => navigate('new')}>Nueva Solicitud</button>
+          <button className="button-style mb-5" /* onClick={() => navigate('new')} */ onClick={() => setShowModal(true)}>Nueva Solicitud</button>
 
           <div className="overflow-auto rounded-lg shadow max-w-3xl">
             <table className="w-full">
@@ -69,6 +73,11 @@ function SolicitudPage() {
           </div>
         </div>
       </Card >
+
+      <Modal className="max-w-md" isVisible={showModal} onClose={() => { setShowModal(false) }}>
+        <NewSolicitudPage />
+      </Modal>
+
     </>
   )
 }

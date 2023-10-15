@@ -10,19 +10,51 @@ function NewSolicitudPage() {
   const { saveSolicitdud } = useTramite()
 
   const onSubmit = handleSubmit(async values => {
-    const res = await saveSolicitdud(values)
-    if (res.data) navigate("/solicitud")
+    console.log(values)
+    // const res = await saveSolicitdud(values)
+    // if (res.data) navigate("/solicitud")
   })
 
   return (
     <>
-      <Card>
+      <div>
+        <h2 className="title border-b border-gray-900/40 pb-5">Nueva Solicitud</h2>
+
+        <form className="m-5" onSubmit={onSubmit}>
+          <span className="font-medium font-mono text-base">Un mensaje indicando que debe contener el archivo</span>
+          <div className="py-2">
+            {errors.file && (
+              <p className=" text-red-500 font-medium text-sm p-1.5">{errors.file.message}</p>
+            )}
+            {/* <label htmlFor="file" className="label-style">Cargar archivo</label> */}
+            <input type="file" className="input-style" {...register('file', { required: "El archivo es requerido" })} />
+            <p className="mt-0.5 ml-2 text-sm text-gray-500">Archvio en formato PDF (MAX. 10MB).</p>
+          </div>
+
+          <span className="font-medium font-mono text-base">Propuesta de asesor</span>
+          <div className="py-2">
+            {/* <label htmlFor="asesor" className="label-style">Elija un asesor</label> */}
+            <select className="input-style py-2">
+              <option value="A">Docente A</option>
+              <option value="B">Docente B</option>
+              <option value="C">Docente C</option>
+            </select>
+          </div>
+          <div className="mt-6 flex items-center justify-end gap-x-6">
+            <button type="button" className="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+            <button type="submit" className="button-style">Guardar</button>
+          </div>
+        </form>
+      </div>
+
+
+      {/* <Card>
         <h2 className="title">Nueva solicitud</h2>
-      </Card>
+      </Card> */}
 
       <Card>
         {/* Este formulario recopilará: titulo, descripcion, propuesta asesor */}
-        <form className="m-5 md:mx-10 md:my-5 max-w-5xl" onSubmit={onSubmit}>
+        {/* <form className="m-5 md:mx-10 md:my-5 max-w-5xl" onSubmit={onSubmit}>
           <div className="space-y-12">
             <div className="border-b border-gray-900/40 pb-12">
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-4 md:grid-cols-6">
@@ -57,7 +89,7 @@ function NewSolicitudPage() {
             <button type="button" className="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
             <button type="submit" className="button-style">Guardar</button>
           </div>
-        </form>
+        </form> */}
       </Card>
     </>
   )
