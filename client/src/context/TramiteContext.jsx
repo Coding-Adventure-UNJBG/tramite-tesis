@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { getComitesRequest, getProfesoresRequest, getTramitesRequest, saveComitesRequest, saveSolicitudRequest } from "../api/tramite";
+import { uploadRequest } from "../api/auth";
 
 const TramiteContext = createContext()
 
@@ -18,8 +19,17 @@ export const TramiteProvider = ({ children }) => {
 
   const saveSolicitdud = async (values) => {
     try {
-      const res = await saveSolicitudRequest(values)
-      return res
+      console.log("valores al context: ", values)
+
+      const formData = new FormData()
+      formData.append('file', values.file[0])
+      const upload = await uploadRequest(formData)
+      if (upload.status === 200) {
+        console.log("respuesta de upload", upload.data)
+        const res = await saveSolicitudRequest({ asesor: values.asesor, file: upload.data.filename })
+        return res
+      }
+
     } catch (error) {
       console.log(error)
     }

@@ -49,34 +49,44 @@ INSERT INTO `usuario`(`cod_usuario`, `cod_rol`, `nombre`, `apellidos`, `dni`, `p
 VALUES
 ('1', '5', 'OSCAR', 'CHOQUE', '12345678', '$2a$10$.ogamKfOuOjJjQmkb79Heenc8hjxZPkVexobqh8rcev3NXF/p64UC', '2023-10-02', '987654321', 'oscar@choque.com', 'AV MIRAFLORES', 'BACHILLER'),
 ('2', '1', 'userTesista', 'prueba', '11111111', '$2a$10$sLSbDd/j30W0Xqx8KaJzXeCdHHUNvZokaUv6HjaFuRvPHksP3n47a', '2002-10-11', '987654321', 'tesista@gmail.com', 'AV TESISTA', 'BACHILLER'),
-('3', '2', 'userProfesor', 'prueba', '22222222', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
+('3', '2', 'Profesor1', 'prueba', '22222222', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor1@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
 ('4', '4', 'userDirector', 'prueba', '33333333', '$2a$10$qjiN2lr5hAuMHYu4ul76EOTVsEqan9BRd1VDgFcCM3mwGamwAk8uG', '2023-10-09', '987654321', 'directoresis@gmail.com', 'AV DIRECTOR DE ESCUELA', 'DOCTORADO'),
-('5', '3', 'userSecretaria', 'prueba', '44444444', '$2a$10$2pYAZ6J0Bt1LdRkf0jASq.ro373A0xNi6cr5Mjq4pHGjvYES9/1.2', '2023-02-22', '987654321', 'SECRETARIA@GMAIL.COM', 'AV SECRETARIA', 'BACHILLER')
+('5', '3', 'userSecretaria', 'prueba', '44444444', '$2a$10$2pYAZ6J0Bt1LdRkf0jASq.ro373A0xNi6cr5Mjq4pHGjvYES9/1.2', '2023-02-22', '987654321', 'SECRETARIA@GMAIL.COM', 'AV SECRETARIA', 'BACHILLER'),
+('6', '2', 'Profesor2', 'prueba', '22222223', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor2@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
+('7', '2', 'Profesor3', 'prueba', '22222224', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor3@gmail.com', 'AV PROFESOR', 'MAESTRIA')
 ;
 
 DROP TABLE IF EXISTS `tipo_documento`;
 CREATE TABLE `tipo_documento` (
   `cod_doc` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nonbre` VARCHAR(64) NOT NULL,
-  `abreviatura` VARCHAR(8) NOT NULL,
+  `nombre` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`cod_doc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `tipo_documento`(`cod_doc`, `nombre`)
+VALUES
+('1', 'SOLICITUD SIMPLE'),
+('2', 'RECIBO POR DERECHO DE TITULACIÓN'),
+('3', 'COPIA DEL GRADO ACADÉMICO DE BACHILLER'),
+('4', 'TESIS'),
+('5', 'CONSTANCIA DE NO ADEUDO DE BIENES A LA UNJBG'),
+('6', 'FOTOGRAFÍA TAMAÑO PASAPORTE')
+;
 
 DROP TABLE IF EXISTS `folio`;
 CREATE TABLE `folio` (
   `cod_folio` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cod_usuario` SMALLINT UNSIGNED NOT NULL,
   `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`cod_folio`)
+  PRIMARY KEY (`cod_folio`),
+  FOREIGN KEY (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `detalle_folio`;
 CREATE TABLE `detalle_folio` (
-  `cod_usuario` SMALLINT UNSIGNED NOT NULL,
   `cod_folio` SMALLINT UNSIGNED NOT NULL,
   `cod_doc` SMALLINT UNSIGNED NOT NULL,
-  `descripcion` TINYTEXT NOT NULL,
-  `documento` VARCHAR(100) NOT NULL,
-  FOREIGN KEY (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`),
+  `nombreArchivo` VARCHAR(100) NOT NULL,
   FOREIGN KEY (`cod_folio`) REFERENCES `folio`(`cod_folio`),
   FOREIGN KEY (`cod_doc`) REFERENCES `tipo_documento`(`cod_doc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -85,12 +95,12 @@ DROP TABLE IF EXISTS `tramite`;
 CREATE TABLE `tramite` (
   `cod_tramite` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_usuario` SMALLINT UNSIGNED NOT NULL,
-  `estado` enum("APROBADO", "OBSERVADO", "PENDIENTE", "RECHAZADO") NOT NULL DEFAULT "PENDIENTE",
+  `estado` enum('APROBADO', 'EN PROCESO', 'RECHAZADO') NOT NULL DEFAULT 'EN PROCESO',
   `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
-  `titulo_tesis` VARCHAR(255) NOT NULL,
-  `descripcion_tesis` TEXT NOT NULL,
+  `cod_asesor_propuesto` SMALLINT UNSIGNED NOT NULL,
   PRIMARY KEY (`cod_tramite`),
-  FOREIGN KEY (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`)
+  FOREIGN KEY (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`),
+  FOREIGN KEY (`cod_asesor_propuesto`) REFERENCES `usuario`(`cod_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `comite`;
@@ -122,6 +132,7 @@ CREATE TABLE `detalle_revision_comite` (
   `revision_proyecto` SMALLINT UNSIGNED NOT NULL,
   `cod_tramite` SMALLINT UNSIGNED NOT NULL,
   `observaciones` VARCHAR(45),
+  `subsanar` INT NOT NULL DEFAULT 0, -- 1 Resolvio la observación, 0 No resolvio la observación
   FOREIGN KEY (`revision_proyecto`) REFERENCES `revision_comite`(`cod_revision_comite`),
   FOREIGN KEY (`cod_tramite`) REFERENCES `tramite`(`cod_tramite`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -259,18 +270,16 @@ BEGIN
     SELECT * FROM `usuario` WHERE `cod_usuario` = `id_user`;
 END //
 DELIMITER ;
--- CALL updateUser(9,1, 'PROCEDURE updarwUser', 'TEST UPDATE', '77553322', '123', '2023-02-02', '987654321', 'MICORREO@DOMINIO.COM', 'AV MIRAZFLORES') ;
 
 DROP PROCEDURE IF EXISTS `saveTramite`;
 DELIMITER //
-CREATE PROCEDURE `saveTramite` (IN `cod_usuario` INT, IN `titulo_tesis` VARCHAR(255), IN `descripcion_tesis` TEXT)
+CREATE PROCEDURE `saveTramite` (IN `cod_usuario` INT, IN `cod_asesor_propuesto` INT)
 BEGIN
-	INSERT INTO `tramite` (`cod_usuario`, `titulo_tesis`, `descripcion_tesis`)
-    VALUES (`cod_usuario`, `titulo_tesis`, `descripcion_tesis`);
+	INSERT INTO `tramite` (`cod_usuario`, `cod_asesor_propuesto`)
+    VALUES (`cod_usuario`, `cod_asesor_propuesto`);
     SELECT * FROM `tramite` ORDER BY `cod_tramite` DESC LIMIT 1;
 END //
 DELIMITER ; 
--- CALL saveTramite(2, 'mi tesis', 'jaja no hay nada');
 
 DROP PROCEDURE IF EXISTS `getTramites`;
 DELIMITER //
@@ -278,11 +287,11 @@ CREATE PROCEDURE `getTramites` (IN id_user INT)
 BEGIN
 -- Si el que solicita es tesista se le devuelve sus propias solicitudes sino todas las que existen
 	IF (SELECT rol.nombre FROM rol INNER JOIN usuario u ON u.cod_rol = rol.cod_rol WHERE u.cod_usuario = id_user ) = 'TESISTA' THEN
-		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(t.fecha_registro) AS fecha, titulo_tesis, descripcion_tesis FROM tramite t
+		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(t.fecha_registro) AS fecha FROM tramite t
         INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
         WHERE t.cod_usuario = id_user ORDER BY t.cod_tramite DESC;
 	ELSE
-		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(fecha_registro) AS fecha, titulo_tesis, descripcion_tesis FROM tramite t
+		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(fecha_registro) AS fecha FROM tramite t
         INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
         ORDER BY t.cod_tramite DESC;
 	END IF;
@@ -296,5 +305,27 @@ BEGIN
 	INSERT INTO comite (num_integrantes) 
     VALUES (num);
     SELECT cod_comite FROM comite ORDER BY cod_comite DESC LIMIT 1;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `saveFile`;
+DELIMITER //
+CREATE PROCEDURE `saveFile` (IN `idUser` INT, IN `tipo_doc` INT, IN `fileName` VARCHAR(100)) 
+BEGIN 
+	DECLARE idFolio INT;
+    SET idFolio = (SELECT cod_folio FROM folio WHERE cod_usuario = idUser);
+    
+    -- No hay folio, entonces procedemos a crear
+    IF idFolio IS NULL THEN
+        INSERT INTO folio (cod_usuario) VALUES (idUser);
+         SET idFolio = (SELECT cod_folio FROM folio WHERE cod_usuario = idUser);
+    END IF;
+    
+    -- Si existe un folio, entonces solo se inserta el desalle de folio
+	-- SELECT idFolio, "HAY FOLIO";
+	INSERT INTO detalle_folio (cod_folio, cod_doc, nombreArchivo)
+	VALUES (idFolio, tipo_doc, fileName);
+    
+    SELECT row_count() AS rowAffected;
 END //
 DELIMITER ;

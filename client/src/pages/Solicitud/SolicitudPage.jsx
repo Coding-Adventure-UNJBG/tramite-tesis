@@ -75,7 +75,7 @@ function SolicitudPage() {
       </Card >
 
       <Modal className="max-w-md" isVisible={showModal} onClose={() => { setShowModal(false) }}>
-        <NewSolicitudPage />
+        <NewSolicitudPage onClose={() => { setShowModal(false) }} />
       </Modal>
 
     </>

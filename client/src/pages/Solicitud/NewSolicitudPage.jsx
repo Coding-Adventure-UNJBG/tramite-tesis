@@ -1,19 +1,29 @@
 import Card from "../../components/Card"
 import { useForm } from 'react-hook-form'
 import { useTramite } from "../../context/TramiteContext"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
 
-function NewSolicitudPage() {
+function NewSolicitudPage({ onClose }) {
 
-  const navigate = useNavigate()
   const { register, handleSubmit, formState: { errors } } = useForm()
-  const { saveSolicitdud } = useTramite()
+  const { saveSolicitdud, getProfesores } = useTramite()
+  const [profesores, setProfesores] = useState([])
 
   const onSubmit = handleSubmit(async values => {
     console.log(values)
-    // const res = await saveSolicitdud(values)
-    // if (res.data) navigate("/solicitud")
+    const res = await saveSolicitdud(values)
+    if (res.data) window.location.reload()
   })
+
+  useEffect(() => {
+    async function loadProfe() {
+      const res = await getProfesores()
+      // console.log(res)
+      setProfesores(res)
+    }
+    loadProfe()
+  }, [])
+
 
   return (
     <>
@@ -26,22 +36,20 @@ function NewSolicitudPage() {
             {errors.file && (
               <p className=" text-red-500 font-medium text-sm p-1.5">{errors.file.message}</p>
             )}
-            {/* <label htmlFor="file" className="label-style">Cargar archivo</label> */}
             <input type="file" className="input-style" {...register('file', { required: "El archivo es requerido" })} />
             <p className="mt-0.5 ml-2 text-sm text-gray-500">Archvio en formato PDF (MAX. 10MB).</p>
           </div>
 
           <span className="font-medium font-mono text-base">Propuesta de asesor</span>
           <div className="py-2">
-            {/* <label htmlFor="asesor" className="label-style">Elija un asesor</label> */}
-            <select className="input-style py-2">
-              <option value="A">Docente A</option>
-              <option value="B">Docente B</option>
-              <option value="C">Docente C</option>
+            <select className="input-style py-2" {...register('asesor')}>
+              {profesores.map((profesor, i) => (
+                <option key={i} value={profesor.cod_usuario}>{profesor.nombre}</option>
+              ))}
             </select>
           </div>
           <div className="mt-6 flex items-center justify-end gap-x-6">
-            <button type="button" className="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+            <button type="button" className="text-sm font-semibold leading-6 text-gray-900" onClick={() => onClose()}>Cancelar</button>
             <button type="submit" className="button-style">Guardar</button>
           </div>
         </form>

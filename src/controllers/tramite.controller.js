@@ -6,7 +6,8 @@ controller.saveSolicitud = async (req, res) => {
     const { id } = req.user
 
     const result = await model.saveSolicitud({ ...req.body, id: id })
-    if (result) return res.status(200).json(result)
+    const folio = await model.saveFolio({ ...req.body, id: id })
+    if (result && folio) return res.status(200).json(result)
     else return res.status(500).send({ error: 'Error al guardar la solicitud' })
 
   } catch (error) {
@@ -62,13 +63,13 @@ controller.saveComite = async (req, res) => {
   }
 }
 
-controller.listarComites =  async (req, res) => {
+controller.listarComites = async (req, res) => {
   try {
     console.log("sa")
     const result = await model.listarComites()
     if (res) return res.status(200).json(result)
     else return res.status(500).send({ error: "Error al obtener comite" })
-     
+
   } catch (error) {
     res.status(500).send({ error: error.message })
   }

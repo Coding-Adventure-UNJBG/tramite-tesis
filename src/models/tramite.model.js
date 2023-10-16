@@ -2,8 +2,8 @@ const model = {}
 import sequelize from '../config/db.js'
 
 model.saveSolicitud = async (data) => {
-  const { id, titulo_tesis, descripcion_tesis } = data
-  return sequelize.query(`CALL saveTramite('${id}', '${titulo_tesis}', '${descripcion_tesis}');`, { raw: true })
+  const { id, asesor } = data
+  return sequelize.query(`CALL saveTramite('${id}', '${asesor}');`, { raw: true })
     .then(([result, metadata]) => {
       return result.length === 0 ? null : result
     })
@@ -45,6 +45,7 @@ model.saveComite = async (arg) => {
     })
     .catch((error) => {
       console.log(error)
+      throw error
     })
 }
 
@@ -56,6 +57,7 @@ model.saveIntegrantesComite = async (data) => {
     })
     .catch((error) => {
       console.log(error)
+      throw error
     })
 }
 
@@ -73,6 +75,19 @@ model.listarComites = () => {
     })
     .catch((error) => {
       console.log(error)
+      throw error
+    })
+}
+
+model.saveFolio = (data) => {
+  const { id, tipo_doc = 1, file } = data
+  return sequelize.query(`CALL saveFile('${id}', '${tipo_doc}', '${file}')`, { raw: true })
+    .then(([result, metadata]) => {
+      return result.rowAffected === 1 ? true : false
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
     })
 }
 export default model
