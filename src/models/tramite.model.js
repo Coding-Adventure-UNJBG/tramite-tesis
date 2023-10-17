@@ -143,4 +143,17 @@ model.subsanarObservacion = (data) => {
     })
 }
 
+model.updateEstado = (data) => {
+  console.log("data", data)
+  const { idTramite, estado } = data
+  return sequelize.query(`UPDATE tramite SET estado = '${estado}' WHERE cod_tramite = '${idTramite}'`, { raw: true })
+    .then(([result, metadata]) => {
+      return metadata.affectedRows >= 1 ? true : false
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
 export default model

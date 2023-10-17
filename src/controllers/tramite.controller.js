@@ -122,4 +122,14 @@ controller.subsanarObservacion = async (req, res) => {
   }
 }
 
+controller.updateEstado = async (req, res) => {
+  try {
+    const result = await model.updateEstado(req.body)
+    if (result) return res.sendStatus(200)
+    else return res.status(500).send({ error: "Error al actualizar el estado" })
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
 export default controller

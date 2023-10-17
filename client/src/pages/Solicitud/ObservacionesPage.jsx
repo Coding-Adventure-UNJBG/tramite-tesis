@@ -6,11 +6,12 @@ import NewObservacionPage from "./NewObservacionPage"
 import { useLocation } from "react-router-dom"
 import { useTramite } from "../../context/TramiteContext"
 import { useAuth } from '../../context/AuthContext'
+import { useForm } from "react-hook-form"
 function ObservacionesPage() {
 
   const { id } = useLocation().state
-
-  const { getTramiteById, getObservationById } = useTramite()
+  const { register, handleSubmit, setValue } = useForm()
+  const { getTramiteById, getObservationById, updateEstadoTramite } = useTramite()
   const { user } = useAuth()
 
   const [showModal, setShowModal] = useState(false)
@@ -20,16 +21,19 @@ function ObservacionesPage() {
   const [observation, setObservation] = useState([])
   const [idObservation, setIdObservation] = useState('')
 
+  const onEstado = handleSubmit(async (values) => {
+    const res = await updateEstadoTramite(id, values.estado);
+    if (res.status === 200) setDetalles({ ...detalles, estado: values.estado })
+  })
+
   useEffect(() => {
     async function loadTramite() {
       if (id) {
         const res = await getTramiteById(id)
-        // console.log("datos del tramite", res)
         setDetalles(res)
         const obser = await getObservationById(id)
-        // console.log(obser)
         setObservation(obser)
-        // console.log("mi usuario", user)
+        setValue('estado', res.estado)
       }
     }
 
@@ -65,21 +69,23 @@ function ObservacionesPage() {
 
           {/* Vista de profesor (comite) */}
           {user?.rol !== 'TESISTA' &&
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-x-4 gap-y-4 mb-5">
-              <div className="md:col-auto">
-                <button className="button-style w-full md:w-auto bg-red-500 hover:bg-red-400" onClick={() => setShowModal1(true)}>Nueva Observación</button>
+            <form onSubmit={onEstado}>
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-x-4 gap-y-4 mb-5">
+                <div className="md:col-auto">
+                  <button className="button-style w-full md:w-auto bg-red-500 hover:bg-red-400" onClick={() => setShowModal1(true)}>Nueva Observación</button>
+                </div>
+                <div className="md:col-span-1">
+                  <select className="input-style py-2" {...register('estado')}>
+                    <option value="EN PROCESO">EN PROCESO</option>
+                    <option value="APROBADO">APROBADO</option>
+                    <option value="RECHAZADO">RECHAZADO</option>
+                  </select>
+                </div>
+                <div className="md:col-span-1">
+                  <button type="submit" className="button-style w-full md:w-auto">Actualizar estado</button>
+                </div>
               </div>
-              <div className="md:col-span-1">
-                <select className="input-style py-2">
-                  <option value="">EN PROCESO</option>
-                  <option value="">ACEPTADO</option>
-                  <option value="">RECHAZADO</option>
-                </select>
-              </div>
-              <div className="md:col-span-1">
-                <button className="button-style w-full md:w-auto">Actualizar estado</button>
-              </div>
-            </div>
+            </form>
           }
 
           {/* Listar observaciones */}

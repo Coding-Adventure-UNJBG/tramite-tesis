@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getComitesRequest, getObservacionesRequest, getProfesoresRequest, getTramiteRequest, getTramitesRequest, saveComitesRequest, saveObservacionRequest, saveSolicitudRequest, subsanarObservacionRequest } from "../api/tramite";
+import { getComitesRequest, getObservacionesRequest, getProfesoresRequest, getTramiteRequest, getTramitesRequest, saveComitesRequest, saveObservacionRequest, saveSolicitudRequest, subsanarObservacionRequest, updateEstadoRequest } from "../api/tramite";
 import { uploadRequest } from "../api/auth";
 
 const TramiteContext = createContext()
@@ -116,6 +116,15 @@ export const TramiteProvider = ({ children }) => {
     }
   }
 
+  const updateEstadoTramite = async (idTramite, estado) => {
+    try {
+      const res = await updateEstadoRequest({ idTramite, estado })
+      return res
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <TramiteContext.Provider value={{
       // Variables
@@ -129,7 +138,8 @@ export const TramiteProvider = ({ children }) => {
       getTramiteById,
       getObservationById,
       newObservacion,
-      subsanarObservacion
+      subsanarObservacion,
+      updateEstadoTramite
     }}>
       {children}
     </TramiteContext.Provider>
