@@ -47,13 +47,15 @@ VALUES
 
 INSERT INTO `usuario`(`cod_usuario`, `cod_rol`, `nombre`, `apellidos`, `dni`, `password`, `fecha_nacimiento`, `telefono`, `correo`, `direccion`, `grado_academico`)
 VALUES
-('1', '5', 'OSCAR', 'CHOQUE', '12345678', '$2a$10$.ogamKfOuOjJjQmkb79Heenc8hjxZPkVexobqh8rcev3NXF/p64UC', '2023-10-02', '987654321', 'oscar@choque.com', 'AV MIRAFLORES', 'BACHILLER'),
-('2', '1', 'userTesista', 'prueba', '11111111', '$2a$10$sLSbDd/j30W0Xqx8KaJzXeCdHHUNvZokaUv6HjaFuRvPHksP3n47a', '2002-10-11', '987654321', 'tesista@gmail.com', 'AV TESISTA', 'BACHILLER'),
-('3', '2', 'Profesor1', 'prueba', '22222222', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor1@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
-('4', '4', 'userDirector', 'prueba', '33333333', '$2a$10$qjiN2lr5hAuMHYu4ul76EOTVsEqan9BRd1VDgFcCM3mwGamwAk8uG', '2023-10-09', '987654321', 'directoresis@gmail.com', 'AV DIRECTOR DE ESCUELA', 'DOCTORADO'),
-('5', '3', 'userSecretaria', 'prueba', '44444444', '$2a$10$2pYAZ6J0Bt1LdRkf0jASq.ro373A0xNi6cr5Mjq4pHGjvYES9/1.2', '2023-02-22', '987654321', 'SECRETARIA@GMAIL.COM', 'AV SECRETARIA', 'BACHILLER'),
-('6', '2', 'Profesor2', 'prueba', '22222223', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor2@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
-('7', '2', 'Profesor3', 'prueba', '22222224', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor3@gmail.com', 'AV PROFESOR', 'MAESTRIA')
+('1', '5', 'NOM_ADMININSTRADOR', 'APELL_ADMINISTRADOR', '11111111', '$2a$10$.ogamKfOuOjJjQmkb79Heenc8hjxZPkVexobqh8rcev3NXF/p64UC', '2023-10-02', '987654321', 'administrador@gmail.com', 'AV MIRAFLORES', 'GRADO_ADMINISTRADOR'),
+('2', '4', 'NOM_DIRECTOR', 'APELL_DIRECTOR', '22222222', '$2a$10$qjiN2lr5hAuMHYu4ul76EOTVsEqan9BRd1VDgFcCM3mwGamwAk8uG', '2023-10-09', '987654321', 'director@gmail.com', 'AV DIRECTOR DE ESCUELA', 'DOCTORADO'),
+('3', '3', 'NOM_SECRETARIA', 'APELL_SECRETARIA', '33333333', '$2a$10$2pYAZ6J0Bt1LdRkf0jASq.ro373A0xNi6cr5Mjq4pHGjvYES9/1.2', '2023-02-22', '987654321', 'secretaria@gmail.com', 'AV SECRETARIA', 'BACHILLER'),
+('4', '2', 'MOM_PROFESOR1', 'APELL_PROFESOR1', '44444444', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor1@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
+('5', '2', 'NOM_PROFESOR2', 'APELL_PROFESOR2', '55555555', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor2@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
+('6', '2', 'NOM_PROFESOR3', 'APELL_PROFESOR3', '66666666', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor3@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
+('7', '2', 'NOM_PROFESOR4', 'APELL_PROFESOR4', '77777777', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor4@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
+('8', '2', 'NOM_PROFESOR5', 'APELL_PROFESOR5', '88888888', '$2a$10$sDPihv1BmyVJe89yPcWUMu25TmmxTX1ULyitVQhN3pZprygVB9ATi', '2003-10-10', '987654321', 'profesor5@gmail.com', 'AV PROFESOR', 'MAESTRIA'),
+('9', '1', 'OSCAR ALEJANDRO', 'CHOQUE SURCO', '99999999', '$2a$10$sLSbDd/j30W0Xqx8KaJzXeCdHHUNvZokaUv6HjaFuRvPHksP3n47a', '2023-10-02', '987654321', 'oachoques@gmail.com', 'AV MIRAFLORES', 'BACHILLER')
 ;
 
 DROP TABLE IF EXISTS `tipo_documento`;
@@ -68,11 +70,10 @@ VALUES
 ('1', 'SOLICITUD SIMPLE'),
 ('2', 'RECIBO POR DERECHO DE TITULACIÓN'),
 ('3', 'COPIA DEL GRADO ACADÉMICO DE BACHILLER'),
-('4', 'VOUCHER DEL PAGO POR CONCEPTO DE TÍLULO PROFESIONAL'),
-('5', 'VOUCHER DEL PAGO POR CONCEPTO DE PUBLICACIÓN EN EL REPOSITORIO INSTITUCIONAL'), 
-('6', 'TESIS'),
-('7', 'CONSTANCIA DE NO ADEUDO DE BIENES A LA UNJBG'),
-('8', 'FOTOGRAFÍA TAMAÑO PASAPORTE')
+('4', 'RECIBO DEL PAGO POR CONCEPTO DE PUBLICACIÓN EN EL REPOSITORIO INSTITUCIONAL'), 
+('5', 'TESIS'),
+('6', 'CONSTANCIA DE NO ADEUDO DE BIENES A LA UNJBG'),
+('7', 'FOTOGRAFÍA TAMAÑO PASAPORTE')
 ;
 
 DROP TABLE IF EXISTS `folio`;
