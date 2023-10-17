@@ -92,11 +92,24 @@ model.saveFolio = (data) => {
 }
 
 model.listarDetalleTramite = (id) => {
-  return sequelize.query(`SELECT t.versionInicial AS fileName, t.cod_tramite, t.cod_usuario, t.cod_asesor_propuesto, DATE_FORMAT(t.fecha_registro, "%d/%m/%Y") AS fecha_registro, CONCAT(u.nombre, " ", u.apellidos) AS nombre_asesor, t.estado  FROM tramite t
+  return sequelize.query(`SELECT getFileName(t.cod_tramite) AS fileName, t.cod_tramite, t.cod_usuario, t.cod_asesor_propuesto, DATE_FORMAT(t.fecha_registro, "%d/%m/%Y") AS fecha_registro, CONCAT(u.nombre, " ", u.apellidos) AS nombre_asesor, t.estado  FROM tramite t
                         INNER JOIN usuario u ON u.cod_usuario = t.cod_asesor_propuesto
                         WHERE t.cod_tramite = '${id}'`, { raw: true })
     .then(([result, metadata]) => {
       return result.length === 0 ? null : result
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
+model.listarObservaciones = (id) => {
+  return sequelize.query(`SELECT * FROM revision_comite
+                        WHERE cod_tramite = '${id}'
+                        ORDER BY cod_revision_comite DESC`)
+    .then(([result, metadata]) => {
+      return result.length === 0 ? [] : result
     })
     .catch((error) => {
       console.log(error)

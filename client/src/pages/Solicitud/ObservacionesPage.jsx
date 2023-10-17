@@ -10,11 +10,13 @@ function ObservacionesPage() {
 
   const { id } = useLocation().state
 
-  const { getTramiteById } = useTramite()
+  const { getTramiteById, getObservationById } = useTramite()
   const [showModal, setShowModal] = useState(false)
   const [showModal1, setShowModal1] = useState(false)
 
   const [detalles, setDetalles] = useState([])
+  const [observation, setObservation] = useState([])
+  const [idObservation, setIdObservation] = useState('')
 
   useEffect(() => {
     async function loadTramite() {
@@ -22,6 +24,9 @@ function ObservacionesPage() {
         const res = await getTramiteById(id)
         console.log("datos del tramite", res)
         setDetalles(res)
+        const obser = await getObservationById(id)
+        console.log(obser)
+        setObservation(obser)
       }
     }
 
@@ -71,20 +76,33 @@ function ObservacionesPage() {
               <button className="button-style w-full md:w-auto">Actualizar estado</button>
             </div>
           </div>
-          {/* Vista de profesor (comite) */}
-
-          <Observacion setShowModal={setShowModal} />
-          {/* <Observacion setShowModal={setShowModal} />
-          <Observacion setShowModal={setShowModal} />
-          <Observacion setShowModal={setShowModal} />
-          <Observacion setShowModal={setShowModal} />
-          <Observacion setShowModal={setShowModal} /> */}
+          
+          {/* Listar observaciones */}
+          {observation.map((obs, i) => (
+            <div key={i} className="bg-blue-200 p-5 grid grid-cols-1 md:grid-cols-5 gap-4 my-5">
+              <div className="md:col-span-4">
+                {obs?.observacion}
+              </div>
+              <div className="md:col-span-1 flex justify-center">
+                {obs?.corregido === '' ?
+                  <button className="button-style bg-green-700 hover:bg-green-600"
+                    onClick={() => {
+                      setShowModal(true)
+                      setIdObservation(obs?.cod_revision_comite)
+                    }}>Subsanar</button>
+                  :
+                  <span className='ml-2 p-1.5 text-xs font-medium uppercase tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-500'>CORREGIDO</span>
+                }
+              </div>
+            </div>
+          ))}
 
         </div>
       </Card>
 
+
       <Modal className="max-w-md" isVisible={showModal} onClose={() => setShowModal(false)}>
-        <SubsanarPage />
+        <SubsanarPage id={idObservation} onClose={() => setShowModal(false)} />
       </Modal>
 
       <Modal className="max-w-md" isVisible={showModal1} onClose={() => { setShowModal1(false) }}>
@@ -94,17 +112,18 @@ function ObservacionesPage() {
   )
 }
 
-const Observacion = ({ Observacion, setShowModal }) => {
+const Observacion = ({ data, setShowModal }) => {
   return (
     <div className="bg-blue-200 p-5 grid grid-cols-1 md:grid-cols-5 gap-4 my-5">
       <div className="md:col-span-4">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Necessitatibus, odit dicta modi obcaecati aliquid exercitationem architecto dolorum, quis, facilis quo odio consequuntur officiis tempore laborum sit ab impedit quasi doloribus.
+        {data?.observacion}
       </div>
       <div className="md:col-span-1 flex justify-center">
         <button className="button-style bg-green-700 hover:bg-green-600"
           onClick={() => setShowModal(true)}>Subsanar</button>
       </div>
     </div>
+
   )
 }
 

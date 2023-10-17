@@ -2,6 +2,7 @@ import axios from './axios'
 
 export const getTramitesRequest = () => axios.get('/tramite')
 export const getTramiteRequest = id => axios.get(`/tramite/${id}`)
+export const getObservacionesRequest = id => axios.get(`/tramite/${id}/observation`)
 
 export const saveSolicitudRequest = values => axios.post('/tramite', values)
 

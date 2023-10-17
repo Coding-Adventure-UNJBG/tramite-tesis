@@ -77,15 +77,23 @@ controller.listarComites = async (req, res) => {
 controller.getTramite = async (req, res) => {
   try {
     const { id } = req.params
-    console.log("params", req.params)
-    console.log("body", req.body)
-    console.log("usuario que solicita", req.user)
     const result = await model.listarDetalleTramite(id)
-    console.log("respuesta de mdel", result)
 
     if (result) return res.status(200).json(result[0])
     else return res.status(404).send({ error: "Error al obtener el tramite" }
     )
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
+controller.getObservaciones = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const result = await model.listarObservaciones(id)
+    res.status(200).json(result)
+
   } catch (error) {
     res.status(500).send({ error: error.message })
   }

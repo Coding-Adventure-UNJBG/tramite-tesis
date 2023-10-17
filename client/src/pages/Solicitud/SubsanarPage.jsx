@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form"
 
 
 
-function SubsanarPage() {
+function SubsanarPage({ id, onClose }) {
   const { register, handleSubmit, formState: { errors } } = useForm()
   const onSubmit = handleSubmit(values => {
     console.log(values)
@@ -11,9 +11,9 @@ function SubsanarPage() {
   return (
     <div>
       <h2 className="title border-b border-gray-900/40 pb-5">Subsanar observacion</h2>
-
+      {id}
       <form className="m-5" onSubmit={onSubmit}>
-        <span className="font-medium font-mono text-base">Un mensaje indicando que debe contener el archivo</span>
+        <span className="font-medium font-mono text-base">Suba la nueva versión actualizada</span>
         <div className="py-2">
           {errors.file && (
             <p className=" text-red-500 font-medium text-sm p-1.5">{errors.file.message}</p>
@@ -23,7 +23,7 @@ function SubsanarPage() {
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+          <button type="button" className="text-sm font-semibold leading-6 text-gray-900" onClick={() => onClose() }>Cancelar</button>
           <button type="submit" className="button-style">Guardar</button>
         </div>
       </form>

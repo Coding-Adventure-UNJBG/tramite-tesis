@@ -125,11 +125,13 @@ CREATE TABLE `integrantes_comite` (
 
 DROP TABLE IF EXISTS `revision_comite`;
 CREATE TABLE `revision_comite` (
+  `cod_revision_comite` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_comite` SMALLINT UNSIGNED NOT NULL,
   `cod_tramite` SMALLINT UNSIGNED NOT NULL,
   `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
   `observacion` VARCHAR(60),
-  `corregido` VARCHAR(100) NOT NULL,
+  `corregido` VARCHAR(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`cod_revision_comite`),
   FOREIGN KEY (`cod_comite`) REFERENCES `comite`(`cod_comite`),
   FOREIGN KEY (`cod_tramite`) REFERENCES `tramite`(`cod_tramite`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -346,5 +348,33 @@ BEGIN
         ORDER BY df.cod_detalle_folio DESC LIMIT 1
 	);
     RETURN fileName;
+END //
+DELIMITER ;
+
+-- Obtener la última version del documento
+DROP FUNCTION IF EXISTS getFileName;
+DELIMITER //
+CREATE FUNCTION getFileName (idTramite INT) RETURNS VARCHAR(100) DETERMINISTIC
+BEGIN
+	DECLARE fileName VARCHAR(100);
+	
+    -- Si no hay revisiones de comite, se muestra la versionIncial del tramite
+    IF ( SELECT cod_revision_comite FROM revision_comite WHERE cod_tramite = idTramite LIMIT 1 ) IS NULL THEN
+		SET fileName = (SELECT versionInicial FROM tramite WHERE cod_tramite = idTramite);
+	ELSE 
+		-- Si existe observaciones, se muestra la ultima version del documento
+		SET fileName = (
+				SELECT corregido FROM revision_comite WHERE cod_tramite = idTramite ORDER BY cod_revision_comite DESC LIMIT 1
+		);
+		
+        -- Si la ultima observacion aun no esta corregida, me muestra el penultimo documento cargado
+		IF fileName = '' THEN
+			SET fileName = (
+				SELECT corregido FROM revision_comite WHERE cod_tramite = idTramite ORDER BY cod_revision_comite DESC LIMIT 1 OFFSET 1
+			);
+        END IF;
+    END IF;
+    
+	RETURN fileName;
 END //
 DELIMITER ;

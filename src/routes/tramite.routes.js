@@ -9,10 +9,11 @@ router.get('/', authRequired, controller.getTramites)
 
 
 router.route('/comite')
-.get(controller.listarComites)
-.post(controller.saveComite)
+  .get(controller.listarComites)
+  .post(controller.saveComite)
 
 router.get('/profesores', controller.getProfesores)
 
 router.get('/:id', authRequired, controller.getTramite)
+router.get('/:id/observation', authRequired, controller.getObservaciones)
 export default router
