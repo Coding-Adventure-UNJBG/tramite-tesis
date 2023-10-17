@@ -59,7 +59,7 @@ VALUES
 DROP TABLE IF EXISTS `tipo_documento`;
 CREATE TABLE `tipo_documento` (
   `cod_doc` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(64) NOT NULL,
+  `nombre` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`cod_doc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -68,9 +68,11 @@ VALUES
 ('1', 'SOLICITUD SIMPLE'),
 ('2', 'RECIBO POR DERECHO DE TITULACIÓN'),
 ('3', 'COPIA DEL GRADO ACADÉMICO DE BACHILLER'),
-('4', 'TESIS'),
-('5', 'CONSTANCIA DE NO ADEUDO DE BIENES A LA UNJBG'),
-('6', 'FOTOGRAFÍA TAMAÑO PASAPORTE')
+('4', 'VOUCHER DEL PAGO POR CONCEPTO DE TÍLULO PROFESIONAL'),
+('5', 'VOUCHER DEL PAGO POR CONCEPTO DE PUBLICACIÓN EN EL REPOSITORIO INSTITUCIONAL'), 
+('6', 'TESIS'),
+('7', 'CONSTANCIA DE NO ADEUDO DE BIENES A LA UNJBG'),
+('8', 'FOTOGRAFÍA TAMAÑO PASAPORTE')
 ;
 
 DROP TABLE IF EXISTS `folio`;
@@ -84,9 +86,11 @@ CREATE TABLE `folio` (
 
 DROP TABLE IF EXISTS `detalle_folio`;
 CREATE TABLE `detalle_folio` (
+  `cod_detalle_folio` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_folio` SMALLINT UNSIGNED NOT NULL,
   `cod_doc` SMALLINT UNSIGNED NOT NULL,
   `nombreArchivo` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`cod_detalle_folio`),
   FOREIGN KEY (`cod_folio`) REFERENCES `folio`(`cod_folio`),
   FOREIGN KEY (`cod_doc`) REFERENCES `tipo_documento`(`cod_doc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -98,6 +102,7 @@ CREATE TABLE `tramite` (
   `estado` enum('APROBADO', 'EN PROCESO', 'RECHAZADO') NOT NULL DEFAULT 'EN PROCESO',
   `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
   `cod_asesor_propuesto` SMALLINT UNSIGNED NOT NULL,
+  `versionInicial` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`cod_tramite`),
   FOREIGN KEY (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`),
   FOREIGN KEY (`cod_asesor_propuesto`) REFERENCES `usuario`(`cod_usuario`)
@@ -120,20 +125,12 @@ CREATE TABLE `integrantes_comite` (
 
 DROP TABLE IF EXISTS `revision_comite`;
 CREATE TABLE `revision_comite` (
-  `cod_revision_comite` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `comite_cod_comite` SMALLINT UNSIGNED NOT NULL,
-  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
-  PRIMARY key (`cod_revision_comite`),
-  FOREIGN KEY (`comite_cod_comite`) REFERENCES `comite`(`cod_comite`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-DROP TABLE IF EXISTS `detalle_revision_comite`;
-CREATE TABLE `detalle_revision_comite` (
-  `revision_proyecto` SMALLINT UNSIGNED NOT NULL,
+  `cod_comite` SMALLINT UNSIGNED NOT NULL,
   `cod_tramite` SMALLINT UNSIGNED NOT NULL,
-  `observaciones` VARCHAR(45),
-  `subsanar` INT NOT NULL DEFAULT 0, -- 1 Resolvio la observación, 0 No resolvio la observación
-  FOREIGN KEY (`revision_proyecto`) REFERENCES `revision_comite`(`cod_revision_comite`),
+  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
+  `observacion` VARCHAR(60),
+  `corregido` VARCHAR(100) NOT NULL,
+  FOREIGN KEY (`cod_comite`) REFERENCES `comite`(`cod_comite`),
   FOREIGN KEY (`cod_tramite`) REFERENCES `tramite`(`cod_tramite`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -271,43 +268,7 @@ BEGIN
 END //
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS `saveTramite`;
-DELIMITER //
-CREATE PROCEDURE `saveTramite` (IN `cod_usuario` INT, IN `cod_asesor_propuesto` INT)
-BEGIN
-	INSERT INTO `tramite` (`cod_usuario`, `cod_asesor_propuesto`)
-    VALUES (`cod_usuario`, `cod_asesor_propuesto`);
-    SELECT * FROM `tramite` ORDER BY `cod_tramite` DESC LIMIT 1;
-END //
-DELIMITER ; 
-
-DROP PROCEDURE IF EXISTS `getTramites`;
-DELIMITER //
-CREATE PROCEDURE `getTramites` (IN id_user INT)
-BEGIN
--- Si el que solicita es tesista se le devuelve sus propias solicitudes sino todas las que existen
-	IF (SELECT rol.nombre FROM rol INNER JOIN usuario u ON u.cod_rol = rol.cod_rol WHERE u.cod_usuario = id_user ) = 'TESISTA' THEN
-		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(t.fecha_registro) AS fecha FROM tramite t
-        INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
-        WHERE t.cod_usuario = id_user ORDER BY t.cod_tramite DESC;
-	ELSE
-		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(fecha_registro) AS fecha FROM tramite t
-        INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
-        ORDER BY t.cod_tramite DESC;
-	END IF;
-END //
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS `saveComite`;
-DELIMITER //
-CREATE PROCEDURE `saveComite` (IN num INT)
-BEGIN
-	INSERT INTO comite (num_integrantes) 
-    VALUES (num);
-    SELECT cod_comite FROM comite ORDER BY cod_comite DESC LIMIT 1;
-END //
-DELIMITER ;
-
+/* Procedimiento para almacenar en folio */
 DROP PROCEDURE IF EXISTS `saveFile`;
 DELIMITER //
 CREATE PROCEDURE `saveFile` (IN `idUser` INT, IN `tipo_doc` INT, IN `fileName` VARCHAR(100)) 
@@ -327,5 +288,63 @@ BEGIN
 	VALUES (idFolio, tipo_doc, fileName);
     
     SELECT row_count() AS rowAffected;
+END //
+DELIMITER ;
+
+/* Procedimientos relacionados a comite */
+DROP PROCEDURE IF EXISTS `saveComite`;
+DELIMITER //
+CREATE PROCEDURE `saveComite` (IN num INT)
+BEGIN
+	INSERT INTO comite (num_integrantes) 
+    VALUES (num);
+    SELECT cod_comite FROM comite ORDER BY cod_comite DESC LIMIT 1;
+END //
+DELIMITER ;
+
+
+/* Procedimientos para tramite */
+
+DROP PROCEDURE IF EXISTS `getTramites`;
+DELIMITER //
+CREATE PROCEDURE `getTramites` (IN id_user INT)
+BEGIN
+-- Si el que solicita es tesista se le devuelve sus propias solicitudes sino todas las que existen
+	IF (SELECT rol.nombre FROM rol INNER JOIN usuario u ON u.cod_rol = rol.cod_rol WHERE u.cod_usuario = id_user ) = 'TESISTA' THEN
+		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(t.fecha_registro) AS fecha FROM tramite t
+        INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
+        WHERE t.cod_usuario = id_user ORDER BY t.cod_tramite DESC;
+	ELSE
+		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(fecha_registro) AS fecha FROM tramite t
+        INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
+        ORDER BY t.cod_tramite DESC;
+	END IF;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS `saveTramite`;
+DELIMITER //
+CREATE PROCEDURE `saveTramite` (IN `cod_usuario` INT, IN `cod_asesor_propuesto` INT, `versionInicial` VARCHAR(100))
+BEGIN
+	INSERT INTO `tramite` (`cod_usuario`, `cod_asesor_propuesto`, `versionInicial`)
+    VALUES (`cod_usuario`, `cod_asesor_propuesto`, `versionInicial`);
+    SELECT * FROM `tramite` ORDER BY `cod_tramite` DESC LIMIT 1;
+END //
+DELIMITER ; 
+
+
+
+DROP FUNCTION IF EXISTS getNameFile; 
+DELIMITER //
+CREATE FUNCTION getNameFile (idUser INT, tipoDoc INT) RETURNS VARCHAR(100) DETERMINISTIC
+BEGIN
+	DECLARE fileName VARCHAR(100);
+	SET fileName = (
+		SELECT df.nombreArchivo FROM detalle_folio df WHERE df.cod_folio = (
+			SELECT f.cod_folio FROM folio f WHERE f.cod_usuario = idUser
+		) AND df.cod_doc = tipoDoc
+        ORDER BY df.cod_detalle_folio DESC LIMIT 1
+	);
+    RETURN fileName;
 END //
 DELIMITER ;

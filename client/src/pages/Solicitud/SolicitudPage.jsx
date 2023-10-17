@@ -31,11 +31,11 @@ function SolicitudPage() {
         <h2 className="title">Lista de solicitudes</h2>
       </Card>
       <Card>
-        {/* Aqui  una tabla con las solicitudes (del tesista) para ver opciones como titulo de tesis, estado de solicitud, otros
+        {/* Aqui  una tabla con las solicitudes (del tesista)
          La tabla tendrá una opción para ir hacia una nueva venta en la que se podran ver las observaciones del comite */}
 
         <div className="m-5">
-          <button className="button-style mb-5" /* onClick={() => navigate('new')} */ onClick={() => setShowModal(true)}>Nueva Solicitud</button>
+          <button className="button-style mb-5" onClick={() => setShowModal(true)}>Nueva Solicitud</button>
 
           <div className="overflow-auto rounded-lg shadow max-w-3xl">
             <table className="w-full">
@@ -61,7 +61,10 @@ function SolicitudPage() {
                         <span className='p-1.5 text-xs font-medium uppercase tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-500'>{solicitud.estado}</span>
                       </td>
                       <td className="p-2 text-sm text-gray-700 whitespace-nowrap flex gap-x-3 justify-center">
-                        <button className="p-1.5 text-xs font-medium uppercase tracking-wider bg-green-700 rounded-lg bg-opacity-500" >
+                        <button
+                          className="p-1.5 text-xs font-medium uppercase tracking-wider bg-green-700 rounded-lg bg-opacity-500"
+                          onClick={() => navigate('view', { state: { id: solicitud.cod_tramite } })}
+                        >
                           <FaShare size={20} className="text-white" />
                         </button>
                       </td>

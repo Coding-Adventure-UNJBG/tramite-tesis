@@ -1,15 +1,32 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Card from "../../components/Card"
 import Modal from "../../components/Modal"
 import SubsanarPage from "./SubsanarPage"
 import NewObservacionPage from "./NewObservacionPage"
-
-
+import { useLocation } from "react-router-dom"
+import { useTramite } from "../../context/TramiteContext"
 
 function ObservacionesPage() {
 
+  const { id } = useLocation().state
+
+  const { getTramiteById } = useTramite()
   const [showModal, setShowModal] = useState(false)
   const [showModal1, setShowModal1] = useState(false)
+
+  const [detalles, setDetalles] = useState([])
+
+  useEffect(() => {
+    async function loadTramite() {
+      if (id) {
+        const res = await getTramiteById(id)
+        console.log("datos del tramite", res)
+        setDetalles(res)
+      }
+    }
+
+    loadTramite()
+  }, [])
 
   return (
     <>
@@ -18,19 +35,22 @@ function ObservacionesPage() {
         <div className="mb-5 space-y-1.5">
 
           <h3 className="mx-5 font-medium text-base">Fecha Registro:
-            <span className="font-normal ml-2">14/10/2023</span>
+            <span className="font-normal ml-2">{detalles.fecha_registro}</span>
           </h3>
           <h3 className="mx-5 font-medium text-base">Asesor propuesto:
-            <span className="font-normal ml-2">Oscar Alejandro Chpque Surco</span>
+            <span className="font-normal ml-2 uppercase">{detalles.nombre_asesor}</span>
           </h3>
           <h3 className="mx-5 font-medium text-base">Estado de solicitud:
-            <span className='ml-2 p-1.5 text-xs font-medium uppercase tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-500'>EN PROCESO</span>
+            <span className='ml-2 p-1.5 text-xs font-medium uppercase tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-500'>{detalles.estado}</span>
           </h3>
         </div>
       </Card>
 
       <Card>
-        <button className="button-style mx-5 mt-5 mb-2">Mostrar última versión (PDF)</button>
+        <button className="button-style mx-5 mt-5 mb-2" onClick={() => {
+          window.open(`http://localhost:3000/files/${detalles.fileName}`, 'CryReport', 'width=700, height=600')
+        }}>
+          Mostrar última versión (PDF)</button>
         <h2 className="title">Observaciones</h2>
 
         <div className="m-5">
@@ -54,11 +74,11 @@ function ObservacionesPage() {
           {/* Vista de profesor (comite) */}
 
           <Observacion setShowModal={setShowModal} />
+          {/* <Observacion setShowModal={setShowModal} />
           <Observacion setShowModal={setShowModal} />
           <Observacion setShowModal={setShowModal} />
           <Observacion setShowModal={setShowModal} />
-          <Observacion setShowModal={setShowModal} />
-          <Observacion setShowModal={setShowModal} />
+          <Observacion setShowModal={setShowModal} /> */}
 
         </div>
       </Card>

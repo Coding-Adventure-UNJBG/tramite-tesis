@@ -43,8 +43,7 @@ function App() {
               <Route path='/usuario/edit/:id' element={<UserFormPage />} />
 
               <Route path='/solicitud' element={<SolicitudPage />} />
-              <Route path='/solicitud/new' element={<NewSolicitudPage />} />
-              <Route path='/solicitud/view/:id' element={<ObservacionesPage />} />
+              <Route path='/solicitud/view' element={<ObservacionesPage />} />
 
               <Route path='/comite' element={<ComitePage />} />
 

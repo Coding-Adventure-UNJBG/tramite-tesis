@@ -2,8 +2,8 @@ const model = {}
 import sequelize from '../config/db.js'
 
 model.saveSolicitud = async (data) => {
-  const { id, asesor } = data
-  return sequelize.query(`CALL saveTramite('${id}', '${asesor}');`, { raw: true })
+  const { id, asesor, file } = data
+  return sequelize.query(`CALL saveTramite('${id}', '${asesor}', '${file}');`, { raw: true })
     .then(([result, metadata]) => {
       return result.length === 0 ? null : result
     })
@@ -90,4 +90,18 @@ model.saveFolio = (data) => {
       throw error
     })
 }
+
+model.listarDetalleTramite = (id) => {
+  return sequelize.query(`SELECT t.versionInicial AS fileName, t.cod_tramite, t.cod_usuario, t.cod_asesor_propuesto, DATE_FORMAT(t.fecha_registro, "%d/%m/%Y") AS fecha_registro, CONCAT(u.nombre, " ", u.apellidos) AS nombre_asesor, t.estado  FROM tramite t
+                        INNER JOIN usuario u ON u.cod_usuario = t.cod_asesor_propuesto
+                        WHERE t.cod_tramite = '${id}'`, { raw: true })
+    .then(([result, metadata]) => {
+      return result.length === 0 ? null : result
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
 export default model
