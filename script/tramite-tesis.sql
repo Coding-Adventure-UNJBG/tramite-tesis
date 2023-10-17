@@ -378,3 +378,23 @@ BEGIN
 	RETURN fileName;
 END //
 DELIMITER ;
+
+DROP FUNCTION IF EXISTS buscarComite;
+DELIMITER //
+CREATE FUNCTION buscarComite(idUser INT) RETURNS INT DETERMINISTIC
+BEGIN
+	RETURN (SELECT cod_comite FROM integrantes_comite WHERE cod_usuario_comite = idUser);
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS saveObservacion;
+DELIMITER //
+CREATE PROCEDURE saveObservacion(IN idUser INT, IN idTramite INT, IN obs VARCHAR(100))
+BEGIN 
+	DECLARE idComite INT;
+    SET idComite = (SELECT buscarComite(idUser) );
+	INSERT INTO revision_comite(cod_comite, cod_tramite, observacion)
+    VALUES (idComite, idTramite, obs);
+    SELECT * FROM revision_comite ORDER BY cod_revision_comite DESC LIMIT 1;
+END //
+DELIMITER ;

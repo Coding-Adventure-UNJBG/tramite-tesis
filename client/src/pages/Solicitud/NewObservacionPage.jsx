@@ -1,10 +1,17 @@
 import { useForm } from "react-hook-form"
+import { useTramite } from "../../context/TramiteContext"
 
-function NewObservacionPage() {
+function NewObservacionPage({ idTramite, onClose }) {
 
+
+  const { newObservacion } = useTramite()
   const { register, handleSubmit, formState: { errors } } = useForm()
-  const onSubmit = handleSubmit(values => {
+  const onSubmit = handleSubmit(async values => {
     console.log(values)
+    const res = await newObservacion(values, idTramite)
+    if (res.status === 200) {
+      window.location.reload()
+    }
   })
 
 
@@ -22,7 +29,7 @@ function NewObservacionPage() {
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button type="button" className="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+          <button type="button" className="text-sm font-semibold leading-6 text-gray-900" onClick={() => onClose()}>Cancelar</button>
           <button type="submit" className="button-style">Guardar</button>
         </div>
       </form>

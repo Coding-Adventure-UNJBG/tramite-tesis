@@ -24,12 +24,12 @@ function ObservacionesPage() {
     async function loadTramite() {
       if (id) {
         const res = await getTramiteById(id)
-        console.log("datos del tramite", res)
+        // console.log("datos del tramite", res)
         setDetalles(res)
         const obser = await getObservationById(id)
-        console.log(obser)
+        // console.log(obser)
         setObservation(obser)
-        console.log("mi usuario", user)
+        // console.log("mi usuario", user)
       }
     }
 
@@ -111,7 +111,7 @@ function ObservacionesPage() {
       </Modal>
 
       <Modal className="max-w-md" isVisible={showModal1} onClose={() => { setShowModal1(false) }}>
-        <NewObservacionPage />
+        <NewObservacionPage idTramite={id} onClose={() => { setShowModal1(false) }} />
       </Modal >
     </>
   )

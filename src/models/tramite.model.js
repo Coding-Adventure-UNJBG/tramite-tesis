@@ -117,4 +117,18 @@ model.listarObservaciones = (id) => {
     })
 }
 
+model.saveObservacion = (data) => {
+  console.log("data del model", data)
+  const { id: idUser, idTramite, observacion } = data
+  return sequelize.query(`CALL saveObservacion('${idUser}', '${idTramite}', '${observacion}')`, { raw: true })
+    .then(([result, metadata]) => {
+      console.log(result)
+      return result
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
 export default model

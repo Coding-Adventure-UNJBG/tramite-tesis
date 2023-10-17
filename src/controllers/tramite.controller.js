@@ -64,7 +64,6 @@ controller.saveComite = async (req, res) => {
 
 controller.listarComites = async (req, res) => {
   try {
-    console.log("sa")
     const result = await model.listarComites()
     if (result) return res.status(200).json(result)
     else return res.status(500).send({ error: "Error al obtener comite" })
@@ -93,6 +92,18 @@ controller.getObservaciones = async (req, res) => {
 
     const result = await model.listarObservaciones(id)
     res.status(200).json(result)
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
+controller.saveObservacion = async (req, res) => {
+  try {
+    const result = await model.saveObservacion({ ...req.body, id: req.user.id })
+
+    if (result) return res.status(200).json(result)
+    else return res.status(500).send({ error: "Error al guardar la observacion" })
 
   } catch (error) {
     res.status(500).send({ error: error.message })

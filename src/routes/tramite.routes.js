@@ -7,6 +7,7 @@ const router = new Router()
 router.post('/', authRequired, controller.saveSolicitud)
 router.get('/', authRequired, controller.getTramites)
 
+router.post('/observation', authRequired, controller.saveObservacion)
 
 router.route('/comite')
   .get(controller.listarComites)
