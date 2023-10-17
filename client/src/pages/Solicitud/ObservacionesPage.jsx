@@ -5,12 +5,14 @@ import SubsanarPage from "./SubsanarPage"
 import NewObservacionPage from "./NewObservacionPage"
 import { useLocation } from "react-router-dom"
 import { useTramite } from "../../context/TramiteContext"
-
+import { useAuth } from '../../context/AuthContext'
 function ObservacionesPage() {
 
   const { id } = useLocation().state
 
   const { getTramiteById, getObservationById } = useTramite()
+  const { user } = useAuth()
+
   const [showModal, setShowModal] = useState(false)
   const [showModal1, setShowModal1] = useState(false)
 
@@ -27,6 +29,7 @@ function ObservacionesPage() {
         const obser = await getObservationById(id)
         console.log(obser)
         setObservation(obser)
+        console.log("mi usuario", user)
       }
     }
 
@@ -61,22 +64,24 @@ function ObservacionesPage() {
         <div className="m-5">
 
           {/* Vista de profesor (comite) */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-x-4 gap-y-4 mb-5">
-            <div className="md:col-auto">
-              <button className="button-style w-full md:w-auto bg-red-500 hover:bg-red-400" onClick={() => setShowModal1(true)}>Nueva Observación</button>
+          {user?.rol !== 'TESISTA' &&
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-x-4 gap-y-4 mb-5">
+              <div className="md:col-auto">
+                <button className="button-style w-full md:w-auto bg-red-500 hover:bg-red-400" onClick={() => setShowModal1(true)}>Nueva Observación</button>
+              </div>
+              <div className="md:col-span-1">
+                <select className="input-style py-2">
+                  <option value="">EN PROCESO</option>
+                  <option value="">ACEPTADO</option>
+                  <option value="">RECHAZADO</option>
+                </select>
+              </div>
+              <div className="md:col-span-1">
+                <button className="button-style w-full md:w-auto">Actualizar estado</button>
+              </div>
             </div>
-            <div className="md:col-span-1">
-              <select className="input-style py-2">
-                <option value="">EN PROCESO</option>
-                <option value="">ACEPTADO</option>
-                <option value="">RECHAZADO</option>
-              </select>
-            </div>
-            <div className="md:col-span-1">
-              <button className="button-style w-full md:w-auto">Actualizar estado</button>
-            </div>
-          </div>
-          
+          }
+
           {/* Listar observaciones */}
           {observation.map((obs, i) => (
             <div key={i} className="bg-blue-200 p-5 grid grid-cols-1 md:grid-cols-5 gap-4 my-5">
