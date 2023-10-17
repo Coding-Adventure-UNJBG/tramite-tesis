@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom"
 import Modal from "../../components/Modal"
 import NewSolicitudPage from "./NewSolicitudPage"
 import NewObservacionPage from "./NewObservacionPage"
+import { useAuth } from "../../context/AuthContext"
 
 function SolicitudPage() {
 
   const navigate = useNavigate()
+  const { user } = useAuth()
   const { getTramites, solicitudes } = useTramite()
   const [showModal, setShowModal] = useState(false)
 
@@ -35,7 +37,9 @@ function SolicitudPage() {
          La tabla tendrá una opción para ir hacia una nueva venta en la que se podran ver las observaciones del comite */}
 
         <div className="m-5">
-          <button className="button-style mb-5" onClick={() => setShowModal(true)}>Nueva Solicitud</button>
+          {user?.rol === 'TESISTA' &&
+            <button className="button-style mb-5" onClick={() => setShowModal(true)}>Nueva Solicitud</button>
+          }
 
           <div className="overflow-auto rounded-lg shadow max-w-3xl">
             <table className="w-full">

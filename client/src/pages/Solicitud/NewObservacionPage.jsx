@@ -3,9 +3,9 @@ import { useTramite } from "../../context/TramiteContext"
 
 function NewObservacionPage({ idTramite, onClose }) {
 
-
   const { newObservacion } = useTramite()
   const { register, handleSubmit, formState: { errors } } = useForm()
+  
   const onSubmit = handleSubmit(async values => {
     console.log(values)
     const res = await newObservacion(values, idTramite)

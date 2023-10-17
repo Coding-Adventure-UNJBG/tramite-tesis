@@ -40,7 +40,7 @@ CREATE TABLE `usuario` (
 INSERT INTO `rol` (`cod_rol`, `nombre`, `permisos`) 
 VALUES
 (1,'TESISTA', '{ "solicitud": 1, "tesis": 0, "reporte": 1}'),
-(2,'PROFESOR', '{ "p_comite": 0, "p_asesor": 0, "p_jurado": 0, "reporte": 1}'),
+(2,'PROFESOR', '{ "solicitud": 1, "p_comite": 0, "p_asesor": 0, "p_jurado": 0, "reporte": 1}'),
 (3,'SECRETARIA', '{ "solicitud": 1, "reporte": 1 }'),
 (4,'DIRECTOR ESCUELA', '{ "comite": 1, "jurado": 1}'),
 (5, 'ADMINISTRADOR', '{"usuarios": 1, "tramite": 1, "tesis": 1, "comite": 1}');
@@ -359,7 +359,7 @@ BEGIN
 	DECLARE fileName VARCHAR(100);
 	
     -- Si no hay revisiones de comite, se muestra la versionIncial del tramite
-    IF ( SELECT cod_revision_comite FROM revision_comite WHERE cod_tramite = idTramite LIMIT 1 ) IS NULL THEN
+    IF ( SELECT corregido FROM revision_comite WHERE cod_tramite = idTramite LIMIT 1 ) IS NULL OR ( SELECT corregido FROM revision_comite WHERE cod_tramite = idTramite LIMIT 1 ) = '' THEN
 		SET fileName = (SELECT versionInicial FROM tramite WHERE cod_tramite = idTramite);
 	ELSE 
 		-- Si existe observaciones, se muestra la ultima version del documento
