@@ -1,15 +1,22 @@
-import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import Card from "../components/Card"
 
 function HomePage() {
+
+  const { user } = useAuth()
+
   return (
     <>
       <Card>
-        <h2 className="mx-5 my-3 font-bold text-2xl">HomePage</h2>
-      </Card>
-      <Card>
-        <h2 className="font-mono">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia saepe molestiae odit, deleniti fugit, facere earum ut impedit incidunt voluptatibus ipsum quis ex unde veritatis aut vel itaque consequatur soluta.</h2>
+        <div className="m-5 font-mono">
+          <h2 className="text-lg">Bienvenido al sistema, {user?.nombre}</h2>
+          <p className="mt-5">
+            Tu herramienta de gestión de trámites de tesis, estamos aquí para simplificar y agilizar tu proceso de aprobación de proyectos y tesis.
+          </p>
+          <p>
+            Explora el panel y comienza a administrar tus trámites de manera más eficiente.
+          </p>
+        </div>
       </Card>
 
     </>

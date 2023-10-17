@@ -16,8 +16,8 @@ function ComitePage() {
 
   useEffect(() => {
     async function loadProfe() {
-      const res = await getProfesores()
-      setProfesores(res)
+      // const res = await getProfesores()
+      // setProfesores(res)
       const com = await getComites()
       if (com) setComites(com)
     }
@@ -55,7 +55,6 @@ function ComitePage() {
   })
 
   const onSaved = async () => {
-    //Ya se guarda en el BD
     const res = await registerComite(selectProfes)
     if (res.data.message) {
       window.location.reload()
@@ -66,7 +65,7 @@ function ComitePage() {
 
   return (
     <>
-      <Card>
+      {/* <Card>
         <div className="m-5">
           <h3 className="font-bold mt-4">Asignar comite</h3>
           <span className="text-sm">Para asignar un nuevo comité, simplemente agrega a los miembros necesarios y guarda los cambios.</span>
@@ -80,7 +79,8 @@ function ComitePage() {
             <button type="submit" onClick={onSubmit} className="button-style">Agregar</button>
           </form>
 
-          {/* Muestra la lista solo si se selecciona por lo menos 1 */}
+          Muestra la lista solo si se selecciona por lo menos 1
+         
           {selectProfes.length !== 0 &&
             <>
               <div className="mb-5">
@@ -95,7 +95,11 @@ function ComitePage() {
             </>
           }
         </div>
-      </Card >
+      </Card > */}
+
+      <Card>
+        <h2 className="title">Lista de comites</h2>
+      </Card>
 
       <Card>
         <div className="m-5">
