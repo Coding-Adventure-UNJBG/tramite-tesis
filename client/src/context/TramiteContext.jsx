@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getComitesRequest, getObservacionesRequest, getProfesoresRequest, getTramiteRequest, getTramitesRequest, saveComitesRequest, saveObservacionRequest, saveSolicitudRequest } from "../api/tramite";
+import { getComitesRequest, getObservacionesRequest, getProfesoresRequest, getTramiteRequest, getTramitesRequest, saveComitesRequest, saveObservacionRequest, saveSolicitudRequest, subsanarObservacionRequest } from "../api/tramite";
 import { uploadRequest } from "../api/auth";
 
 const TramiteContext = createContext()
@@ -100,6 +100,22 @@ export const TramiteProvider = ({ children }) => {
     }
   }
 
+  const subsanarObservacion = async (values, idObser) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', values.file[0])
+      const upload = await uploadRequest(formData)
+
+      if (upload.status === 200) {
+        const res = await subsanarObservacionRequest({ idObser, file: upload.data.filename })
+        return res
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <TramiteContext.Provider value={{
       // Variables
@@ -112,7 +128,8 @@ export const TramiteProvider = ({ children }) => {
       getComites,
       getTramiteById,
       getObservationById,
-      newObservacion
+      newObservacion,
+      subsanarObservacion
     }}>
       {children}
     </TramiteContext.Provider>

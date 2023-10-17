@@ -131,4 +131,16 @@ model.saveObservacion = (data) => {
     })
 }
 
+model.subsanarObservacion = (data) => {
+  const { file, idObser } = data
+  return sequelize.query(`UPDATE revision_comite SET corregido = '${file}' WHERE cod_revision_comite = '${idObser}'`, { raw: true })
+    .then(([result, metadata]) => {
+      return metadata.affectedRows >= 1 ? true : false
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
 export default model

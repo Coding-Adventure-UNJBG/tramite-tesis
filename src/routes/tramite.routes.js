@@ -8,6 +8,7 @@ router.post('/', authRequired, controller.saveSolicitud)
 router.get('/', authRequired, controller.getTramites)
 
 router.post('/observation', authRequired, controller.saveObservacion)
+router.post('/observation/subsanar', authRequired, controller.subsanarObservacion)
 
 router.route('/comite')
   .get(controller.listarComites)
