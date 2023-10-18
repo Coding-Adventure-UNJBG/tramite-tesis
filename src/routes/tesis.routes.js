@@ -8,6 +8,7 @@ const router = new Router()
 router.get('/', authRequired, controller.getTesis)
 router.post('/', authRequired, controller.saveTesis)
 
+router.post('/asesor/obs', authRequired, controller.saveObservacionAsesor)
 
 router.get('/:id', controller.getMyTesis)
 router.get('/:id/asesor',  controller.getObservacionAsesor)

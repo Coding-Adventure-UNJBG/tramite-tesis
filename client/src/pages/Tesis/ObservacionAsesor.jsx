@@ -88,7 +88,7 @@ function ObservacionAsesor({ idTesis }) {
       </div>
 
       <Modal className="max-w-md" isVisible={showObservacion} onClose={() => setShowObservacion(false)}>
-        <NewObservacionPage onClose={() => setShowObservacion(false)} />
+        <NewObservacionPage idTesis={idTesis} tipo={1} onClose={() => setShowObservacion(false)} />
       </Modal>
 
       <Modal className="max-w-md" isVisible={showSubsanar} onClose={() => setShowSubsanar(false)}>

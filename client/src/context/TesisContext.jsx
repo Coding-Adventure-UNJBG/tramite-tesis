@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getMyTesisRequest, getObservacionAsesorRequest, getTesisRequest, saveTesisRequest } from "../api/tesis";
+import { getMyTesisRequest, getObservacionAsesorRequest, getTesisRequest, saveObservacionAsesorRequest, saveTesisRequest } from "../api/tesis";
 import { uploadRequest } from "../api/auth";
 
 const TesisContext = createContext()
@@ -58,6 +58,15 @@ export const TesisProvider = ({ children }) => {
     }
   }
 
+  const saveObservacionAsesor = async (values, idTesis) => {
+    try {
+      const res = await saveObservacionAsesorRequest({ ...values, idTesis })
+      return res
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <TesisContext.Provider value={{
       //variables
@@ -67,6 +76,7 @@ export const TesisProvider = ({ children }) => {
       saveTesis,
       getTesisById,
       getObservationAsesor,
+      saveObservacionAsesor,
     }}>
       {children}
     </TesisContext.Provider>

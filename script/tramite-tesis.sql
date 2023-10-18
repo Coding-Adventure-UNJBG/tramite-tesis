@@ -433,3 +433,15 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS saveObservacionAsesor;
+DELIMITER //
+CREATE PROCEDURE saveObservacionAsesor(IN idUser INT, IN idTesis INT, IN obs VARCHAR(255))
+BEGIN 
+	DECLARE idAsesor INT;
+    SET idAsesor = (SELECT cod_asesor FROM asesor WHERE cod_tesis = idTesis);
+    INSERT INTO revision_asesor (cod_asesor, cod_tesis, observacion)
+	VALUES (idAsesor, idTesis, obs);
+    SELECT * FROM revision_asesor ORDER BY cod_revision_asesor DESC LIMIT 1;
+END //
+DELIMITER ;

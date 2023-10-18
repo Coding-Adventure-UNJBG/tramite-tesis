@@ -54,4 +54,17 @@ ORDER BY cod_revision_asesor DESC`, { raw: true })
     })
 }
 
+model.saveObservacionAsesor = (data) => {
+  const { idAsesor, idTesis, observacion } = data
+  return sequelize.query(`CALL saveObservacionAsesor ('${idAsesor}','${idTesis}','${observacion}')`, { raw: true })
+    .then(([result, metadata]) => {
+      console.log(result)
+      return result
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
 export default model

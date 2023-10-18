@@ -46,7 +46,19 @@ controller.getObservacionAsesor = async (req, res) => {
     const { id } = req.params
     const result = await model.listarObservacionesAsesor(id)
     res.status(200).json(result)
-    
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
+controller.saveObservacionAsesor = async (req, res) => {
+  try {
+    const result = await model.saveObservacionAsesor({ ...req.body, idAsesor: req.user.id })
+
+    if (result) return res.status(200).json(result)
+    else return res.status(500).send({ error: "Error al guardar la observacion" })
+
   } catch (error) {
     res.status(500).send({ error: error.message })
   }
