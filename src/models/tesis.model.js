@@ -40,4 +40,18 @@ WHERE t.cod_tesis = '${id}'`, { raw: true })
     })
 }
 
+model.listarObservacionesAsesor = (id) => {
+  return sequelize.query(`SELECT * FROM revision_asesor
+WHERE cod_tesis = '${id}'
+ORDER BY cod_revision_asesor DESC`, { raw: true })
+    .then(([result, metadata]) => {
+      console.log(result)
+      return result.length === 0 ? [] : result
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
 export default model
