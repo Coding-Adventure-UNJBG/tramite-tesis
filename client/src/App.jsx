@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext'
 import ProtectedRoutes from './components/ProtectedRoutes'
 
 import HomePage from './pages/HomePage'
-import PortafolioPage from './pages/PortafolioPage'
+import PortafolioPage from './pages/Portafolio/PortafolioPage'
 import TesisPage from './pages/Tesis/TesisPage'
 import TramitePage from './pages/Tramite/TramitePage'
 import NotFoundPage from './pages/NotFoundPage'

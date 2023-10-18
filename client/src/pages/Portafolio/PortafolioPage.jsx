@@ -1,18 +1,24 @@
-import React from 'react'
-import Card from '../components/Card'
-
 import { BiSolidCloudUpload, BiSolidPencil } from 'react-icons/bi'
 import { IoEyeSharp } from 'react-icons/io5'
+import Card from '../../components/Card'
+import { useState } from 'react'
+import Modal from '../../components/Modal'
+import NewPortafolio from './NewPortafolio'
 
 function PortafolioPage() {
+
+  const [showModal, setShowModal] = useState(false)
 
   return (
     <>
       <Card>
-        <h2 className="title">PortafolioPage</h2>
+        <h2 className="title">Mi portafolio</h2>
       </Card>
+
       <Card>
         <div className='p-5'>
+
+          <button className="button-style" onClick={() => setShowModal(true)}>Agregar documento</button>
           <h2>Aqui se subiran los archivos</h2>
           <h3>- Constancia de bachiller</h3>
           <h3>- Tesis</h3>
@@ -63,6 +69,10 @@ function PortafolioPage() {
           </div>
         </div>
       </Card>
+
+      <Modal className="max-w-md" isVisible={showModal} onClose={() => setShowModal(false)}>
+        <NewPortafolio onClose={() => setShowModal(false)} />
+      </Modal>
     </>
   )
 }

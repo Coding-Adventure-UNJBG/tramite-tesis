@@ -80,6 +80,7 @@ model.listarComites = () => {
 }
 
 model.saveFolio = (data) => {
+  console.log(data)
   const { id, tipo_doc = 1, file } = data
   return sequelize.query(`CALL saveFile('${id}', '${tipo_doc}', '${file}')`, { raw: true })
     .then(([result, metadata]) => {
