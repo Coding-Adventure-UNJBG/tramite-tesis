@@ -64,4 +64,16 @@ controller.saveObservacionAsesor = async (req, res) => {
   }
 }
 
+controller.subsanarObservacionAsesor = async (req, res) => {
+  try {
+    const result = await model.subsanarObservacionAsesor(req.body)
+
+    if (result) return res.sendStatus(200)
+    else return res.status(500).send({ error: "Error al guardar la observacion" })
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
 export default controller

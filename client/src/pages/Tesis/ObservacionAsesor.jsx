@@ -16,6 +16,7 @@ function ObservacionAsesor({ idTesis }) {
   const [showSubsanar, setShowSubsanar] = useState(false)
 
   const [observation, setObservation] = useState([])
+  const [idObservation, setIdObservation] = useState('')
 
   useEffect(() => {
     async function loadObservacionAsesor() {
@@ -74,7 +75,7 @@ function ObservacionAsesor({ idTesis }) {
                   <button className="button-style bg-green-700 hover:bg-green-600"
                     onClick={() => {
                       setShowSubsanar(true)
-                      /* setIdObservation(obs?.cod_revision_comite) */
+                      setIdObservation(obs?.cod_revision_asesor)
                     }}>Subsanar</button>
                   :
                   <span className='ml-2 p-1.5 text-xs font-medium uppercase tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-500'>PENDIENTE</span>
@@ -92,7 +93,7 @@ function ObservacionAsesor({ idTesis }) {
       </Modal>
 
       <Modal className="max-w-md" isVisible={showSubsanar} onClose={() => setShowSubsanar(false)}>
-        <SubsanarPage onClose={() => setShowSubsanar(false)} />
+        <SubsanarPage id={idObservation} tipo={1} onClose={() => setShowSubsanar(false)} />
       </Modal>
     </>
   )

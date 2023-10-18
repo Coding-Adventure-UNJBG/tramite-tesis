@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getMyTesisRequest, getObservacionAsesorRequest, getTesisRequest, saveObservacionAsesorRequest, saveTesisRequest } from "../api/tesis";
+import { getMyTesisRequest, getObservacionAsesorRequest, getTesisRequest, saveObservacionAsesorRequest, saveTesisRequest, subsanarObservacionAsesorRequest } from "../api/tesis";
 import { uploadRequest } from "../api/auth";
 
 const TesisContext = createContext()
@@ -67,6 +67,21 @@ export const TesisProvider = ({ children }) => {
     }
   }
 
+  const subsanarObservacionAsesor = async (values, idObser) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', values.file[0])
+      const upload = await uploadRequest(formData)
+
+      if (upload.status === 200) {
+        const res = await subsanarObservacionAsesorRequest({ idObser, file: upload.data.filename })
+        return res
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <TesisContext.Provider value={{
       //variables
@@ -77,6 +92,7 @@ export const TesisProvider = ({ children }) => {
       getTesisById,
       getObservationAsesor,
       saveObservacionAsesor,
+      subsanarObservacionAsesor,
     }}>
       {children}
     </TesisContext.Provider>

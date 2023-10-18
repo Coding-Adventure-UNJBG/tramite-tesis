@@ -1,11 +1,21 @@
 import { useForm } from "react-hook-form"
+import { useTesis } from "../../context/TesisContext"
 
-function SubsanarPage({ onClose }) {
+function SubsanarPage({ id, onClose, tipo }) {
 
+  const { subsanarObservacionAsesor } = useTesis()
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const onSubmit = handleSubmit(async values => {
-    console.log(values)
+    if (tipo === 1) {
+      console.log(values)
+      const res = await subsanarObservacionAsesor(values, id)
+      if (res.status === 200) window.location.reload()
+    }
+
+    if (tipo === 2) {
+      console.log(values)
+    }
   })
 
   return (
