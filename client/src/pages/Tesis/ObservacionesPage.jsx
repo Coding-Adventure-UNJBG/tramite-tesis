@@ -22,7 +22,6 @@ function ObservacionesPage() {
     async function loadTesis() {
       if (id) {
         const res = await getTesisById(id)
-        console.log(res)
         setDetalles(res)
       }
     }
@@ -33,7 +32,7 @@ function ObservacionesPage() {
   return (
     <>
       <Card>
-        <h2 className="title">Detalles de tesis {id}</h2>
+        <h2 className="title">Detalles de tesis</h2>
         <div className="mb-5 space-y-1.5">
           <h3 className="mx-5 font-medium text-base">Titulo:
             <span className="font-normal ml-2">{detalles?.titulo}</span>
@@ -55,7 +54,7 @@ function ObservacionesPage() {
           window.open(`http://localhost:3000/files/${detalles?.fileName}`, 'CryReport', 'width=700, height=600')
         }}>Mostrar última versión (PDF)</button>
 
-        <ObservacionAsesor idTesis={id} />
+        <ObservacionAsesor idTesis={id} detalles={detalles} setDetalles={setDetalles} />
 
       </Card>
     </>

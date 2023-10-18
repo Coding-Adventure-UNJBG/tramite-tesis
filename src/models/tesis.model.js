@@ -79,4 +79,16 @@ model.subsanarObservacionAsesor = (data) => {
     })
 }
 
+model.updateEstado = (data) => {
+  const { idTesis, estado } = data
+  return sequelize.query(`UPDATE tesis SET estado = '${estado}' WHERE cod_tesis = '${idTesis}'`, { raw: true })
+    .then(([result, metadata]) => {
+      return metadata.affectedRows >= 1 ? true : false
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
 export default model

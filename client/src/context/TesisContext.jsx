@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getMyTesisRequest, getObservacionAsesorRequest, getTesisRequest, saveObservacionAsesorRequest, saveTesisRequest, subsanarObservacionAsesorRequest } from "../api/tesis";
+import { getMyTesisRequest, getObservacionAsesorRequest, getTesisRequest, saveObservacionAsesorRequest, saveTesisRequest, subsanarObservacionAsesorRequest, updateEstadoRequest } from "../api/tesis";
 import { uploadRequest } from "../api/auth";
 
 const TesisContext = createContext()
@@ -82,6 +82,16 @@ export const TesisProvider = ({ children }) => {
     }
   }
 
+  const updateEstadoTesis = async (idTesis, estado) => {
+    try {
+      const res = await updateEstadoRequest({ idTesis, estado })
+      console.log("ss", res)
+      return res
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <TesisContext.Provider value={{
       //variables
@@ -90,6 +100,7 @@ export const TesisProvider = ({ children }) => {
       getTesis,
       saveTesis,
       getTesisById,
+      updateEstadoTesis,
       getObservationAsesor,
       saveObservacionAsesor,
       subsanarObservacionAsesor,

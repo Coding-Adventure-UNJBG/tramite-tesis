@@ -6,10 +6,10 @@ import { useEffect, useState } from "react"
 import { useTesis } from "../../context/TesisContext"
 import { useAuth } from "../../context/AuthContext"
 
-function ObservacionAsesor({ idTesis }) {
+function ObservacionAsesor({ idTesis, detalles, setDetalles }) {
 
-  const { register, handleSubmit } = useForm()
-  const { getObservationAsesor } = useTesis()
+  const { register, handleSubmit, setValue } = useForm()
+  const { getObservationAsesor, updateEstadoTesis } = useTesis()
   const { user } = useAuth()
 
   const [showObservacion, setShowObservacion] = useState(false)
@@ -18,11 +18,15 @@ function ObservacionAsesor({ idTesis }) {
   const [observation, setObservation] = useState([])
   const [idObservation, setIdObservation] = useState('')
 
+  const onEstado = handleSubmit(async (values) => {
+    const res = await updateEstadoTesis(idTesis, values.estado)
+    if (res.status === 200) setDetalles({ ...detalles, estado: values.estado })
+  })
+
   useEffect(() => {
     async function loadObservacionAsesor() {
       if (idTesis) {
         const res = await getObservationAsesor(idTesis)
-        console.log(res)
         setObservation(res)
       }
     }
@@ -43,24 +47,29 @@ function ObservacionAsesor({ idTesis }) {
           observation[0]?.corregido === '' ?
             <span className="font-serif">No se puede cargar una observación ni actualizar el estado si el tesista no resuelve la observación</span>
             :
-            <form>
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-x-4 gap-y-4 mb-5">
-                <div className="md:col-auto">
-                  <button type="button" className="button-style w-full md:w-auto bg-red-500 hover:bg-red-400" onClick={() => setShowObservacion(true)} >Nueva Observación</button>
-                </div>
-                <div className="md:col-span-1">
-                  <select className="input-style py-2" {...register('estado')}>
-                    <option value="EN PROCESO">EN PROCESO</option>
-                    <option value="APROBADO">APROBADO</option>
-                    <option value="RECHAZADO">RECHAZADO</option>
-                  </select>
-                </div>
-                <div className="md:col-span-1">
-                  <button type="submit" className="button-style w-full md:w-auto">Actualizar estado</button>
-                </div>
-              </div>
-            </form>
+            (detalles?.estado === 'EN PROCESO' ?
 
+              <form onSubmit={onEstado}>
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-x-4 gap-y-4 mb-5">
+                  <div className="md:col-auto">
+                    <button type="button" className="button-style w-full md:w-auto bg-red-500 hover:bg-red-400" onClick={() => setShowObservacion(true)} >Nueva Observación</button>
+                  </div>
+                  <div className="md:col-span-1">
+                    <select className="input-style py-2" {...register('estado')}>
+                      <option value="EN PROCESO">EN PROCESO</option>
+                      <option value="APROBADO ASESOR">APROBADO ASESOR</option>
+                    </select>
+                  </div>
+                  <div className="md:col-span-1">
+                    <button type="submit" className="button-style w-full md:w-auto">Actualizar estado</button>
+                  </div>
+                </div>
+              </form>
+              :
+              <span>
+                Tesis aprobado por el asesor
+              </span>
+            )
         ) : null}
 
         {/* Listar observaciones */}
