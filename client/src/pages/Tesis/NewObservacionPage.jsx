@@ -9,7 +9,7 @@ import { useTesis } from '../../context/TesisContext'
 */
 function NewObservacionPage({ idTesis, onClose, tipo }) {
 
-  const { saveObservacionAsesor } = useTesis()
+  const { saveObservacionAsesor, saveObservacionJurado } = useTesis()
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const onSubmit = handleSubmit(async values => {
@@ -21,6 +21,8 @@ function NewObservacionPage({ idTesis, onClose, tipo }) {
 
     if (tipo == 2) { //jurado
       console.log("observacion jurado", values)
+      const res = await saveObservacionJurado(values, idTesis)
+      if (res.status === 200) window.location.reload()
     }
   })
 

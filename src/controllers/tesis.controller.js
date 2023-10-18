@@ -76,11 +76,47 @@ controller.subsanarObservacionAsesor = async (req, res) => {
   }
 }
 
+controller.getObservacionJurado = async (req, res) => {
+  try {
+    const { id } = req.params
+    const result = await model.listarObservacionesJurado(id)
+    res.status(200).json(result)
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
+controller.saveObservacionJurado = async (req, res) => {
+  try {
+    const result = await model.saveObservacionJurado({ ...req.body, idJurado: req.user.id })
+
+    if (result) return res.status(200).json(result)
+    else return res.status(500).send({ error: "Error al guardar la observacion" })
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
+controller.subsanarObservacionJurado = async (req, res) => {
+  try {
+    console.log(req.body)
+    const result = await model.subsanarObservacionJurado(req.body)
+
+    if (result) return res.sendStatus(200)
+    else return res.status(500).send({ error: "Error al guardar la observacion" })
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
 controller.updateEstado = async (req, res) => {
   try {
     await model.updateEstado(req.body)
     res.sendStatus(200)
-    
+
     // const result = await model.updateEstado(req.body)
     // if (result) return res.sendStatus(200)
     // else return res.status(500).send({ error: "Error al actualizar el estado" })

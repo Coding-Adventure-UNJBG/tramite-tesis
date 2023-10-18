@@ -3,24 +3,26 @@ import { useTesis } from "../../context/TesisContext"
 
 function SubsanarPage({ id, onClose, tipo }) {
 
-  const { subsanarObservacionAsesor } = useTesis()
+  const { subsanarObservacionAsesor, subsanarObservacionJurado } = useTesis()
   const { register, handleSubmit, formState: { errors } } = useForm()
 
   const onSubmit = handleSubmit(async values => {
     if (tipo === 1) {
-      console.log(values)
+      console.log("asesor", values)
       const res = await subsanarObservacionAsesor(values, id)
       if (res.status === 200) window.location.reload()
     }
 
     if (tipo === 2) {
-      console.log(values)
+      console.log("jurado", values)
+      const res = await subsanarObservacionJurado(values, id)
+      if (res.status === 200) window.location.reload()
     }
   })
 
   return (
     <div>
-      <h2 className="title border-b border-gray-900/40 pb-5">Subsanar observacion</h2>
+      <h2 className="title border-b border-gray-900/40 pb-5">Subsanar observacion {id}</h2>
       <form className="m-5" onSubmit={onSubmit}>
         <span className="font-medium font-mono text-base">Suba la nueva versión actualizada</span>
         <div className="py-2">

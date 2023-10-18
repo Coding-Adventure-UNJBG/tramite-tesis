@@ -7,6 +7,7 @@ import SubsanarPage from './SubsanarPage'
 import NewObservacionPage from './NewObservacionPage'
 import { useTesis } from "../../context/TesisContext"
 import ObservacionAsesor from "./ObservacionAsesor"
+import ObservacionJurado from './ObservacionJurado'
 
 function ObservacionesPage() {
 
@@ -55,6 +56,7 @@ function ObservacionesPage() {
         }}>Mostrar última versión (PDF)</button>
 
         <ObservacionAsesor idTesis={id} detalles={detalles} setDetalles={setDetalles} />
+        <ObservacionJurado idTesis={id} detalles={detalles} setDetalles={setDetalles} />
 
       </Card>
     </>

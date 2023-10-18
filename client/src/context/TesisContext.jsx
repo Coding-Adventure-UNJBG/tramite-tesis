@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getMyTesisRequest, getObservacionAsesorRequest, getTesisRequest, saveObservacionAsesorRequest, saveTesisRequest, subsanarObservacionAsesorRequest, updateEstadoRequest } from "../api/tesis";
+import { getMyTesisRequest, getObservacionAsesorRequest, getObservacionJuradoRequest, getTesisRequest, saveObservacionAsesorRequest, saveObservacionJuradoRequest, saveTesisRequest, subsanarObservacionAsesorRequest, subsanarObservacionJuradoRequest, updateEstadoRequest } from "../api/tesis";
 import { uploadRequest } from "../api/auth";
 
 const TesisContext = createContext()
@@ -82,6 +82,41 @@ export const TesisProvider = ({ children }) => {
     }
   }
 
+  const getObservationJurado = async (id) => {
+    try {
+      const res = await getObservacionJuradoRequest(id)
+      return res.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const saveObservacionJurado = async (values, idTesis) => {
+    try {
+      const res = await saveObservacionJuradoRequest({ ...values, idTesis })
+      return res
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const subsanarObservacionJurado = async (values, idObser) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', values.file[0])
+      const upload = await uploadRequest(formData)
+
+      if (upload.status === 200) {
+        console.log("si entra aqui", upload)
+        console.log("mando", { idObser, file: upload.data.filename })
+        const res = await subsanarObservacionJuradoRequest({ idObser, file: upload.data.filename })
+        return res
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const updateEstadoTesis = async (idTesis, estado) => {
     try {
       const res = await updateEstadoRequest({ idTesis, estado })
@@ -104,6 +139,9 @@ export const TesisProvider = ({ children }) => {
       getObservationAsesor,
       saveObservacionAsesor,
       subsanarObservacionAsesor,
+      getObservationJurado,
+      saveObservacionJurado,
+      subsanarObservacionJurado,
     }}>
       {children}
     </TesisContext.Provider>

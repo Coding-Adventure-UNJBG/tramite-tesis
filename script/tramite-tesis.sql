@@ -445,3 +445,15 @@ BEGIN
     SELECT * FROM revision_asesor ORDER BY cod_revision_asesor DESC LIMIT 1;
 END //
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS saveObservacionJurado;
+DELIMITER //
+CREATE PROCEDURE saveObservacionJurado(IN idUser INT, IN idTesis INT, IN obs VARCHAR(255))
+BEGIN 
+	DECLARE idJurado INT;
+    SET idJurado = (SELECT cod_jurado FROM jurado WHERE cod_tesis = idTesis);
+    INSERT INTO revision_jurado (cod_jurado, cod_tesis, observacion)
+	VALUES (idJurado, idTesis, obs);
+    SELECT * FROM revision_jurado ORDER BY cod_revision_jurado DESC LIMIT 1;
+END //
+DELIMITER ;
