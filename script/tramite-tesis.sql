@@ -145,10 +145,11 @@ DROP TABLE IF EXISTS `tesis`;
 CREATE TABLE `tesis` (
   `cod_tesis` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_usuario` SMALLINT UNSIGNED NOT NULL,
+  `cod_tramite` SMALLINT UNSIGNED NOT NULL,
   `estado` enum('APROBADO', 'EN PROCESO', 'RECHAZADO', 'APROBADO ASESOR', 'PARA SUSTENTACIÓN') DEFAULT 'EN PROCESO',
   `titulo` VARCHAR(255) NOT NULL,
   `fecha_inicio` DATETIME NOT NULL DEFAULT current_timestamp(),
-  `fecha_fin` DATETIME NOT NULL,
+  `fecha_fin` DATETIME NOT NULL DEFAULT current_timestamp(),
   `versionInicial` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`cod_tesis`),
   FOREIGN key (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`)
@@ -391,5 +392,22 @@ BEGIN
 	INSERT INTO revision_comite(cod_comite, cod_tramite, observacion)
     VALUES (idComite, idTramite, obs);
     SELECT * FROM revision_comite ORDER BY cod_revision_comite DESC LIMIT 1;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS getTesis;
+DELIMITER //
+CREATE PROCEDURE getTesis (IN id_user INT)
+BEGIN
+-- Si el que solicita es tesista se le devuelve sus propias tesis sino todas las que existen
+	IF (SELECT rol.nombre FROM rol INNER JOIN usuario u ON u.cod_rol = rol.cod_rol WHERE u.cod_usuario = id_user ) = 'TESISTA' THEN
+		SELECT cod_tesis, t.titulo, t.cod_usuario, u.dni, estado, DATE(t.fecha_inicio) AS fecha FROM tesis t
+        INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
+        WHERE t.cod_usuario = id_user ORDER BY t.cod_tesis DESC;
+	ELSE
+		SELECT cod_tesis, t.titulo, t.cod_usuario, u.dni, estado, DATE(fecha_inicio) AS fecha FROM tesis t
+        INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
+        ORDER BY t.cod_tesis DESC;
+	END IF;
 END //
 DELIMITER ;

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import { getTesisRequest } from "../api/tesis";
+import { getTesisRequest, saveTesisRequest } from "../api/tesis";
+import { uploadRequest } from "../api/auth";
 
 const TesisContext = createContext()
 
@@ -25,12 +26,27 @@ export const TesisProvider = ({ children }) => {
     }
   }
 
+  const saveTesis = async (values, idTramite) => {
+    try {
+      const formData = new FormData()
+      formData.append('file', values.file[0])
+      const upload = await uploadRequest(formData)
+      if (upload.status === 200) {
+        const res = await saveTesisRequest({ titulo: values.titulo, idTramite, file: upload.data.filename })
+        return res
+      }
+    } catch (error) {
+      console.log("error", error)
+    }
+  }
+
   return (
     <TesisContext.Provider value={{
       //variables
       tesis,
       //metodos
       getTesis,
+      saveTesis,
     }}>
       {children}
     </TesisContext.Provider>

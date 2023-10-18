@@ -8,8 +8,9 @@ function TesisPage() {
 
   const options = [
     { name: 'N°', style: "w-10" },
-    { name: 'DNI solicitante', style: "w-36" },
-    { name: 'Fecha registro', style: "w-36" },
+    { name: 'DNI tesista', style: "w-36" },
+    { name: 'Titulo', style: "w-36" },
+    { name: 'Fecha Inicio', style: "w-36" },
     { name: 'Estado', style: "w-36" },
     { name: 'Opción', style: "w-14" },
   ]
@@ -44,8 +45,9 @@ function TesisPage() {
                   tesis.map((mytesis, i) => (
                     <tr key={i} className="divide-x divide-gray-200 text-center">
                       <td className='p-2 text-sm text-gray-700 whitespace-nowrap'>{i + 1}</td>
+                      <td className='p-2 text-sm text-gray-700 whitespace-nowrap'>{mytesis.dni}</td>
                       <td className='p-2 text-sm text-gray-700 whitespace-nowrap'>{mytesis.titulo}</td>
-                      <td className='p-2 text-sm text-gray-700 whitespace-nowrap'>{mytesis.fecha_inicio}</td>
+                      <td className='p-2 text-sm text-gray-700 whitespace-nowrap'>{mytesis.fecha}</td>
                       <td className='p-2 text-sm text-gray-700 whitespace-nowrap'>
                         <span className='p-1.5 text-xs font-medium uppercase tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-500'>{mytesis.estado}</span>
                       </td>

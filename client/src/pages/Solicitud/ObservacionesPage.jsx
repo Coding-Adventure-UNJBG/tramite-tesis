@@ -7,6 +7,7 @@ import { Navigate, useLocation } from "react-router-dom"
 import { useTramite } from "../../context/TramiteContext"
 import { useAuth } from '../../context/AuthContext'
 import { useForm } from "react-hook-form"
+import NewTesisPage from "../Tesis/NewTesisPage"
 
 function ObservacionesPage() {
 
@@ -21,6 +22,7 @@ function ObservacionesPage() {
 
   const [showModal, setShowModal] = useState(false)
   const [showModal1, setShowModal1] = useState(false)
+  const [showTesis, setShowTesis] = useState(false)
 
   const [detalles, setDetalles] = useState([])
   const [observation, setObservation] = useState([])
@@ -63,6 +65,17 @@ function ObservacionesPage() {
         </div>
       </Card>
 
+      { /* Solo muestra esta parte si el usuario es tesista y su solicitud esta aprobada */}
+      {user?.rol === 'TESISTA' && detalles?.estado === 'APROBADO' &&
+        <Card>
+          <div className="m-5">
+            <div>
+              <span className="font-mono">Tu solicitud ha sido aprobada. Ahora es el momento de dar inicio a tu tesis. Haz click en "Comenzar Tesis" para continuar con el proceso de tramite.</span>
+            </div>
+            <button className="mt-5 button-style" onClick={() => setShowTesis(true)} >Comenzar Tesis</button>
+          </div>
+        </Card>
+      }
       <Card>
         <button className="button-style mx-5 mt-5 mb-2" onClick={() => {
           window.open(`http://localhost:3000/files/${detalles.fileName}`, 'CryReport', 'width=700, height=600')
@@ -80,7 +93,7 @@ function ObservacionesPage() {
             /* No se permite hacer nada hasta que el tesista resuelva la observacion */
             (observation[0]?.corregido === '' ?
               <span>No se puede cargar una observación ni actualizar el estado si el tesista no resuelve la observacion</span>
-              : 
+              :
               /* Solo muestta si es estado esta aun en proceso */
               (detalles?.estado === 'EN PROCESO' ?
                 <form onSubmit={onEstado}>
@@ -150,22 +163,11 @@ function ObservacionesPage() {
       <Modal className="max-w-md" isVisible={showModal1} onClose={() => { setShowModal1(false) }}>
         <NewObservacionPage idTramite={id} onClose={() => { setShowModal1(false) }} />
       </Modal >
+
+      <Modal className="max-w-lg" isVisible={showTesis} onClose={() => setShowTesis(false)}>
+        <NewTesisPage idTramite={id} onClose={() => setShowTesis(false)} />
+      </Modal>
     </>
-  )
-}
-
-const Observacion = ({ data, setShowModal }) => {
-  return (
-    <div className="bg-blue-200 p-5 grid grid-cols-1 md:grid-cols-5 gap-4 my-5">
-      <div className="md:col-span-4">
-        {data?.observacion}
-      </div>
-      <div className="md:col-span-1 flex justify-center">
-        <button className="button-style bg-green-700 hover:bg-green-600"
-          onClick={() => setShowModal(true)}>Subsanar</button>
-      </div>
-    </div>
-
   )
 }
 

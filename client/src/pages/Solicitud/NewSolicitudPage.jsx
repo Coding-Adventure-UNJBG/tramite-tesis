@@ -42,7 +42,11 @@ function NewSolicitudPage({ onClose }) {
 
           <span className="font-medium font-mono text-base">Propuesta de asesor</span>
           <div className="py-2">
-            <select className="input-style py-2" {...register('asesor')}>
+            {errors.asesor && (
+              <p className=" text-red-500 font-medium text-sm p-1.5">Asesor requerido</p>
+            )}
+            <select className="input-style py-2" {...register('asesor', { min: 1 })}>
+              <option value="0">SELECCIONE UNA OPCION</option>
               {profesores.map((profesor, i) => (
                 <option key={i} value={profesor.cod_usuario}>{profesor.nombre}</option>
               ))}
