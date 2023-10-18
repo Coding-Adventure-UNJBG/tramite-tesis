@@ -8,4 +8,6 @@ const router = new Router()
 router.get('/', authRequired, controller.getTesis)
 router.post('/', authRequired, controller.saveTesis)
 
+router.get('/:id', controller.getMyTesis)
+
 export default router

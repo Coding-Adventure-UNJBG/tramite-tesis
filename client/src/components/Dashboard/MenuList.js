@@ -8,9 +8,9 @@ export const menus = [
   { name: 'Home', link: '/', icon: RxHome },
   { name: 'Solicitud', link: '/solicitud', icon: HiOutlineClipboardDocumentList, permission: 'solicitud'},
   { name: 'Tesis', link: '/tesis', icon: RxReader, permission: 'tesis'},
-  { name: 'Upload', link: '/upload', icon: RxFileText },
-  { name: 'Portafolio', link: '/portafolio', icon: LiaBriefcaseMedicalSolid },
+  // { name: 'Upload', link: '/upload', icon: RxFileText },
+  { name: 'Portafolio', link: '/portafolio', icon: LiaBriefcaseMedicalSolid, permission: 'portafolio' },
   { name: 'Comite', link: '/comite', icon: FaPeopleGroup, permission: 'comite'},
-  { name: 'Reporte', link: '/reporte', icon: TbReport },
+  { name: 'Reporte', link: '/reporte', icon: TbReport, permission: 'reporte' },
   { name: 'Usuario', link: '/usuario', icon: RxPerson, margin: true, permission: 'usuarios'},
 ]

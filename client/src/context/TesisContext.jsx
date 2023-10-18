@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { getTesisRequest, saveTesisRequest } from "../api/tesis";
+import { getMyTesisRequest, getTesisRequest, saveTesisRequest } from "../api/tesis";
 import { uploadRequest } from "../api/auth";
 
 const TesisContext = createContext()
@@ -40,6 +40,15 @@ export const TesisProvider = ({ children }) => {
     }
   }
 
+  const getTesisById = async (id) => {
+    try {
+      const res = await getMyTesisRequest(id)
+      return res.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <TesisContext.Provider value={{
       //variables
@@ -47,6 +56,7 @@ export const TesisProvider = ({ children }) => {
       //metodos
       getTesis,
       saveTesis,
+      getTesisById,
     }}>
       {children}
     </TesisContext.Provider>

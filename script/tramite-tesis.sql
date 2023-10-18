@@ -39,11 +39,11 @@ CREATE TABLE `usuario` (
 -- Datos para simular el login
 INSERT INTO `rol` (`cod_rol`, `nombre`, `permisos`) 
 VALUES
-(1,'TESISTA', '{ "solicitud": 1, "tesis": 0, "reporte": 1}'),
-(2,'PROFESOR', '{ "solicitud": 1, "p_comite": 0, "p_asesor": 0, "p_jurado": 0, "reporte": 1}'),
+(1,'TESISTA', '{ "solicitud": 1, "tesis": 1, "portafolio": 1, "reporte": 1}'),
+(2,'PROFESOR', '{ "solicitud": 1, "tesis": 1, "reporte": 1}'),
 (3,'SECRETARIA', '{ "solicitud": 1, "reporte": 1 }'),
-(4,'DIRECTOR ESCUELA', '{ "comite": 1, "jurado": 1}'),
-(5, 'ADMINISTRADOR', '{"usuarios": 1, "tramite": 1, "tesis": 1, "comite": 1}');
+(4,'DIRECTOR ESCUELA', '{ "comite": 1, "jurado": 1, "reporte": 1}'),
+(5, 'ADMINISTRADOR', '{"usuarios": 1, "solicitud": 1, "tesis": 1, "reporte": 1, "comite": 1, "jurado": 1}');
 
 INSERT INTO `usuario`(`cod_usuario`, `cod_rol`, `nombre`, `apellidos`, `dni`, `password`, `fecha_nacimiento`, `telefono`, `correo`, `direccion`, `grado_academico`)
 VALUES
@@ -409,5 +409,27 @@ BEGIN
         INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
         ORDER BY t.cod_tesis DESC;
 	END IF;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS saveTesis;
+DELIMITER //
+CREATE PROCEDURE saveTesis(IN idUser INT, IN idTramite INT, IN titulo VARCHAR(255), IN fileName VARCHAR(100))
+BEGIN
+	DECLARE idTesis INT;
+    DECLARE idAsesorPropuesto INT;
+    
+	INSERT INTO tesis(cod_usuario, cod_tramite, titulo, versionInicial)
+    VALUES (idUser, idTramite, titulo, fileName);
+    
+    IF row_count() >= 1 THEN
+		SET idTesis = (SELECT cod_tesis FROM tesis ORDER BY cod_tesis DESC LIMIT 1);
+
+        IF idTesis IS NOT NULL THEN
+			SET idAsesorPropuesto = (SELECT cod_asesor_propuesto FROM tramite WHERE cod_tramite = idTramite);
+			INSERT INTO asesor(cod_tesis, cod_usuario)
+            VALUES (idTesis, idAsesorPropuesto);
+        END IF;
+    END IF;
 END //
 DELIMITER ;

@@ -13,10 +13,26 @@ model.getTesis = (id) => {
 
 model.saveTesis = (data) => {
   const { idUser, idTramite, titulo, file } = data
-  return sequelize.query(`INSERT INTO tesis(cod_usuario, cod_tramite, titulo, versionInicial)
-                          VALUES ('${idUser}', '${idTramite}', '${titulo}', '${file}')`, { raw: true })
+  // return sequelize.query(`INSERT INTO tesis(cod_usuario, cod_tramite, titulo, versionInicial)
+  //                         VALUES ('${idUser}', '${idTramite}', '${titulo}', '${file}')`, { raw: true })
+  return sequelize.query(`CALL saveTesis('${idUser}', '${idTramite}', '${titulo}', '${file}')`, { raw: true })
+    .then((result) => {
+      console.log(result)
+      return result
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
+model.listarDetalle = (id) => {
+  return sequelize.query(`SELECT t.titulo, DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y') AS fecha, t.estado, CONCAT( u.nombre, " ", u.apellidos) AS nombreAsesor, t.versionInicial AS fileName FROM tesis t
+INNER JOIN asesor a On a.cod_tesis = t.cod_tesis
+INNER JOIN usuario u ON u.cod_usuario = a.cod_usuario
+WHERE t.cod_tesis = '${id}'`, { raw: true })
     .then(([result, metadata]) => {
-      return metadata
+      return result.length === 0 ? null : result
     })
     .catch((error) => {
       console.log(error)
