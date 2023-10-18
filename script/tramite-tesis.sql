@@ -144,49 +144,47 @@ CREATE TABLE `revision_comite` (
 DROP TABLE IF EXISTS `tesis`;
 CREATE TABLE `tesis` (
   `cod_tesis` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `cod_folio` SMALLINT UNSIGNED NOT NULL,
-  `estado` enum("APROBADO", "OBSERVADO", "PENDIENTE", "DESAPROBADO") NOT NULL DEFAULT "PENDIENTE",
-  `titulo` VARCHAR(100) NOT NULL,
-  `fecha_inicio` DATETIME NOT NULL,
+  `cod_usuario` SMALLINT UNSIGNED NOT NULL,
+  `estado` enum('APROBADO', 'EN PROCESO', 'RECHAZADO', 'APROBADO ASESOR', 'PARA SUSTENTACIÓN') DEFAULT 'EN PROCESO',
+  `titulo` VARCHAR(255) NOT NULL,
+  `fecha_inicio` DATETIME NOT NULL DEFAULT current_timestamp(),
   `fecha_fin` DATETIME NOT NULL,
+  `versionInicial` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`cod_tesis`),
-  FOREIGN KEY (`cod_folio`) REFERENCES `folio`(`cod_folio`)
+  FOREIGN key (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `asesor`;
 CREATE TABLE `asesor` (
   `cod_asesor` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_tesis` SMALLINT UNSIGNED NOT NULL,
+  `cod_usuario` SMALLINT UNSIGNED NOT NULL,
   PRIMARY KEY (`cod_asesor`),
-  FOREIGN KEY (`cod_tesis`) REFERENCES `tesis`(`cod_tesis`)
+  FOREIGN KEY (`cod_tesis`) REFERENCES `tesis`(`cod_tesis`),
+  FOREIGN KEY (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `revision_asesor`;
 CREATE TABLE `revision_asesor` (
-  `cod_revision` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cod_revision_asesor` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_asesor` SMALLINT UNSIGNED NOT NULL,
-  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`cod_revision`),
-  FOREIGN KEY (`cod_asesor`) REFERENCES `asesor`(`cod_asesor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-DROP TABLE IF EXISTS `detalle_revision_asesor`;
-CREATE TABLE `detalle_revision_asesor` (
-  `cod_detalle` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_tesis` SMALLINT UNSIGNED NOT NULL,
-  `cod_revision_asesor` SMALLINT UNSIGNED NOT NULL,
-  `observacion` TEXT NOT NULL,
-  PRIMARY KEY (`cod_detalle`),
-  FOREIGN KEY (`cod_tesis`) REFERENCES `tesis`(`cod_tesis`),
-  FOREIGN KEY (`cod_revision_asesor`) REFERENCES `revision_asesor`(`cod_revision`)
+  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
+  `observacion` VARCHAR(255) NOT NULL,
+  `corregido` VARCHAR(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`cod_revision_asesor`),
+  FOREIGN KEY (`cod_asesor`) REFERENCES `asesor`(`cod_asesor`),
+  FOREIGN KEY (`cod_tesis`) REFERENCES `tesis`(`cod_tesis`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `jurado`;
 CREATE TABLE `jurado` (
   `cod_jurado` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_tesis` SMALLINT UNSIGNED NOT NULL,
+  `cod_usuario` SMALLINT UNSIGNED NOT NULL,
   PRIMARY KEY (`cod_jurado`),
-  FOREIGN KEY (`cod_tesis`) REFERENCES `tesis`(`cod_tesis`)
+  FOREIGN KEY (`cod_tesis`) REFERENCES `tesis`(`cod_tesis`),
+  FOREIGN KEY (`cod_usuario`) REFERENCES `usuario`(`cod_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `rol_jurado`;
@@ -200,23 +198,15 @@ CREATE TABLE `rol_jurado` (
 
 DROP TABLE IF EXISTS `revision_jurado`;
 CREATE TABLE `revision_jurado` (
-  `cod_revision` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cod_revision_jurado` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_jurado` SMALLINT UNSIGNED NOT NULL,
-  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`cod_revision`),
-  FOREIGN KEY (`cod_jurado`) REFERENCES `jurado`(`cod_jurado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-DROP TABLE IF EXISTS `detalle_revision_jurado`;
-CREATE TABLE `detalle_revision_jurado` (
-  `cod_detalle` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cod_tesis` SMALLINT UNSIGNED NOT NULL,
-  `cod_revision_jurado` SMALLINT UNSIGNED NOT NULL,
-  `observacion` TEXT NOT NULL,
-  `resuelto` BOOLEAN NOT NULL DEFAULT 0,
-  PRIMARY KEY (`cod_detalle`),
-  FOREIGN KEY (`cod_tesis`) REFERENCES `tesis` (`cod_tesis`),
-  FOREIGN KEY (`cod_revision_jurado`) REFERENCES `revision_jurado`(`cod_revision`)
+  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
+  `observacion` VARCHAR(255) NOT NULL,
+  `corregido` VARCHAR(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`cod_revision_jurado`),
+  FOREIGN KEY (`cod_jurado`) REFERENCES `jurado`(`cod_jurado`),
+  FOREIGN KEY (`cod_tesis`) REFERENCES `tesis`(`cod_tesis`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP FUNCTION IF EXISTS `validarUser`;
