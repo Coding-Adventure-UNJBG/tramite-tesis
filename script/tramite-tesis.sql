@@ -409,8 +409,10 @@ BEGIN
         INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
         WHERE t.cod_usuario = id_user ORDER BY t.cod_tesis DESC;
 	ELSE
-		SELECT cod_tesis, t.titulo, t.cod_usuario, u.dni, estado, DATE(fecha_inicio) AS fecha FROM tesis t
+		SELECT t.cod_tesis, t.titulo, t.cod_usuario, u.dni, estado, DATE(fecha_inicio) AS fecha FROM tesis t
         INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
+        INNER JOIN asesor a ON a.cod_tesis = t.cod_tesis
+        WHERE a.cod_usuario = id_user
         ORDER BY t.cod_tesis DESC;
 	END IF;
 END //
@@ -459,5 +461,17 @@ BEGIN
     INSERT INTO revision_jurado (cod_jurado, cod_tesis, observacion)
 	VALUES (idJurado, idTesis, obs);
     SELECT * FROM revision_jurado ORDER BY cod_revision_jurado DESC LIMIT 1;
+END //
+DELIMITER ;
+
+DROP FUNCTION IF EXISTS existeTesis;
+DELIMITER //
+CREATE FUNCTION existeTesis(idTramite INT) RETURNS INT DETERMINISTIC
+BEGIN
+	IF (SELECT COUNT(*) FROM tesis WHERE cod_tramite = idTramite) >= 1 THEN
+		RETURN 1;
+	ELSE 
+		RETURN 0;
+	END IF;
 END //
 DELIMITER ;
