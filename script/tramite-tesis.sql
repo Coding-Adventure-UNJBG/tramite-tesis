@@ -475,3 +475,52 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
+
+DROP FUNCTION IF EXISTS getFileTesis;
+DELIMITER //
+CREATE FUNCTION getFileTesis(idTesis INT) RETURNS VARCHAR(100) DETERMINISTIC
+BEGIN
+	DECLARE fileName VARCHAR(100); 
+    
+    -- Si no hay revision de asesor, se muestra la version de inicial
+    IF (SELECT corregido FROM revision_asesor WHERE cod_tesis = idTesis LIMIT 1) IS NULL OR (SELECT corregido FROM revision_asesor WHERE cod_tesis = idTesis LIMIT 1) = '' THEN
+		SET fileName = (SELECT versionInicial FROM tesis WHERE cod_tesis = idTesis);
+	ELSE
+		IF ( SELECT estado FROM tesis WHERE cod_tesis = idTesis ) = 'APROBADO ASESOR' THEN
+        
+			IF (SELECT corregido FROM revision_jurado WHERE cod_tesis = idTesis LIMIT 1) IS NULL OR (SELECT corregido FROM revision_jurado WHERE cod_tesis = idTesis LIMIT 1) = '' THEN
+				SET fileName = (
+					SELECT corregido FROM revision_asesor WHERE cod_tesis = idTesis ORDER BY cod_revision_asesor DESC LIMIT 1
+				);
+            ELSE
+				
+                SET fileName = (
+					SELECT corregido FROM revision_jurado WHERE cod_tesis = idTesis ORDER BY cod_revision_jurado DESC LIMIT 1
+                );
+                
+                IF fileName = '' THEN
+					SET fileName = (
+						SELECT corregido FROM revision_jurado WHERE cod_tesis = idTesis ORDER BY cod_revision_jurado DESC LIMIT 1 OFFSET 1
+                    );
+				END IF;
+                
+            END IF;
+		ELSE 
+    
+			-- SI EXISTE OBSERVACIONES, SE MUESTRA LA ULTIMA VERSION DEL DOCUMENTO
+			SET fileName = (
+				SELECT corregido FROM revision_asesor WHERE cod_tesis = idTesis ORDER BY cod_revision_asesor DESC LIMIT 1
+			);
+        
+			-- SI LA ULTIMA OBSERVACION AUN NO ESTA CORREGIDO
+			IF fileName = '' THEN
+				SET fileName = (
+					SELECT corregido FROM revision_asesor WHERE cod_tesis = idTesis ORDER BY cod_revision_asesor DESC LIMIT 1 OFFSET 1
+				);
+			END IF;
+		END IF;
+    END IF;
+    
+    RETURN fileName;
+END //
+DELIMITER ;

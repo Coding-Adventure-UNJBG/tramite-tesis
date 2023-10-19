@@ -27,7 +27,7 @@ model.saveTesis = (data) => {
 }
 
 model.listarDetalle = (id) => {
-  return sequelize.query(`SELECT a.cod_usuario AS c_asesor, t.titulo, DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y') AS fecha, t.estado, CONCAT( u.nombre, " ", u.apellidos) AS nombreAsesor, t.versionInicial AS fileName FROM tesis t
+  return sequelize.query(`SELECT getFileTesis(t.cod_tesis) AS fileName, a.cod_usuario AS c_asesor, t.titulo, DATE_FORMAT(t.fecha_inicio, '%d/%m/%Y') AS fecha, t.estado, CONCAT( u.nombre, " ", u.apellidos) AS nombreAsesor FROM tesis t
 INNER JOIN asesor a On a.cod_tesis = t.cod_tesis
 INNER JOIN usuario u ON u.cod_usuario = a.cod_usuario
 WHERE t.cod_tesis = '${id}'`, { raw: true })

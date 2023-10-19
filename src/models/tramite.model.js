@@ -69,8 +69,6 @@ model.listarComites = () => {
                   ON u.cod_usuario = ic.cod_usuario_comite`
   return sequelize.query(query, { raw: true })
     .then(([result, metadata]) => {
-      console.log(result)
-      console.log(metadata)
       return result.length === 0 ? null : result
     })
     .catch((error) => {
@@ -87,7 +85,7 @@ model.listarDetalleTramite = (id) => {
       return result.length === 0 ? null : result
     })
     .catch((error) => {
-      console.log(error)
+      console.log("error de listarDetalleTramite", error)
       throw error
     })
 }
