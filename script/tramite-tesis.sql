@@ -307,15 +307,19 @@ DROP PROCEDURE IF EXISTS `getTramites`;
 DELIMITER //
 CREATE PROCEDURE `getTramites` (IN id_user INT)
 BEGIN
+	DECLARE tipoUser VARCHAR(60);
+    SET tipoUser = (SELECT rol.nombre FROM rol INNER JOIN usuario u ON u.cod_rol = rol.cod_rol WHERE u.cod_usuario = id_user);
 -- Si el que solicita es tesista se le devuelve sus propias solicitudes sino todas las que existen
-	IF (SELECT rol.nombre FROM rol INNER JOIN usuario u ON u.cod_rol = rol.cod_rol WHERE u.cod_usuario = id_user ) = 'TESISTA' THEN
+	IF tipoUser = 'TESISTA' THEN
 		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(t.fecha_registro) AS fecha FROM tramite t
         INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
         WHERE t.cod_usuario = id_user ORDER BY t.cod_tramite DESC;
 	ELSE
-		SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(fecha_registro) AS fecha FROM tramite t
-        INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
-        ORDER BY t.cod_tramite DESC;
+		IF (SELECT cod_comite FROM integrantes_comite WHERE cod_usuario_comite = id_user) IS NOT NULL THEN
+			SELECT cod_tramite, t.cod_usuario, u.dni, estado, DATE(fecha_registro) AS fecha FROM tramite t
+			INNER JOIN usuario u ON u.cod_usuario = t.cod_usuario
+			ORDER BY t.cod_tramite DESC;
+        END IF;
 	END IF;
 END //
 DELIMITER ;
