@@ -3,6 +3,7 @@ import axios from './axios'
 export const getTesisRequest = () => axios.get('/tesis')
 export const saveTesisRequest = values => axios.post('/tesis', values)
 export const getMyTesisRequest = id => axios.get(`/tesis/${id}`)
+export const verifyTesisRequest = id => axios.get(`/tesis/${id}/verify`)
 
 export const updateEstadoRequest = values => axios.post('/tesis/estado', values)
 

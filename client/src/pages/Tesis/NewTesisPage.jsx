@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form"
 import { useTesis } from "../../context/TesisContext"
 import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
+import { verifyTesisRequest } from "../../api/tesis"
 
 function NewTesisPage({ idTramite, onClose }) {
 
@@ -12,6 +14,14 @@ function NewTesisPage({ idTramite, onClose }) {
     const res = await saveTesis(values, idTramite)
     if (res.status === 200) navigate('/tesis')
   })
+
+  useEffect(() => {
+    async function verificar() {
+      const res = await verifyTesisRequest(idTramite)
+      if (res.data.response === 1) navigate('/tesis')
+    }
+    verificar()
+  }, [])
 
   return (
     <>
