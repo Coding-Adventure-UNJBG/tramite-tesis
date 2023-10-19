@@ -5,6 +5,7 @@ import authRoutes from './auth.routes.js'
 import fileRoutes from './files.routes.js'
 import tramiteRoutes from './tramite.routes.js'
 import tesisRoutes from './tesis.routes.js'
+import ReportRoutes from './reports.routes.js'
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/api/v1", authRoutes)
 app.use("/api/v1", fileRoutes)
 app.use("/api/v1/tramite", tramiteRoutes)
 app.use('/api/v1/tesis', tesisRoutes)
+app.use('/api/v1', ReportRoutes)
 
 app.use("*", (req, res) => {
   res.status(404).send("Not Found")

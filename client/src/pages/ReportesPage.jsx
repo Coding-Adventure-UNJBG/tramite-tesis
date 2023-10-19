@@ -1,23 +1,56 @@
 import { useState } from "react"
 import Card from "../components/Card"
 import exportFromJSON from 'export-from-json'
-import { getUsersRequest } from "../api/auth"
+import {getUsuarioRequest, getBachilleresRequest, getComitesRequest} from '../api/reports'
 
 function ReportesPage() {
 
   const [selectOption, setSelectOption] = useState('')
 
-  const onSubmit = async () => {
-    const res = await getUsersRequest()
-    const data = res.data
-    console.log(data)
-    const fileName = 'CryReport'
-    const exportType = exportFromJSON.types.xls
-
-    exportFromJSON({ data, fileName, exportType })
-
+  const onSubmitUsers = async () => {
+    try {
+      const res = await getUsuarioRequest()
+      console.log(res)
+      const data = res.data
+      console.log(data)
+      const fileName = 'Reporte Usuarios'
+      const exportType = exportFromJSON.types.xls
+  
+      exportFromJSON({ data, fileName, exportType })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
+  const onSubmitBachilleres = async () => {
+    try {
+      const res = await getBachilleresRequest()
+      console.log(res)
+      const data = res.data
+      console.log(data)
+      const fileName = 'Reporte Bachilleres'
+      const exportType = exportFromJSON.types.xls
+  
+      exportFromJSON({ data, fileName, exportType })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const onSubmitComites = async () => {
+    try {
+      const res = await getComitesRequest()
+      console.log(res)
+      const data = res.data
+      console.log(data)
+      const fileName = 'Reporte Comites'
+      const exportType = exportFromJSON.types.xls
+  
+      exportFromJSON({ data, fileName, exportType })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -34,35 +67,27 @@ function ReportesPage() {
             value={selectOption}
           >
             <option value="">Selecciona una opción</option>
-            <option value="1">REPORTE 1</option>
-            <option value="2">REPORTE 2</option>
-            <option value="3">REPORTE 3</option>
-            <option value="4">REPORTE 4</option>
+            <option value="1">REPORTE DE USUARIOS</option>
+            <option value="2">REPORTE DE BACHILLERES</option>
+            <option value="3">REPORTE DE COMITES</option>
           </select>
 
 
           {selectOption === '1' &&
             <>
-              <button className="button-style" onClick={onSubmit}>Exportar</button>
+              <button className="button-style" onClick={onSubmitUsers}>Exportar</button>
             </>
           }
           {selectOption === '2' &&
             <>
-              <button className="button-style" onClick={onSubmit}>Exportar</button>
+              <button className="button-style" onClick={onSubmitBachilleres}>Exportar</button>
             </>
           }
           {selectOption === '3' &&
             <>
-              <button className="button-style" onClick={onSubmit}>Exportar</button>
+              <button className="button-style" onClick={onSubmitComites}>Exportar</button>
             </>
           }
-          {selectOption === '4' &&
-            <>
-              <button className="button-style" onClick={onSubmit}>Exportar</button>
-            </>
-          }
-
-
         </div>
       </Card>
     </>
