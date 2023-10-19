@@ -79,19 +79,6 @@ model.listarComites = () => {
     })
 }
 
-model.saveFolio = (data) => {
-  console.log(data)
-  const { id, tipo_doc = 1, file } = data
-  return sequelize.query(`CALL saveFile('${id}', '${tipo_doc}', '${file}')`, { raw: true })
-    .then(([result, metadata]) => {
-      return result.rowAffected === 1 ? true : false
-    })
-    .catch((error) => {
-      console.log(error)
-      throw error
-    })
-}
-
 model.listarDetalleTramite = (id) => {
   return sequelize.query(`SELECT getFileName(t.cod_tramite) AS fileName, t.cod_tramite, t.cod_usuario, t.cod_asesor_propuesto, DATE_FORMAT(t.fecha_registro, "%d/%m/%Y") AS fecha_registro, CONCAT(u.nombre, " ", u.apellidos) AS nombre_asesor, t.estado  FROM tramite t
                         INNER JOIN usuario u ON u.cod_usuario = t.cod_asesor_propuesto

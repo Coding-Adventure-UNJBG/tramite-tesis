@@ -6,6 +6,8 @@ import { authRequired } from '../middlewares/validateToken.js'
 const router = new Router()
 router.post('/upload', upload.single('file'), controllers.uploadFile)
 
+router.get('/portafolio', authRequired, controllers.getPortafolio)
 router.post('/portafolio', authRequired, controllers.savePortafolio)
+
 
 export default router

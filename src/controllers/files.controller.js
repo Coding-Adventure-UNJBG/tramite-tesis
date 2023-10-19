@@ -1,4 +1,4 @@
-import model from "../models/tramite.model.js"
+import model from "../models/auth.model.js"
 
 const controllers = {}
 
@@ -21,7 +21,20 @@ controllers.savePortafolio = async (req, res) => {
 
     if (result) return res.sendStatus(200)
     else return res.status(500).send({ error: "Error al guardar el portafolio" })
-  
+
+  } catch (error) {
+    res.status(500).send({ error: error.message })
+  }
+}
+
+controllers.getPortafolio = async (req, res) => {
+  try {
+    const { id } = req.user
+    console.log(req.user)
+    const result = await model.getPortafolio(id)
+
+    res.status(200).json(result)
+
   } catch (error) {
     res.status(500).send({ error: error.message })
   }

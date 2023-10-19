@@ -11,4 +11,5 @@ export const updateUserRequest = (id, user) => axios.put(`/usuario/${id}`, user)
 export const deleteUserRequest = id => axios.delete(`/usuario/${id}`)
 //de momento por aqui para probar
 export const uploadRequest = values => axios.post('/upload', values)
+export const getPortafolioRequest = () => axios.get('/portafolio')
 export const saveDocumentRequest = values => axios.post('/portafolio', values)

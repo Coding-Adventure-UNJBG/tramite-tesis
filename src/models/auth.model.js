@@ -84,4 +84,38 @@ model.getUsers = async () => {
     })
 }
 
+model.saveFolio = (data) => {
+  console.log(data)
+  const { id, tipo_doc = 1, file } = data
+  return sequelize.query(`CALL saveFile('${id}', '${tipo_doc}', '${file}')`, { raw: true })
+    .then(([result, metadata]) => {
+      return result.rowAffected === 1 ? true : false
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
+model.getPortafolio = (id) => {
+  console.log(id)
+  return sequelize.query(`SELECT
+    df.cod_folio,
+    df.cod_doc,
+    MAX(df.cod_detalle_folio) AS cod_detalle_folio,
+    (SELECT nombreArchivo FROM detalle_folio WHERE cod_folio = df.cod_folio AND cod_doc = df.cod_doc AND cod_detalle_folio = MAX(df.cod_detalle_folio)) AS nombreArchivo,
+    (SELECT nombre FROM tipo_documento WHERE cod_doc = df.cod_doc) AS tipo_doc
+FROM detalle_folio df
+WHERE df.cod_folio = (SELECT cod_folio FROM folio WHERE cod_usuario = '${id}')
+GROUP BY df.cod_folio, df.cod_doc`, { raw: true })
+    .then(([result, metadata]) => {
+      return result.length === 0 ? [] : result
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+
+}
+
 export default model
