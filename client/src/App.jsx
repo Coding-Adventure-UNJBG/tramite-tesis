@@ -21,6 +21,7 @@ import ComitePage from './pages/Comite/ComitePage'
 import ObservacionesPage from './pages/Solicitud/ObservacionesPage'
 import { TesisProvider } from './context/TesisContext'
 import TesisObservacionesPage from './pages/Tesis/ObservacionesPage'
+import ReportesPage from './pages/ReportesPage'
 
 function App() {
   return (
@@ -52,7 +53,8 @@ function App() {
 
                 <Route path='/comite' element={<ComitePage />} />
 
-                <Route path='/reporte' element={<h1>Aqui los reportes</h1>} />
+                <Route path='/reporte' element={<ReportesPage />} />
+
                 {/* de momento por aqui para probar */}
                 <Route path='/upload' element={<UploadFile />} />
               </Route>
