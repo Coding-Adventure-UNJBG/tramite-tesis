@@ -128,4 +128,15 @@ model.updateEstado = (data) => {
     })
 }
 
+model.verify = (id) => {
+  return sequelize.query(`SELECT existeTesis('${id}') AS response`, { raw: true })
+    .then(([result, metadata]) => {
+      return result[0]
+    })
+    .catch((error) => {
+      console.log(error)
+      throw error
+    })
+}
+
 export default model

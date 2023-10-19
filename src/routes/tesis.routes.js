@@ -17,6 +17,7 @@ router.post('/jurado/subsanar', authRequired, controller.subsanarObservacionJura
 router.post('/estado', authRequired, controller.updateEstado)
 
 router.get('/:id', controller.getMyTesis)
+router.get('/:id/verify', controller.verificar)
 router.get('/:id/asesor', controller.getObservacionAsesor)
 router.get('/:id/jurado', controller.getObservacionJurado)
 
