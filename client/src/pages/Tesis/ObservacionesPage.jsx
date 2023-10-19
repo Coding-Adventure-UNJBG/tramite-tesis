@@ -8,6 +8,7 @@ import NewObservacionPage from './NewObservacionPage'
 import { useTesis } from "../../context/TesisContext"
 import ObservacionAsesor from "./ObservacionAsesor"
 import ObservacionJurado from './ObservacionJurado'
+import { useAuth } from "../../context/AuthContext"
 
 function ObservacionesPage() {
 
@@ -16,6 +17,7 @@ function ObservacionesPage() {
 
   const { id } = state
   const { getTesisById } = useTesis()
+  const { user } = useAuth()
 
   const [detalles, setDetalles] = useState([])
 
@@ -55,8 +57,12 @@ function ObservacionesPage() {
           window.open(`http://localhost:3000/files/${detalles?.fileName}`, 'CryReport', 'width=700, height=600')
         }}>Mostrar última versión (PDF)</button>
 
+        {detalles?.estado === 'APROBADO ASESOR' && detalles?.c_asesor !== user?.id &&
+          <ObservacionJurado idTesis={id} detalles={detalles} setDetalles={setDetalles} />
+        }
+        
         <ObservacionAsesor idTesis={id} detalles={detalles} setDetalles={setDetalles} />
-        <ObservacionJurado idTesis={id} detalles={detalles} setDetalles={setDetalles} />
+
 
       </Card>
     </>
