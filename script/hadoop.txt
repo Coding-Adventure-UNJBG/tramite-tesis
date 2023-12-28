@@ -1,0 +1,111 @@
+
+Creando carpeta para la base de datos y las tablas
+
+hdfs dfs -mkdir /user/cloudera/grupo01/
+hdfs dfs -mkdir /user/cloudera/grupo01/database/
+
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/rol
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/usuario
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/tipo_documento
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/folio
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/detalle_folio
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/tramite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/comite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/integrantes_comite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/revision_comite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/tesis
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/asesor
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/revision_asesor
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/jurado
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/rol_jurado
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing_tmp/revision_jurado
+
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/rol
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/usuario
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/tipo_documento
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/folio
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/detalle_folio
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/tramite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/comite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/integrantes_comite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/revision_comite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/tesis
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/asesor
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/revision_asesor
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/jurado
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/rol_jurado
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_landing/revision_jurado
+
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/rol
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/usuario
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/tipo_documento
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/folio
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/detalle_folio
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/tramite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/comite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/integrantes_comite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/revision_comite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/tesis
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/asesor
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/revision_asesor
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/jurado
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/rol_jurado
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/revision_jurado
+
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_smart
+
+hdfs dfs -mkdir /user/cloudera/grupo01/schema
+hdfs dfs -mkdir /user/cloudera/grupo01/schema/database
+
+hdfs dfs -mkdir /user/cloudera/grupo01/schema/database/tramite_tesis_smart
+
+
+-- En la consola de HIVE, adaptar y ejecutar -  creacion de las bases de datos
+
+DROP DATABASE IF EXISTS tramite_tesis_LANDING_TMP CASCADE;
+DROP DATABASE IF EXISTS tramite_tesis_LANDING CASCADE;
+DROP DATABASE IF EXISTS tramite_tesis_UNIVERSAL CASCADE;
+DROP DATABASE IF EXISTS tramite_tesis_SMART CASCADE;
+
+CREATE DATABASE IF NOT EXISTS tramite_tesis_LANDING_TMP LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_landing_tmp';
+CREATE DATABASE IF NOT EXISTS tramite_tesis_LANDING LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_landing';
+CREATE DATABASE IF NOT EXISTS tramite_tesis_UNIVERSAL LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_universal';
+CREATE DATABASE IF NOT EXISTS tramite_tesis_SMART LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_smart';
+
+
+
+
+
+-- En la consola de HIVE, adaptar y ejecutar, creacion de las tablas
+CREATE TABLE tramite_tesis_LANDING_TMP.rol(
+cod_rol INT,
+nombre STRING,
+permisos STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/rol';
+
+CREATE TABLE tramite_tesis_LANDING_TMP.usuario(
+cod_usuario INT,
+cod_rol INT,
+nombre STRING,
+apellidos STRING,
+dni STRING,
+password STRING,
+fecha_nacimiento STRING,
+telefono STRING,
+correo STRING,
+direccion STRING,
+grado_academico STRING
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '|'
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/usuario';
