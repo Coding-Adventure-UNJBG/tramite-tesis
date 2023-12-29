@@ -1,0 +1,9 @@
+{
+  "name": "folio",
+  "type": "record",
+  "fields": [
+    {"name": "cod_folio", "type": ["int", "null"]},
+    {"name": "cod_usuario", "type": ["int", "null"]},
+    {"name": "fecha", "type": ["string", "null"]}
+  ]
+}

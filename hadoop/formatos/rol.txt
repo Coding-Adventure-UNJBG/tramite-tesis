@@ -1,0 +1,9 @@
+{
+  "name": "rol",
+  "type": "record",
+  "fields": [
+     {"name": "cod_rol", "type": ["int", "null"]},
+     {"name": "nombre", "type": ["string", "null"]},
+     {"name": "permisos", "type": ["string", "null"]},
+  ]
+}

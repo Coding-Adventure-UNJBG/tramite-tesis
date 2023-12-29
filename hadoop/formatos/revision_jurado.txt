@@ -1,0 +1,12 @@
+{
+  "name": "revision_jurado",
+  "type": "record",
+  "fields": [
+    {"name": "cod_revision_jurado", "type": ["int", "null"]},
+    {"name": "cod_jurado", "type": ["int", "null"]},
+    {"name": "cod_tesis", "type": ["int", "null"]},
+    {"name": "fecha", "type": ["string", "null"]},
+    {"name": "observacion", "type": ["string", "null"]},
+    {"name": "corregido", "type": ["string", "null"]}
+  ]
+}

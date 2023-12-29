@@ -1,0 +1,17 @@
+{
+  "name": "usuario",
+  "type": "record",
+  "fields": [
+     {"name": "cod_usuario", "type": ["int", "null"]},
+     {"name": "cod_rol", "type": ["int", "null"]},
+     {"name": "nombre", "type": ["string", "null"]},
+     {"name": "apellidos", "type": ["string", "null"]},
+     {"name": "dni", "type": ["string", "null"]},
+     {"name": "password", "type": ["string", "null"]},
+     {"name": "fecha_nacimiento", "type": ["string", "null"]},
+     {"name": "telefono", "type": ["string", "null"]},
+     {"name": "correo", "type": ["string", "null"]},
+     {"name": "direccion", "type": ["string", "null"]},
+     {"name": "grado_academico", "type": ["string", "null"]},
+  ]
+}

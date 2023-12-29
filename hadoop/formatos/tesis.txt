@@ -1,0 +1,14 @@
+{
+  "name": "tesis",
+  "type": "record",
+  "fields": [
+    {"name": "cod_tesis", "type": ["int", "null"]},
+    {"name": "cod_usuario", "type": ["int", "null"]},
+    {"name": "cod_tramite", "type": ["int", "null"]},
+    {"name": "estado", "type": ["string", "null"]},
+    {"name": "titulo", "type": ["string", "null"]},
+    {"name": "fecha_inicio", "type": ["string", "null"]},
+    {"name": "fecha_fin", "type": ["string", "null"]},
+    {"name": "versionIncial", "type": ["string", "null"]}
+  ]
+}

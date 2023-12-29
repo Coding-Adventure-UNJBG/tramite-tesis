@@ -1,0 +1,9 @@
+{
+  "name": "jurado",
+  "type": "record",
+  "fields": [
+    {"name": "cod_jurado", "type": ["int", "null"]},
+    {"name": "cod_tesis", "type": ["int", "null"]},
+    {"name": "cod_usuario", "type": ["int", "null"]}
+  ]
+}

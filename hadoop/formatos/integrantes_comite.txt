@@ -1,0 +1,8 @@
+{
+  "name": "integrantes_comite",
+  "type": "record",
+  "fields": [
+    {"name": "cod_comite", "type": ["int", "null"]},
+    {"name": "cod_usuario_comite", "type": ["int", "null"]}
+  ]
+}

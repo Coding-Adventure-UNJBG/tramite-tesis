@@ -1,0 +1,10 @@
+{
+  "name": "detalle_folio",
+  "type": "record",
+  "fields": [
+    {"name": "cod_detalle_folio", "type": ["int", "null"]},
+    {"name": "cod_folio", "type": ["int", "null"]},
+    {"name": "cod_doc", "type": ["int", "null"]},
+    {"name": "nombreArchivo", "type": ["string", "null"]}
+  ]
+}
