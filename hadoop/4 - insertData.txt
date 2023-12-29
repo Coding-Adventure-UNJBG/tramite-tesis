@@ -1,0 +1,47 @@
+-- Colocar toda la data en la carpeta /home/cloudera/grupo1/dataset/
+-- En HIVE, ejecutar los siguientes comandos 
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/rol.data'
+INTO TABLE tramite_tesis_landing_tmp.rol;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/usuario.data'
+INTO TABLE tramite_tesis_landing_tmp.usuario;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/tipo_documento.data'
+INTO TABLE tramite_tesis_landing_tmp.tipo_documento;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/folio.data'
+INTO TABLE tramite_tesis_landing_tmp.folio;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/detalle_folio.data'
+INTO TABLE tramite_tesis_landing_tmp.detalle_folio;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/tramite.data'
+INTO TABLE tramite_tesis_landing_tmp.tramite;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/comite.data'
+INTO TABLE tramite_tesis_landing_tmp.comite;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/integrantes_comite.data'
+INTO TABLE tramite_tesis_landing_tmp.integrantes_comite;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/revision_comite.data'
+INTO TABLE tramite_tesis_landing_tmp.revision_comite;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/tesis.data'
+INTO TABLE tramite_tesis_landing_tmp.tesis;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/asesor.data'
+INTO TABLE tramite_tesis_landing_tmp.asesor;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/revision_asesor.data'
+INTO TABLE tramite_tesis_landing_tmp.revision_asesor;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/jurado.data'
+INTO TABLE tramite_tesis_landing_tmp.jurado;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/rol_jurado.data'
+INTO TABLE tramite_tesis_landing_tmp.rol_jurado;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/grupo1/dataset/revision_jurado.data'
+INTO TABLE tramite_tesis_landing_tmp.revision_jurado;

@@ -1,5 +1,4 @@
-
-#Crear la estructura de carpetas
+Creando carpeta para la base de datos y las tablas
 
 hdfs dfs -mkdir /user/cloudera/grupo01/
 hdfs dfs -mkdir /user/cloudera/grupo01/database/
@@ -60,52 +59,4 @@ hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_smart
 hdfs dfs -mkdir /user/cloudera/grupo01/schema
 hdfs dfs -mkdir /user/cloudera/grupo01/schema/database
 
-hdfs dfs -mkdir /user/cloudera/grupo01/schema/database/tramite_tesis_smart
-
-
--- En la consola de HIVE, adaptar y ejecutar -  creacion de las bases de datos
-
-DROP DATABASE IF EXISTS tramite_tesis_LANDING_TMP CASCADE;
-DROP DATABASE IF EXISTS tramite_tesis_LANDING CASCADE;
-DROP DATABASE IF EXISTS tramite_tesis_UNIVERSAL CASCADE;
-DROP DATABASE IF EXISTS tramite_tesis_SMART CASCADE;
-
-CREATE DATABASE IF NOT EXISTS tramite_tesis_LANDING_TMP LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_landing_tmp';
-CREATE DATABASE IF NOT EXISTS tramite_tesis_LANDING LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_landing';
-CREATE DATABASE IF NOT EXISTS tramite_tesis_UNIVERSAL LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_universal';
-CREATE DATABASE IF NOT EXISTS tramite_tesis_SMART LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_smart';
-
-
-
-
-
--- En la consola de HIVE, adaptar y ejecutar, creacion de las tablas
-CREATE TABLE tramite_tesis_LANDING_TMP.rol(
-cod_rol INT,
-nombre STRING,
-permisos STRING
-)
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY '|'
-LINES TERMINATED BY '\n'
-STORED AS TEXTFILE
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/rol';
-
-CREATE TABLE tramite_tesis_LANDING_TMP.usuario(
-cod_usuario INT,
-cod_rol INT,
-nombre STRING,
-apellidos STRING,
-dni STRING,
-password STRING,
-fecha_nacimiento STRING,
-telefono STRING,
-correo STRING,
-direccion STRING,
-grado_academico STRING
-)
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY '|'
-LINES TERMINATED BY '\n'
-STORED AS TEXTFILE
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/usuario';
+hdfs dfs -mkdir /user/cloudera/grupo01/schema/database/tramite_tesis_landing

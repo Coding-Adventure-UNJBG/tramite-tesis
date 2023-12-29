@@ -1,0 +1,11 @@
+-- En la consola de HIVE, adaptar y ejecutar -  creacion de las bases de datos
+
+DROP DATABASE IF EXISTS tramite_tesis_LANDING_TMP CASCADE;
+DROP DATABASE IF EXISTS tramite_tesis_LANDING CASCADE;
+DROP DATABASE IF EXISTS tramite_tesis_UNIVERSAL CASCADE;
+DROP DATABASE IF EXISTS tramite_tesis_SMART CASCADE;
+
+CREATE DATABASE IF NOT EXISTS tramite_tesis_LANDING_TMP LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_landing_tmp';
+CREATE DATABASE IF NOT EXISTS tramite_tesis_LANDING LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_landing';
+CREATE DATABASE IF NOT EXISTS tramite_tesis_UNIVERSAL LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_universal';
+CREATE DATABASE IF NOT EXISTS tramite_tesis_SMART LOCATION '/user/cloudera/grupo01/database/cloudera_landing_tmp/tramite_tesis_smart';
