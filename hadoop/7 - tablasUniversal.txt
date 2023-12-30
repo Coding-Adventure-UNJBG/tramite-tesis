@@ -1,0 +1,359 @@
+-- desde HIVE
+
+CREATE TABLE tramite_tesis_universal.rol(
+  cod_rol INT,
+  nombre STRING,
+  permisos STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/rol'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+
+INSERT OVERWRITE TABLE tramite_tesis_universal.rol
+SELECT
+cast(cod_rol AS INT),
+cast(nombre AS STRING),
+cast(permisos AS STRING)
+FROM tramite_tesis_landing.rol
+WHERE cod_rol != 'cod_rol';
+
+
+CREATE TABLE tramite_tesis_universal.usuario(
+  cod_usuario INT,
+  cod_rol INT,
+  nombre STRING,
+  apellidos STRING,
+  dni STRING,
+  password STRING,
+  fecha_nacimiento STRING,
+  telefono STRING,
+  correo STRING,
+  direccion STRING,
+  grado_academico STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/usuario'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.usuario
+SELECT
+cast(cod_usuario AS INT),
+cast(cod_rol AS INT),
+cast(nombre AS STRING),
+cast(apellidos AS STRING),
+cast(dni AS STRING),
+cast(password AS STRING),
+cast(fecha_nacimiento AS STRING),
+cast(telefono AS STRING),
+cast(correo AS STRING),
+cast(direccion AS STRING),
+cast(grado_academico AS STRING)
+FROM tramite_tesis_landing.usuario
+WHERE cod_usuario != 'cod_usuario';
+
+
+CREATE TABLE tramite_tesis_universal.tipo_documento(
+  cod_doc INT,
+  nombre STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/tipo_documento'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.tipo_documento
+SELECT
+cast(cod_doc AS INT),
+cast(nombre AS STRING)
+FROM tramite_tesis_landing.tipo_documento
+WHERE cod_doc != 'cod_doc';
+
+
+CREATE TABLE tramite_tesis_universal.folio(
+  cod_folio INT,
+  cod_usuario INT,
+  fecha STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/folio'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.folio
+SELECT
+cast(cod_folio AS INT),
+cast(cod_usuario AS INT),
+cast(fecha AS STRING)
+FROM tramite_tesis_landing.folio
+WHERE cod_folio != 'cod_folio';
+
+CREATE TABLE tramite_tesis_universal.detalle_folio(
+  cod_detalle_folio INT,
+  cod_folio INT,
+  cod_doc INT,
+  nombreArchivo STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/detalle_folio'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.detalle_folio
+SELECT
+cast(cod_detalle_folio AS INT),
+cast(cod_folio AS INT),
+cast(cod_doc AS INT),
+cast(nombreArchivo AS STRING)
+FROM tramite_tesis_landing.detalle_folio
+WHERE cod_detalle_folio != 'cod_detalle_folio';
+
+CREATE TABLE tramite_tesis_universal.tramite(
+  cod_tramite INT,
+  cod_usuario INT,
+  estado STRING,
+  fecha_registro STRING,
+  cod_asesor_propuesto INT,
+  versionIncial STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/tramite'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.tramite
+SELECT
+cast(cod_tramite AS INT),
+cast(cod_usuario AS INT),
+cast(estado AS STRING),
+cast(fecha_registro AS STRING),
+cast(cod_asesor AS INT),
+cast(versionIncial AS STRING)
+FROM tramite_tesis_landing.tramite
+WHERE cod_tramite != 'cod_tramite';
+
+
+CREATE TABLE tramite_tesis_universal.comite(
+  cod_comite INT,
+  num_integrantes INT
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/comite'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.comite
+SELECT
+cast(cod_comite AS INT),
+cast(num_integrantes AS INT)
+FROM tramite_tesis_landing.comite
+WHERE cod_comite != 'cod_comite';
+
+
+CREATE TABLE tramite_tesis_universal.integrantes_comite(
+  cod_comite INT,
+  cod_usuario_comite INT
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/integrantes_comite'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.integrantes_comite
+SELECT
+cast(cod_comite AS INT),
+cast(cod_usuario AS INT)
+FROM tramite_tesis_landing.integrantes_comite
+WHERE cod_comite != 'cod_comite';
+
+
+CREATE TABLE tramite_tesis_universal.revision_comite(
+  cod_revision_comite INT,
+  cod_comite INT,
+  cod_tramite INT,
+  fecha STRING,
+  observacion STRING,
+  corregido STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/revision_comite'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.revision_comite
+SELECT
+cast(cod_revision_comite AS INT),
+cast(cod_comite AS INT),
+cast(cod_tramite AS INT),
+cast(fecha AS STRING),
+cast(observacion AS STRING),
+cast(corregido AS STRING)
+FROM tramite_tesis_landing.revision_comite
+WHERE cod_revision_comite != 'cod_revision_comite';
+
+
+CREATE TABLE tramite_tesis_universal.tesis(
+  cod_tesis INT,
+  cod_usuario INT,
+  cod_tramite INT,
+  estado STRING,
+  titulo STRING,
+  fecha_inicio STRING,
+  fecha_fin STRING,
+  versionIncial STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/tesis'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.tesis
+SELECT
+cast(cod_tesis AS INT),
+cast(cod_usuario AS INT),
+cast(cod_tramite AS INT),
+cast(estado AS STRING),
+cast(titulo AS STRING),
+cast(fecha_inicio AS STRING),
+cast(fecha_fin AS STRING),
+cast(versionIncial AS STRING)
+FROM tramite_tesis_landing.tesis
+WHERE cod_tesis != 'cod_tesis';
+
+
+CREATE TABLE tramite_tesis_universal.asesor(
+  cod_asesor INT,
+  cod_tesis INT,
+  cod_usuario INT
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/asesor'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.asesor
+SELECT
+cast(cod_asesor AS INT),
+cast(cod_tesis AS INT),
+cast(cod_usuario AS INT)
+FROM tramite_tesis_landing.asesor
+WHERE cod_asesor != 'cod_asesor';
+
+
+CREATE TABLE tramite_tesis_universal.revision_asesor(
+  cod_revision_asesor INT,
+  cod_asesor INT,
+  cod_tesis INT,
+  fecha STRING,
+  observacion STRING,
+  corregido STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/revision_asesor'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.revision_asesor
+SELECT
+cast(cod_revision_asesor AS INT),
+cast(cod_asesor AS INT),
+cast(cod_tesis AS INT),
+cast(fecha AS STRING),
+cast(observacion AS STRING),
+cast(corregido AS STRING)
+FROM tramite_tesis_landing.revision_asesor
+WHERE cod_revision_asesor != 'cod_revision_asesor';
+
+
+CREATE TABLE tramite_tesis_universal.jurado(
+  cod_jurado INT,
+  cod_tesis INT,
+  cod_usuario INT
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/jurado'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.jurado
+SELECT
+cast(cod_jurado AS INT),
+cast(cod_tesis AS INT),
+cast(cod_usuario AS INT)
+FROM tramite_tesis_landing.jurado
+WHERE cod_jurado != 'cod_jurado';
+
+
+CREATE TABLE tramite_tesis_universal.rol_jurado(
+  cod_rol_jurado INT,
+  cod_jurado INT,
+  tipo_rol STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/rol_jurado'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.rol_jurado
+SELECT
+cast(cod_rol_jurado AS INT),
+cast(cod_jurado AS INT),
+cast(tipo_rol AS STRING)
+FROM tramite_tesis_landing.rol_jurado
+WHERE cod_rol_jurado != 'cod_rol_jurado';
+
+
+CREATE TABLE tramite_tesis_universal.revision_jurado(
+  cod_revision_jurado INT,
+  cod_jurado INT,
+  cod_tesis INT,
+  fecha STRING,
+  observacion STRING,
+  corregido STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/revision_jurado'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+    
+SET hive.exec.compress.output=true;
+SET parquet.compression=SNAPPY;
+    
+INSERT OVERWRITE TABLE tramite_tesis_universal.revision_jurado
+SELECT
+cast(cod_revision_jurado AS INT),
+cast(cod_jurado AS INT),
+cast(cod_tesis AS INT),
+cast(fecha AS STRING),
+cast(observacion AS STRING),
+cast(corregido AS STRING)
+FROM tramite_tesis_landing.revision_jurado
+WHERE cod_revision_jurado != 'cod_revision_jurado'; 
