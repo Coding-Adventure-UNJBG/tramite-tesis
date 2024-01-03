@@ -2,8 +2,8 @@
   "name": "asesor",
   "type": "record",
   "fields": [
-    {"name": "cod_asesor", "type": ["int", "null"]},
-    {"name": "cod_tesis", "type": ["int", "null"]},
-    {"name": "cod_usuario", "type": ["int", "null"]}
+    {"name": "cod_asesor", "type": ["string", "null"]},
+    {"name": "cod_tesis", "type": ["string", "null"]},
+    {"name": "cod_usuario", "type": ["string", "null"]}
   ]
 }

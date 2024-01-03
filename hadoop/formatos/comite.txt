@@ -2,7 +2,7 @@
   "name": "comite",
   "type": "record",
   "fields": [
-    {"name": "cod_comite", "type": ["int", "null"]},
-    {"name": "num_integrantes", "type": ["int", "null"]}
+    {"name": "cod_comite", "type": ["string", "null"]},
+    {"name": "num_integrantes", "type": ["string", "null"]}
   ]
 }

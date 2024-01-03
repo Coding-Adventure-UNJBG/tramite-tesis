@@ -2,11 +2,11 @@
   "name": "tramite",
   "type": "record",
   "fields": [
-    {"name": "cod_tramite", "type": ["int", "null"]},
-    {"name": "cod_usuario", "type": ["int", "null"]},
+    {"name": "cod_tramite", "type": ["string", "null"]},
+    {"name": "cod_usuario", "type": ["string", "null"]},
     {"name": "estado", "type": ["string", "null"]},
     {"name": "fecha_registro", "type": ["string", "null"]},
-    {"name": "cod_asesor_propuesto", "type": ["int", "null"]},
+    {"name": "cod_asesor_propuesto", "type": ["string", "null"]},
     {"name": "versionIncial", "type": ["string", "null"]}
   ]
 }

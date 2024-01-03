@@ -1,6 +1,6 @@
 -- En la consola de HIVE, adaptar y ejecutar, creacion de las tablas
 CREATE TABLE tramite_tesis_LANDING_TMP.rol(
-  cod_rol INT,
+  cod_rol STRING,
   nombre STRING,
   permisos STRING
 )
@@ -11,8 +11,8 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/rol';
 
 CREATE TABLE tramite_tesis_LANDING_TMP.usuario(
-  cod_usuario INT,
-  cod_rol INT,
+  cod_usuario STRING,
+  cod_rol STRING,
   nombre STRING,
   apellidos STRING,
   dni STRING,
@@ -30,7 +30,7 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/usuario';
 
 CREATE TABLE tramite_tesis_LANDING_TMP.tipo_documento(
-  cod_doc INT,
+  cod_doc STRING,
   nombre STRING
 )
 ROW FORMAT DELIMITED
@@ -40,8 +40,8 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/tipo_documento';
 
 CREATE TABLE tramite_tesis_landing_tmp.folio(
-  cod_folio INT,
-  cod_usuario INT,
+  cod_folio STRING,
+  cod_usuario STRING,
   fecha STRING
 )
 ROW FORMAT DELIMITED
@@ -51,9 +51,9 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/folio';
 
 CREATE TABLE tramite_tesis_landing_tmp.detalle_folio(
-  cod_detalle_folio INT,
-  cod_folio INT,
-  cod_doc INT,
+  cod_detalle_folio STRING,
+  cod_folio STRING,
+  cod_doc STRING,
   nombreArchivo STRING
 )
 ROW FORMAT DELIMITED
@@ -63,11 +63,11 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/detalle_folio';
 
 CREATE TABLE tramite_tesis_landing_tmp.tramite(
-  cod_tramite INT,
-  cod_usuario INT,
+  cod_tramite STRING,
+  cod_usuario STRING,
   estado STRING,
   fecha_registro STRING,
-  cod_asesor_propuesto INT,
+  cod_asesor_propuesto STRING,
   versionIncial STRING
 )
 ROW FORMAT DELIMITED
@@ -77,8 +77,8 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/tramite';
 
 CREATE TABLE tramite_tesis_landing_tmp.comite(
-  cod_comite INT,
-  num_integrantes INT
+  cod_comite STRING,
+  num_integrantes STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '|'
@@ -87,8 +87,8 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/comite';
 
 CREATE TABLE tramite_tesis_landing_tmp.integrantes_comite(
-  cod_comite INT,
-  cod_usuario_comite INT
+  cod_comite STRING,
+  cod_usuario_comite STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '|'
@@ -97,9 +97,9 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/integrantes_comite';
 
 CREATE TABLE tramite_tesis_landing_tmp.revision_comite(
-  cod_revision_comite INT,
-  cod_comite INT,
-  cod_tramite INT,
+  cod_revision_comite STRING,
+  cod_comite STRING,
+  cod_tramite STRING,
   fecha STRING,
   observacion STRING,
   corregido STRING
@@ -111,9 +111,9 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/revision_comite';
 
 CREATE TABLE tramite_tesis_landing_tmp.tesis(
-  cod_tesis INT,
-  cod_usuario INT,
-  cod_tramite INT,
+  cod_tesis STRING,
+  cod_usuario STRING,
+  cod_tramite STRING,
   estado STRING,
   titulo STRING,
   fecha_inicio STRING,
@@ -127,9 +127,9 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/tesis';
 
 CREATE TABLE tramite_tesis_landing_tmp.asesor(
-  cod_asesor INT,
-  cod_tesis INT,
-  cod_usuario INT
+  cod_asesor STRING,
+  cod_tesis STRING,
+  cod_usuario STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '|'
@@ -138,9 +138,9 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/asesor';
 
 CREATE TABLE tramite_tesis_landing_tmp.revision_asesor(
-  cod_revision_asesor INT,
-  cod_asesor INT,
-  cod_tesis INT,
+  cod_revision_asesor STRING,
+  cod_asesor STRING,
+  cod_tesis STRING,
   fecha STRING,
   observacion STRING,
   corregido STRING
@@ -152,9 +152,9 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/revision_asesor';
 
 CREATE TABLE tramite_tesis_landing_tmp.jurado(
-  cod_jurado INT,
-  cod_tesis INT,
-  cod_usuario INT
+  cod_jurado STRING,
+  cod_tesis STRING,
+  cod_usuario STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '|'
@@ -163,8 +163,8 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/jurado';
 
 CREATE TABLE tramite_tesis_landing_tmp.rol_jurado(
-  cod_rol_jurado INT,
-  cod_jurado INT,
+  cod_rol_jurado STRING,
+  cod_jurado STRING,
   tipo_rol STRING
 )
 ROW FORMAT DELIMITED
@@ -174,9 +174,9 @@ STORED AS TEXTFILE
 LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing_tmp/rol_jurado';
 
 CREATE TABLE tramite_tesis_landing_tmp.revision_jurado(
-  cod_revision_jurado INT,
-  cod_jurado INT,
-  cod_tesis INT,
+  cod_revision_jurado STRING,
+  cod_jurado STRING,
+  cod_tesis STRING,
   fecha STRING,
   observacion STRING,
   corregido STRING

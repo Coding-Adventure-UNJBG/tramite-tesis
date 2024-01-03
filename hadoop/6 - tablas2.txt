@@ -2,7 +2,7 @@
 
 CREATE TABLE tramite_tesis_landing.rol
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/rol'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/rol'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/rol.txt',
   'avro.output.codec'='snappy'
@@ -17,7 +17,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.rol;
 
 CREATE TABLE tramite_tesis_landing.usuario
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/usuario'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/usuario'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/usuario.txt',
   'avro.output.codec'='snappy'
@@ -32,7 +32,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.usuario;
 
 CREATE TABLE tramite_tesis_landing.tipo_documento
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/tipo_documento'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/tipo_documento'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/tipo_documento.txt',
   'avro.output.codec'='snappy'
@@ -47,7 +47,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.tipo_documento;
 
 CREATE TABLE tramite_tesis_landing.folio
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/folio'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/folio'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/folio.txt',
   'avro.output.codec'='snappy'
@@ -62,7 +62,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.folio;
 
 CREATE TABLE tramite_tesis_landing.detalle_folio
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/detalle_folio'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/detalle_folio'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/detalle_folio.txt',
   'avro.output.codec'='snappy'
@@ -77,7 +77,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.detalle_folio;
 
 CREATE TABLE tramite_tesis_landing.tramite
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/tramite'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/tramite'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/tramite.txt',
   'avro.output.codec'='snappy'
@@ -92,7 +92,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.tramite;
 
 CREATE TABLE tramite_tesis_landing.comite
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/comite'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/comite'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/comite.txt',
   'avro.output.codec'='snappy'
@@ -107,7 +107,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.comite;
 
 CREATE TABLE tramite_tesis_landing.integrantes_comite
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/integrantes_comite'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/integrantes_comite'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/integrantes_comite.txt',
   'avro.output.codec'='snappy'
@@ -122,7 +122,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.integrantes_comite;
 
 CREATE TABLE tramite_tesis_landing.revision_comite
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/revision_comite'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/revision_comite'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/revision_comite.txt',
   'avro.output.codec'='snappy'
@@ -137,7 +137,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.revision_comite;
 
 CREATE TABLE tramite_tesis_landing.tesis
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/tesis'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/tesis'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/tesis.txt',
   'avro.output.codec'='snappy'
@@ -152,7 +152,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.tesis;
 
 CREATE TABLE tramite_tesis_landing.asesor
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/asesor'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/asesor'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/asesor.txt',
   'avro.output.codec'='snappy'
@@ -167,7 +167,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.asesor;
 
 CREATE TABLE tramite_tesis_landing.revision_asesor
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/revision_asesor'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/revision_asesor'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/revision_asesor.txt',
   'avro.output.codec'='snappy'
@@ -182,7 +182,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.revision_asesor;
 
 CREATE TABLE tramite_tesis_landing.jurado
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/jurado'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/jurado'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/jurado.txt',
   'avro.output.codec'='snappy'
@@ -197,7 +197,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.jurado;
 
 CREATE TABLE tramite_tesis_landing.rol_jurado
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/rol_jurado'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/rol_jurado'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/rol_jurado.txt',
   'avro.output.codec'='snappy'
@@ -212,7 +212,7 @@ SELECT * FROM  tramite_tesis_landing_tmp.rol_jurado;
 
 CREATE TABLE tramite_tesis_landing.revision_jurado
 STORED AS AVRO
-LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/revision_jurado'0
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_landing/revision_jurado'
 TBLPROPERTIES (
   'avro.schema.url'='hdfs:///user/cloudera/grupo01/schema/database/tramite_tesis_landing/revision_jurado.txt',
   'avro.output.codec'='snappy'

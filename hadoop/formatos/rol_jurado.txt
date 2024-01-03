@@ -2,8 +2,8 @@
   "name": "rol_jurado",
   "type": "record",
   "fields": [
-    {"name": "cod_rol_jurado", "type": ["int", "null"]},
-    {"name": "cod_jurado", "type": ["int", "null"]},
+    {"name": "cod_rol_jurado", "type": ["string", "null"]},
+    {"name": "cod_jurado", "type": ["string", "null"]},
     {"name": "tipo_rol", "type": ["string", "null"]}
   ]
 }

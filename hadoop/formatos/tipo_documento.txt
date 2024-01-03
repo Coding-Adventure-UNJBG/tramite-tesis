@@ -2,7 +2,7 @@
   "name": "tipo_documento",
   "type": "record",
   "fields": [
-    {"name": "cod_doc", "type": ["int", "null"]},
+    {"name": "cod_doc", "type": ["string", "null"]},
     {"name": "nombre", "type": ["string", "null"]}
   ]
 }

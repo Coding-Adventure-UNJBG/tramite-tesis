@@ -2,9 +2,9 @@
   "name": "detalle_folio",
   "type": "record",
   "fields": [
-    {"name": "cod_detalle_folio", "type": ["int", "null"]},
-    {"name": "cod_folio", "type": ["int", "null"]},
-    {"name": "cod_doc", "type": ["int", "null"]},
+    {"name": "cod_detalle_folio", "type": ["string", "null"]},
+    {"name": "cod_folio", "type": ["string", "null"]},
+    {"name": "cod_doc", "type": ["string", "null"]},
     {"name": "nombreArchivo", "type": ["string", "null"]}
   ]
 }

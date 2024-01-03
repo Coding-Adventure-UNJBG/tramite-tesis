@@ -2,9 +2,9 @@
   "name": "revision_comite",
   "type": "record",
   "fields": [
-    {"name": "cod_revision_comite", "type": ["int", "null"]},
-    {"name": "cod_comite", "type": ["int", "null"]},
-    {"name": "cod_tramite", "type": ["int", "null"]},
+    {"name": "cod_revision_comite", "type": ["string", "null"]},
+    {"name": "cod_comite", "type": ["string", "null"]},
+    {"name": "cod_tramite", "type": ["string", "null"]},
     {"name": "fecha", "type": ["string", "null"]},
     {"name": "observacion", "type": ["string", "null"]},
     {"name": "corregido", "type": ["string", "null"]}
