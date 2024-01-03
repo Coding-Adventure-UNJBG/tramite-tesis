@@ -1,34 +1,34 @@
--- Colocar los formatos en la carpeta /home/cloudera/formatos/
+-- Colocar los formatos en la carpeta /home/cloudera/grupo1/formatos/
 -- En HADOOP
 
 hdfs dfs -chmod -R 777 /user/cloudera/grupo01
 
-hdfs dfs -put /home/cloudera/formatos/rol.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/rol.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/usuario.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/usuario.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/tipo_documento.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/tipo_documento.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/folio.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/folio.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/detalle_folio.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/detalle_folio.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/tramite.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/tramite.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/comite.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/comite.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/integrantes_comite.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/integrantes_comite.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/revision_comite.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/revision_comite.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/tesis.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/tesis.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/asesor.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/asesor.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/revision_asesor.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/revision_asesor.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/jurado.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/jurado.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/rol_jurado.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/rol_jurado.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
 
-hdfs dfs -put /home/cloudera/formatos/revision_jurado.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
+hdfs dfs -put /home/cloudera/grupo1/formatos/revision_jurado.txt /user/cloudera/grupo01/schema/database/tramite_tesis_landing
