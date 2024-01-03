@@ -54,6 +54,9 @@ hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/jurado
 hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/rol_jurado
 hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/revision_jurado
 
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/reporteTramite
+hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_universal/reporteTesis
+
 hdfs dfs -mkdir /user/cloudera/grupo01/database/tramite_tesis_smart
 
 hdfs dfs -mkdir /user/cloudera/grupo01/schema

@@ -140,7 +140,7 @@ cast(cod_tramite AS INT),
 cast(cod_usuario AS INT),
 cast(estado AS STRING),
 cast(fecha_registro AS STRING),
-cast(cod_asesor AS INT),
+cast(cod_asesor_propuesto AS INT),
 cast(versionIncial AS STRING)
 FROM tramite_tesis_landing.tramite
 WHERE cod_tramite != 'cod_tramite';
@@ -179,7 +179,7 @@ SET parquet.compression=SNAPPY;
 INSERT OVERWRITE TABLE tramite_tesis_universal.integrantes_comite
 SELECT
 cast(cod_comite AS INT),
-cast(cod_usuario AS INT)
+cast(cod_usuario_comite AS INT)
 FROM tramite_tesis_landing.integrantes_comite
 WHERE cod_comite != 'cod_comite';
 
@@ -356,4 +356,4 @@ cast(fecha AS STRING),
 cast(observacion AS STRING),
 cast(corregido AS STRING)
 FROM tramite_tesis_landing.revision_jurado
-WHERE cod_revision_jurado != 'cod_revision_jurado'; 
+WHERE cod_revision_jurado != 'cod_revision_jurado';

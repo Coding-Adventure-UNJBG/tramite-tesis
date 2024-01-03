@@ -1,0 +1,71 @@
+-- desde HIVE
+
+/* REPORTE 1
+Consulta para obtener información sobre los trámites
+*/
+
+-- Creacion de la tabla en HIVE
+CREATE TABLE tramite_tesis_universal.reporteTramite (
+    cod_tramite INT,
+    nombre_solicitante STRING,
+    apellido_solicitante STRING,
+    estado STRING,
+    nombre_asesor STRING,
+    apellido_asesor STRING,
+    fecha_registro STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/reporteTramite'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+
+
+-- insercion de datos para la tabla reporteTramite en HIVE
+INSERT OVERWRITE TABLE tramite_tesis_universal.reporteTramite
+SELECT
+    t.cod_tramite,
+    u1.nombre,
+    u1.apellidos,
+    t.estado,
+    u2.nombre,
+    u2.apellidos,
+    t.fecha_registro
+FROM tramite_tesis_universal.tramite t
+JOIN tramite_tesis_universal.usuario u1 ON u1.cod_usuario = t.cod_usuario
+JOIN tramite_tesis_universal.usuario u2 ON u2.cod_usuario = t.cod_asesor_propuesto;
+
+
+
+/* REPORTE 2
+Consulta para obtener información detallada sobre las tesis
+*/
+-- Creacion de la tabla en HIVE
+CREATE TABLE tramite_tesis_universal.reporteTesis (
+    cod_tesis INT,
+    nombre_bachiller STRING,
+    apellido_bachiller STRING,
+    estado STRING,
+    titulo_tesis STRING,
+    nombre_asesor STRING,
+    apellido_asesor STRING,
+    fecha_inicio STRING
+)
+STORED AS PARQUET
+LOCATION '/user/cloudera/grupo01/database/tramite_tesis_universal/reporteTesis'
+TBLPROPERTIES ("parquet.compression"="SNAPPY");
+
+
+-- insercion de datos para la tabla reporteTesis en HIVE
+INSERT OVERWRITE TABLE tramite_tesis_universal.reporteTesis
+SELECT
+    t.cod_tesis,
+    u1.nombre,
+    u1.apellidos,
+    t.estado,
+    t.titulo,
+    u2.nombre,
+    u2.apellidos,
+    t.fecha_inicio
+FROM tramite_tesis_universal.tesis t
+JOIN tramite_tesis_universal.usuario u1 ON u1.cod_usuario = t.cod_usuario
+JOIN tramite_tesis_universal.asesor a ON a.cod_tesis = t.cod_tesis
+JOIN tramite_tesis_universal.usuario u2 ON u2.cod_usuario = a.cod_usuario;
